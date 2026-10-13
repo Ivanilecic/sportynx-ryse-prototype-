@@ -197,9 +197,10 @@ h1 .l3{animation-delay:.71s,2.7s}
 .nav-skip:focus-visible{outline:1px solid rgba(255,255,255,.4);outline-offset:-4px;border-radius:12px}
 
 /* Visual stage — the open space above the copy on value screens */
-.visual{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:96px 0 8px}
+.visual{flex:1 0 auto;min-height:0;display:flex;align-items:center;justify-content:center;pointer-events:none;padding:96px 0 8px}
 .visual svg{width:100%;max-width:340px;max-height:100%;height:auto;display:block}
-@media (max-height:720px){.visual svg{display:none}}
+@media (max-height:760px){.visual{padding-top:20px!important;padding-bottom:24px}.pcard{padding:18px}.pcard dl{margin-top:14px;padding-top:14px;gap:12px 18px}.avatar{width:120px;height:120px}.visual svg{max-width:280px}.visual svg.mark{width:100px;height:100px}}
+@media (max-height:600px){.visual svg:not(.mark){max-width:220px}}
 
 /* Concept line — quiet uppercase words, not a feature list */
 /* one aligned column threaded on a fine vertical rail; each word sits on a small node */
@@ -857,7 +858,7 @@ h1 .l3{animation-delay:.71s,2.7s}
       <div class="visual" style="padding-top:60px"><svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" pathLength="1" class="draw anim" style="--d:.2s"/><path d="m43 61 11 11 23-25" pathLength="1" class="draw anim" style="--d:1s"/></svg></div>
       <div class="intro-copy">
         <h1><span class="line"><span class="line-in l1">RYSE access</span></span><span class="line"><span class="line-in l2">activated.</span></span></h1>
-        <p class="support rise d2">Included with your SportynX Daytona membership.</p>
+        <p class="support rise d2" id="act-copy">Included with your SportynX Daytona membership.</p>
       </div>
       <div class="actions rise d3"><button class="btn btn-primary" type="button" data-act="enter">Enter RYSE</button></div>
     </section>
@@ -1134,6 +1135,7 @@ h1 .l3{animation-delay:.71s,2.7s}
       (P.guardian.required&&P.guardian.status!=='approved'?'<div class="pending">Guardian approval '+(P.guardian.status==='requested'?'requested':'still needed')+' before your account is fully active.</div>':'') }
 
   var renderers={s09:renderClubs,s13:renderCard,
+    s16:function(){ $('act-copy').textContent=(P.access&&P.access.type==='trial')?'Your 7-day free trial has started.':'Included with your SportynX Daytona membership.' },
     s17:function(){ $('home-hello').textContent='Welcome, '+(P.first||'player')+'.'; setTimeout(function(){ if(!localBio) openSheet('sh-bio') },1100) }};
 
   /* ---------- 15 Trial / Daytona ---------- */
@@ -1175,7 +1177,7 @@ h1 .l3{animation-delay:.71s,2.7s}
       case 'club-no': P.club=null; go('s10'); break;
       case 'club-manual': P.club={name:clubDraft.name,location:clubDraft.country,source:'manual'}; go('s10'); break;
       case 'consent': go('s15'); break;
-      case 'trial': t.classList.add('loading'); setTimeout(function(){ t.classList.remove('loading'); P.access={type:'trial',days:7,price:'€11.99/month'}; go('s17') },1400); break;
+      case 'trial': t.classList.add('loading'); setTimeout(function(){ t.classList.remove('loading'); P.access={type:'trial',days:7,price:'€11.99/month'}; go('s16') },1400); break;
       case 'restore': toast('No previous purchase found'); break;
       case 'daytona': $('d-copy').textContent='An eligible SportynX Daytona Individual membership includes one RYSE licence. We’ll check your SportynX account.'; $('d-go').textContent='Check access'; $('d-go').dataset.act='daytona-check'; openSheet('sh-daytona'); break;
       case 'daytona-check': t.classList.add('loading'); setTimeout(function(){ t.classList.remove('loading');

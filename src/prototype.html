@@ -404,7 +404,7 @@ h1 .l3{animation-delay:.71s,2.7s}
 .foot-note{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:2px;padding-top:12px;font-size:14px;color:var(--ryse-grey)}
 
 /* 11 — position pitch */
-.pitch-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:18px 0 8px}
+.pitch-wrap{flex:1 0 auto;min-height:0;display:flex;align-items:center;justify-content:center;padding:18px 0 8px}
 .pitch{position:relative;height:100%;min-height:300px;max-height:430px;aspect-ratio:.7;max-width:100%;border-radius:16px;
   border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01))}
 .pitch svg.lines{position:absolute;inset:0;width:100%;height:100%}
@@ -1036,9 +1036,13 @@ h1 .l3{animation-delay:.71s,2.7s}
 
   // Football position taxonomy (central list; ids are stable keys for the backend)
   var POSITIONS=[
-    {id:'ST',name:'Striker',x:50,y:13},{id:'LW',name:'Left Winger',x:17,y:24},{id:'RW',name:'Right Winger',x:83,y:24},
-    {id:'AM',name:'Attacking Midfielder',x:50,y:33},{id:'CM',name:'Central Midfielder',x:50,y:48},{id:'DM',name:'Defensive Midfielder',x:50,y:62},
-    {id:'LB',name:'Left Back',x:16,y:72},{id:'RB',name:'Right Back',x:84,y:72},{id:'CB',name:'Centre Back',x:50,y:78},{id:'GK',name:'Goalkeeper',x:50,y:92}];
+    {id:'ST',name:'Striker',x:50,y:11},
+    {id:'LW',name:'Left Winger',x:17,y:21},{id:'RW',name:'Right Winger',x:83,y:21},
+    {id:'AM',name:'Attacking Midfielder',x:50,y:31},
+    {id:'LM',name:'Left Midfielder',x:17,y:45},{id:'CM',name:'Central Midfielder',x:50,y:45},{id:'RM',name:'Right Midfielder',x:83,y:45},
+    {id:'DM',name:'Defensive Midfielder',x:50,y:59},
+    {id:'LB',name:'Left Back',x:17,y:74},{id:'CB',name:'Centre Back',x:50,y:75},{id:'RB',name:'Right Back',x:83,y:74},
+    {id:'GK',name:'Goalkeeper',x:50,y:90}];
 
   /* Guardian consent — market-specific, never one global threshold in the UI.
      ILLUSTRATIVE VALUES ONLY: in production this table comes from the backend and is confirmed by legal per market. */

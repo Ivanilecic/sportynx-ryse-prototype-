@@ -108,7 +108,8 @@ body{margin:0;background:#000;color:var(--ryse-white);font-family:var(--font-bod
 .screen{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;
   padding:calc(env(safe-area-inset-top,0px) + 54px) var(--gutter) calc(env(safe-area-inset-bottom,0px) + 34px);
   transition:opacity .6s ease, transform .7s cubic-bezier(.2,.7,.2,1)}
-.screen.is-hidden{opacity:0;transform:translateY(12px);pointer-events:none}
+.screen.is-hidden{opacity:0;transform:translateY(12px);pointer-events:none;visibility:hidden}
+.screen.is-hidden *{pointer-events:none!important}
 .screen.is-leaving{opacity:0;transform:translateY(-10px)}
 
 .intro-copy{margin-top:auto;display:flex;flex-direction:column;gap:22px}
@@ -160,7 +161,7 @@ h1 .l2{animation-delay:.48s,2.55s}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* Back — barely-there chevron, top-left, aligned to the text edge; 44pt touch target */
-.nav-back{position:absolute;top:calc(env(safe-area-inset-top,0px) + 52px);left:calc(var(--gutter) - 12px);
+.nav-back{position:absolute;z-index:3;top:calc(env(safe-area-inset-top,0px) + 52px);left:calc(var(--gutter) - 12px);
   width:44px;height:44px;display:grid;place-items:center;padding:0;border:0;background:transparent;
   color:rgba(245,247,251,.38);cursor:pointer;transition:color .2s ease;-webkit-tap-highlight-color:transparent}
 .nav-back svg{width:22px;height:22px}
@@ -272,7 +273,20 @@ h1 .l3{animation-delay:.71s,2.7s}
 
 /* ================= Post-authentication onboarding ================= */
 /* Layout mode for task screens: headline at the top, task in the middle, action at the bottom */
-.screen.task .head{margin-top:52px;display:flex;flex-direction:column;gap:14px}
+.screen.task .head{margin-top:0;display:flex;flex-direction:column;gap:14px}
+/* screens with a top nav row: content always starts below it, and may scroll on short phones instead of overlapping */
+.screen:has(> .nav-back){padding-top:calc(env(safe-area-inset-top,0px) + 104px);overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+.screen:has(> .nav-back)::-webkit-scrollbar{display:none}
+.screen:has(> .nav-back) .intro-copy{margin-top:auto}
+@media (max-height:700px){
+  .screen:has(> .nav-back){padding-top:calc(env(safe-area-inset-top,0px) + 96px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 22px)}
+  .screen:has(> .nav-back) h1{font-size:34px}
+  .screen:has(> .nav-back) .actions{margin-top:30px}
+  .screen:has(> .nav-back) .intro-copy{gap:16px}
+  .opt{height:56px}.btn{height:52px}.opts,.choices,.auth{gap:9px}
+  .pitch{max-height:330px}
+  .pos{width:38px;height:38px;font-size:10px}
+}
 .screen.task .head h1{font-size:clamp(34px,9.6vw,40px)}
 .grow{flex:1;min-height:0}
 .screen.scroll{overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
@@ -390,7 +404,7 @@ h1 .l3{animation-delay:.71s,2.7s}
 
 /* 11 — position pitch */
 .pitch-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:18px 0 8px}
-.pitch{position:relative;height:100%;max-height:430px;aspect-ratio:.7;max-width:100%;border-radius:16px;
+.pitch{position:relative;height:100%;min-height:300px;max-height:430px;aspect-ratio:.7;max-width:100%;border-radius:16px;
   border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.01))}
 .pitch svg.lines{position:absolute;inset:0;width:100%;height:100%}
 .pitch svg.lines *{fill:none;stroke:rgba(255,255,255,.09);stroke-width:.35;vector-effect:non-scaling-stroke}
@@ -482,12 +496,13 @@ h1 .l3{animation-delay:.71s,2.7s}
 .home-dim span{font:600 11px/1 var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ryse-grey)}
 .bio-ico{width:44px;height:44px;opacity:.85}
 
-.review{display:flex;flex-direction:column;gap:12px;margin-top:22px;pointer-events:auto}
+.review{display:flex;flex-direction:column;gap:12px;margin-top:22px}
 .jump{display:flex;flex-wrap:wrap;gap:8px}
 .jump button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);color:rgba(232,236,244,.9);border-radius:10px;
   padding:9px 11px;font:500 12.5px/1 var(--font-body);cursor:pointer}
 .jump button:hover{border-color:rgba(255,255,255,.4)}
-.home-ph{padding-bottom:110px}
+.home-ph{min-height:0;overflow-y:auto;scrollbar-width:none;justify-content:flex-start;padding:36px 0 120px}
+.home-ph::-webkit-scrollbar{display:none}
 /* placeholder for next onboarding screen */
 .placeholder{justify-content:center;align-items:flex-start;gap:14px}
 .placeholder .tag{font:600 11px/1 var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ryse-grey)}

@@ -561,6 +561,25 @@ h1 .l3{animation-delay:.71s,2.7s}
 #sLang .actions{padding:0 var(--gutter);margin-top:34px}
 @media (max-height:700px){.lang-map{height:31vh}.lang-rail{margin-top:16px}#sLang .actions{margin-top:22px}}
 
+
+#screen-intro h1{font-size:clamp(40px,11.4vw,46px)!important}
+/* 00 — levels: a point of light rises through five stacked rings */
+.levels,.horizon{overflow:visible}
+.lvl-axis{stroke:rgba(255,255,255,.07);stroke-width:1}
+.lvl-ring{fill:none;stroke:rgba(245,247,251,.16);stroke-width:1;animation:ringLit 4.2s ease-in-out infinite;animation-delay:calc(1.4s + var(--k) * .62s)}
+@keyframes ringLit{0%,100%{stroke:rgba(245,247,251,.16);stroke-width:1}9%{stroke:rgba(201,215,255,.95);stroke-width:1.4}30%{stroke:rgba(157,184,255,.38);stroke-width:1}}
+.lvl-riser{animation:rise4 4.2s cubic-bezier(.45,0,.35,1) 1.2s infinite;transform:translateY(200px);opacity:0}
+@keyframes rise4{0%{transform:translateY(200px);opacity:0}8%{opacity:1}78%{opacity:1}90%{transform:translateY(46px);opacity:0}100%{transform:translateY(46px);opacity:0}}
+.lvl-dot{fill:#E6EDFF}
+.lvl-halo{opacity:0;animation:halo 4.2s ease-in-out 1.2s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes halo{0%,70%{opacity:0;transform:scale(.6)}84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.25)}}
+/* 01 — horizon: a pitch running to the vanishing point, markers flowing toward you */
+.hz-line{stroke:rgba(157,184,255,.35);stroke-width:1}
+#hz-grid line{stroke:rgba(245,247,251,.13);stroke-width:1}
+#hz-grid line.mk{stroke:rgba(201,215,255,.5)}
+.hz-goal{fill:#E6EDFF}
+.hz-ping{fill:none;stroke:rgba(157,184,255,.7);stroke-width:1;transform-box:fill-box;transform-origin:center;animation:ring 3.2s ease-out 1s infinite;opacity:0}
+.hz-ping.p2{animation-delay:2.6s}
 /* placeholder for next onboarding screen */
 .placeholder{justify-content:center;align-items:flex-start;gap:14px}
 .placeholder .tag{font:600 11px/1 var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ryse-grey)}
@@ -611,6 +630,15 @@ h1 .l3{animation-delay:.71s,2.7s}
 
     <!-- SCREEN 01 — Launch & Brand Intro -->
     <main class="screen is-hidden" id="screen-intro" data-scene="0" aria-label="Welcome to RYSE" aria-hidden="true">
+      <button class="nav-back" type="button" data-back aria-label="Back"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="visual"><svg class="levels" viewBox="0 0 340 220" aria-hidden="true">
+  <defs><radialGradient id="lvg"><stop offset="0" stop-color="#C9D7FF" stop-opacity=".9"/><stop offset="1" stop-color="#C9D7FF" stop-opacity="0"/></radialGradient>
+  <linearGradient id="lvbeam" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F5F7FB" stop-opacity="0"/><stop offset=".5" stop-color="#9DB8FF" stop-opacity=".35"/><stop offset="1" stop-color="#F5F7FB" stop-opacity="0"/></linearGradient></defs>
+  <line x1="170" y1="200" x2="170" y2="22" class="lvl-axis"/>
+  <ellipse class="lvl-ring" style="--k:0" cx="170" cy="186" rx="150" ry="19.5"/><ellipse class="lvl-ring" style="--k:1" cx="170" cy="152" rx="124" ry="16.1"/><ellipse class="lvl-ring" style="--k:2" cx="170" cy="118" rx="98" ry="12.7"/><ellipse class="lvl-ring" style="--k:3" cx="170" cy="84" rx="72" ry="9.4"/><ellipse class="lvl-ring" style="--k:4" cx="170" cy="50" rx="46" ry="6.0"/>
+  <circle class="lvl-halo" cx="170" cy="50" r="26" fill="url(#lvg)"/>
+  <g class="lvl-riser"><rect x="169" y="-34" width="2" height="34" fill="url(#lvbeam)"/><circle cx="170" cy="0" r="2.6" class="lvl-dot"/></g>
+</svg></div>
       <div class="intro-copy">
         <h1><span class="line"><span class="line-in l1">Your next level</span></span><span class="line"><span class="line-in l2">starts here.</span></span></h1>
         <p class="support rise d2">Train smarter. Recover better.<br>Learn. Improve. <span class="ryse">RYSE.</span></p>
@@ -624,6 +652,16 @@ h1 .l3{animation-delay:.71s,2.7s}
 
     <!-- SCREEN 01 — Ambition -->
     <section class="screen is-hidden" id="s01" data-scene="1" aria-label="Your ambition" aria-hidden="true">
+      <div class="visual vis-h"><svg class="horizon" viewBox="0 0 340 220" aria-hidden="true">
+  <defs><linearGradient id="hzfade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".25" stop-color="#fff" stop-opacity="1"/></linearGradient>
+  <mask id="hzm"><rect width="340" height="220" fill="url(#hzfade)"/></mask>
+  <radialGradient id="hzg"><stop offset="0" stop-color="#9DB8FF" stop-opacity=".55"/><stop offset="1" stop-color="#9DB8FF" stop-opacity="0"/></radialGradient></defs>
+  <ellipse cx="170" cy="44" rx="120" ry="18" fill="url(#hzg)"/>
+  <line x1="0" y1="44" x2="340" y2="44" class="hz-line"/>
+  <g mask="url(#hzm)" id="hz-grid"></g>
+  <circle cx="170" cy="44" r="2.6" class="hz-goal"/>
+  <circle cx="170" cy="44" r="2.6" class="hz-ping"/><circle cx="170" cy="44" r="2.6" class="hz-ping p2"/>
+</svg></div>
       <button class="nav-back" type="button" data-back aria-label="Back">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
@@ -1393,6 +1431,22 @@ var RYSE_MAP={"coarse":{"step":2.727272727272727,"lon0":-169,"lat1":80,"ids":["1
   window.addEventListener('resize',function(){ size(); if(sel>=0) center(sel,false) });
   if(document.readyState==='complete') boot(); else window.addEventListener('load',boot);
   requestAnimationFrame(draw);
+})();
+
+
+/* 01 — horizon markers: perspective flow toward the viewer */
+(function(){
+  var g=document.getElementById('hz-grid'); if(!g)return; var NS='http://www.w3.org/2000/svg';
+  var VX=170,VY=44,BY=232, rails=[-260,-120,20,170,320,460,600];
+  rails.forEach(function(x){var l=document.createElementNS(NS,'line');l.setAttribute('x1',VX);l.setAttribute('y1',VY);l.setAttribute('x2',x);l.setAttribute('y2',BY);g.appendChild(l)});
+  var N=7, mk=[]; for(var i=0;i<N;i++){var l=document.createElementNS(NS,'line');l.setAttribute('class','mk');g.appendChild(l);mk.push(l)}
+  var scr=document.getElementById('s01'), t0=performance.now();
+  function f(now){ requestAnimationFrame(f); if(scr.classList.contains('is-hidden'))return;
+    var t=(now-t0)/1000/5.5;
+    for(var i=0;i<N;i++){ var p=((t+i/N)%1), q=p*p*p; var y=VY+(BY-VY)*q, half=(y-VY)/(BY-VY)*430;
+      mk[i].setAttribute('x1',VX-half);mk[i].setAttribute('x2',VX+half);mk[i].setAttribute('y1',y);mk[i].setAttribute('y2',y);
+      mk[i].style.opacity=(Math.min(1,p*4)*(1-Math.max(0,(p-.75)/.25))*.9).toFixed(3) } }
+  requestAnimationFrame(f);
 })();
 
 </script>

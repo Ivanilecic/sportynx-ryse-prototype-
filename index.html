@@ -1831,7 +1831,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(t.dataset.jump){ window.ryseGo(t.dataset.jump); return }
     if(t.id==='fab'){ var x=t.getAttribute('aria-expanded')!=='true'; t.setAttribute('aria-expanded',x); $('home-dim').classList.toggle('on',x); return }
     switch(a){
-      case 'photo': openSheet('sh-photo'); break;
+      case 'photo': $('photo-lib').click(); break;  /* iOS/Android show their own Photo Library / Take Photo menu — no second sheet */
       case 'photo-lib': $('photo-lib').click(); break;
       case 'photo-cam': $('photo-cam').click(); break;
       case 'photo-continue': go('s07'); break;
@@ -1959,7 +1959,6 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
         for(var q=1;q<all.length;q++){ var c=all[(k+q)%all.length]; if(P.roleModels[c].length<3){nxt=c;break} }
         if(!nxt){ setTimeout(function(){ go('s11s') },550) }
         if(nxt){ setTimeout(function(){ rmPos=nxt; renderRM(); $('rm-list').scrollTop=0; var tb=$('rm-tabs').querySelector('[aria-selected=true]'); if(tb&&tb.scrollIntoView)tb.scrollIntoView({block:'nearest',inline:'nearest'});
-          var cap=$('rm-list').querySelector('.cap'); if(cap){ cap.classList.add('next'); cap.insertAdjacentHTML('afterbegin','<span class="cap-done">'+esc(rT('Now choose for: {position}',{position:rT(byId(nxt).name)}))+'</span>'); setTimeout(function(){ cap.classList.remove('next') },2600) }
           var at=$('rm-tabs').querySelector('[aria-selected=true]'); if(at){ at.classList.add('pulse'); setTimeout(function(){ at.classList.remove('pulse') },1600) } },450) } } }
     else { b.classList.remove('nope');void b.offsetWidth;b.classList.add('nope');toast('Up to 3 players per position'); return }
     var st=$('rm-list').scrollTop; renderRM(); $('rm-list').scrollTop=st });

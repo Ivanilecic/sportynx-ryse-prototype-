@@ -1381,7 +1381,7 @@ h1 .ry-on{opacity:1;color:#8C94A7;-webkit-text-fill-color:#8C94A7}
         <div class="hnav-tabs" id="hnav-tabs" data-dyn>
           <button class="hnav-tab" type="button" aria-current="page" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.2 12 4l7.5 6.2V19a1 1 0 0 1-1 1H15v-5.2H9V20H5.5a1 1 0 0 1-1-1Z"/></svg><span>Home</span></button>
           <button class="hnav-tab" type="button" data-tab="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5V14M10 19.5V9M15 19.5v-7M20 19.5V5.5"/></svg><span>Progress</span></button>
-          <button class="hnav-tab" type="button" data-tab="ryseon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15" cy="12" r="6"/><path d="m15 9.1 2.6 1.9-1 3h-3.2l-1-3Z"/><path d="M15 6v3.1M17.6 11l2.9-.8M16.6 14l1.8 2.7M13.4 14l-1.8 2.7M12.4 11l-2.9-.8"/><path d="M2.5 9h4.2M1.5 12h4.6M2.5 15h4.2"/></svg><span>RYSEON</span></button>
+          <button class="hnav-tab" type="button" data-tab="ryseon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5 12 12.5l7 7"/><path d="M5 12.5 12 5.5l7 7" opacity=".55"/><circle cx="12" cy="3" r="1.15" fill="currentColor" stroke="none"/></svg><span class="nobrand">RYSE</span></button>
           <button class="hnav-tab" type="button" data-tab="profile"><span class="hnav-ava" id="hnav-ava"></span><span>Profile</span></button>
         </div>
         <button class="hfab" type="button" id="fab" aria-label="Quick actions" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -1501,7 +1501,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
 /* RYSE is always shown as RYSE·ON — "ON" in a second tone — in every language and in dynamic text */
 (function(){
   window.ryseBrand=function(h){ return String(h).replace(/RYSE(?:ON)?(?![_A-Za-z])/g,'<span class="ry">RYSE<span class="ry-on">ON</span></span>') };
-  var SKIPB='script,style,svg,canvas,textarea,input,.ry,.bw';
+  var SKIPB='script,style,svg,canvas,textarea,input,.ry,.bw,.nobrand';
   function scan(root){ if(!root)return; var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null), n, hit=[];
     while((n=w.nextNode())){ if(!/RYSE/.test(n.nodeValue))continue; var el=n.parentElement; if(!el||el.closest(SKIPB))continue; hit.push(n) }
     hit.forEach(function(n){ var sp=document.createElement('span'); sp.className='bw'; sp.innerHTML=window.ryseBrand(n.nodeValue.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')); if(n.parentNode) n.parentNode.replaceChild(sp,n) }) }

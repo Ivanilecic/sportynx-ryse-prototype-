@@ -1,7 +1,7 @@
 # SportynX RYSE — onboarding prototype
 
 Live (GitHub Pages, auto-deploys on every push to `main`):
-https://ivanilecic.github.io/sportynx-ryse-prototype-/
+https://sportynx.github.io/sportynx-ryse-prototype-/
 
 ## Workflow — do this after EVERY change, without being asked
 1. Edit `src/prototype.html` (the single source of truth; same file as the Claude artifact "RYSE Launch Screen").

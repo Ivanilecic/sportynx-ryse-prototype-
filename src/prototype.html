@@ -1342,6 +1342,16 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   var last=0,t0=performance.now();
   var SC=[[0,0],[.06,.03],[-.07,.05],[.07,-.02],[-.05,.06],[0,.08],[0,.36]], sx=0,sy=.36,tx=0,ty=.36;
   window.ryseScene=function(n){var v=SC[n]||SC[0];tx=v[0];ty=v[1]};
+  /* Anchor: pull the orb onto the centre of an element (e.g. the activation circle or the photo circle).
+     arrive = ms until it sits exactly on the centre; hold = ms it stays (Infinity = stays); then it drifts free again. */
+  var anc=null;
+  window.ryseOrbAnchor=function(el,arrive,hold){ anc=el?{el:el,t0:performance.now(),arrive:arrive||2400,hold:hold===undefined?Infinity:hold}:null };
+  function anchorW(now){ if(!anc||!anc.el.isConnected) return 0; var e=now-anc.t0;
+    var inW=Math.min(1,e/anc.arrive); inW=inW<.5?2*inW*inW:1-Math.pow(-2*inW+2,2)/2;
+    if(e<anc.arrive+anc.hold) return inW;
+    var out=Math.min(1,(e-anc.arrive-anc.hold)/6000); if(out>=1){anc=null;return 0} return 1-out*out*(3-2*out) }
+  function anchorXY(){ var r=anc.el.getBoundingClientRect(), c=cv.getBoundingClientRect(); if(!c.width||!r.width) return null;
+    return [((r.left+r.width/2)-c.left)/c.width,((r.top+r.height/2)-c.top)/c.height] }
   function frame(now){
     requestAnimationFrame(frame);
     if(now-last<33)return; last=now;          // ~30 fps is plenty for slow motion
@@ -1369,8 +1379,11 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     ctx.globalCompositeOperation='source-over';ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
     ctx.globalCompositeOperation='lighter';
     // the orb: slow Lissajous drift across the upper ~55% of the screen, nudged by the scene
-    var x=(.5+sx+.30*Math.sin(TAU*t/23)+.08*Math.sin(TAU*t/7.3))*W;
-    var y=(.28+sy+.13*Math.sin(TAU*t/17+1.1)+.04*Math.sin(TAU*t/5.9))*H;
+    var fx=.5+sx+.30*Math.sin(TAU*t/23)+.08*Math.sin(TAU*t/7.3);
+    var fy=.28+sy+.13*Math.sin(TAU*t/17+1.1)+.04*Math.sin(TAU*t/5.9);
+    var aw=anchorW(performance.now()), axy=aw>0?anchorXY():null;
+    if(axy){ fx=fx+(axy[0]-fx)*aw; fy=fy+(axy[1]-fy)*aw }
+    var x=fx*W, y=fy*H;
     var br=.5+.5*Math.sin(TAU*t/6.5), R=(.42+.05*br)*W;
     function blob(r,stops){var rg=ctx.createRadialGradient(x,y,0,x,y,r);stops.forEach(function(s){rg.addColorStop(s[0],s[1])});ctx.fillStyle=rg;ctx.fillRect(0,0,W,H)}
     blob(R*2.6,[[0,'rgba(30,70,190,'+(.16+.04*br)+')'],[.5,'rgba(22,52,150,.06)'],[1,'rgba(20,40,120,0)']]);   // wide halo
@@ -1390,6 +1403,9 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(toId==='sLang')stack=['sLang'];
     if(window.ryseOnEnter)window.ryseOnEnter(to);
     if(window.ryseScene)window.ryseScene(+(to.dataset.scene||0));
+    if(window.ryseOrbAnchor){ if(to.id==='s16') window.ryseOrbAnchor(to.querySelector('.mark'),2600,Infinity);   // lands on the circle's centre as the circle closes
+      else if(to.id==='s06') window.ryseOrbAnchor(to.querySelector('#avatar'),1600,2600);                          // starts in the photo circle, then drifts away
+      else window.ryseOrbAnchor(null) }
     from.classList.add('is-leaving'); from.setAttribute('aria-hidden','true');
     setTimeout(function(){
       from.classList.add('is-hidden'); from.classList.remove('is-leaving');

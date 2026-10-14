@@ -928,9 +928,9 @@ h1 .ry-on{opacity:1;color:#8C94A7;-webkit-text-fill-color:#8C94A7}
   <circle cx="170" cy="96" r="3" class="core anim" style="--d:.3s"/>
 </svg></div>
       <div class="intro-copy">
-        <h1><span class="line"><span class="line-in l1">Learn.</span></span><span class="line"><span class="line-in l2">Improve.</span></span><span class="line"><span class="line-in l3">RYSE.</span></span></h1>
+        <h1 data-stack><span class="line"><span class="line-in l1">Learn.</span></span><span class="line"><span class="line-in l2">Improve.</span></span><span class="line"><span class="line-in l3">RYSE.</span></span></h1>
         <p class="support rise d2">Learn what matters for your<br>development — every day.</p>
-        <ul class="concepts"><li style="--i:0">AI guidance</li><li style="--i:1">Football video</li><li style="--i:2">RYSEON</li><li style="--i:3">Mental preparation</li><li style="--i:4">Personal development</li></ul>
+        <ul class="concepts"><li style="--i:0">AI guidance</li><li style="--i:1">Football video</li><li style="--i:2">Mental preparation</li><li style="--i:3">Personal development</li></ul>
       </div>
       <div class="actions rise d3"><button class="btn btn-primary" type="button" data-go="s04">Next</button></div>
     </section>
@@ -1344,7 +1344,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       else r.node.nodeValue=v });
     reg.attr.forEach(function(r){ r.el.setAttribute(r.at,rT(r.en)) });
     reg.rich.forEach(function(r){ r.el.innerHTML=window.ryseBrand(esc(rT(r.en)).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<span class="ryse">$1</span>')) });
-    reg.h1.forEach(function(r){ r.el.innerHTML=rT(r.en).split('|').map(function(t,i){return '<span class="line"><span class="line-in l'+(i+1)+'">'+window.ryseBrand(esc(t))+'</span></span>'}).join('') });
+    reg.h1.forEach(function(r){ r.el._parts=null; r.el.innerHTML=rT(r.en).split('|').map(function(t,i){return '<span class="line"><span class="line-in l'+(i+1)+'">'+window.ryseBrand(esc(t))+'</span></span>'}).join('') });
     var rtl=code==='ar'; document.documentElement.lang=code; document.getElementById('device').dir=rtl?'rtl':'ltr';
     if(window.ryseOnLang) window.ryseOnLang();
     if(window.ryseBrandScan) window.ryseBrandScan(document.getElementById('device'));
@@ -1363,7 +1363,18 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   new MutationObserver(function(ms){ ms.forEach(function(m){ if(m.type==='characterData') scan(m.target.parentElement); else m.addedNodes.forEach(function(a){ if(a.nodeType===3) scan(a.parentElement); else if(a.nodeType===1) scan(a) }) }) })
     .observe(dev,{childList:true,subtree:true,characterData:true});
   /* headlines never run past three lines: step the size down only where a language needs it */
-  window.ryseFitH1=function(){ document.querySelectorAll('#device .screen h1').forEach(function(h){ h.style.removeProperty('font-size');
+  /* outside English, the line breaks copied from English are not kept: words flow into as few lines as fit (three only when needed).
+     Headlines marked data-stack (Learn. / Improve. / RYSEON.) keep their deliberate stack. */
+  function rebalance(h){
+    if(RYSE_I18N.code==='en'||h.hasAttribute('data-stack')) return;
+    var ins=h.querySelectorAll(':scope > .line > .line-in'); if(!h._parts){ if(ins.length<2) return; h._parts=[].map.call(ins,function(x){return x.innerHTML}) }
+    var parts=h._parts, W=h.clientWidth; if(!W) return;
+    var probe=document.createElement('span'); probe.style.cssText='position:absolute;display:inline-block;visibility:hidden;white-space:nowrap;left:0;top:0'; h.appendChild(probe);
+    var lines=[], cur=parts[0];
+    for(var i=1;i<parts.length;i++){ probe.innerHTML=cur+' '+parts[i]; if(probe.getBoundingClientRect().width<=W-8) cur=cur+' '+parts[i]; else { lines.push(cur); cur=parts[i] } }
+    lines.push(cur); probe.remove();
+    h.innerHTML=lines.map(function(t,i){return '<span class="line"><span class="line-in l'+(i+1)+'">'+t+'</span></span>'}).join('') }
+  window.ryseFitH1=function(){ document.querySelectorAll('#device .screen h1').forEach(function(h){ h.style.removeProperty('font-size'); rebalance(h);
     var fs=parseFloat(getComputedStyle(h).fontSize), lines=function(){ var lh=parseFloat(getComputedStyle(h).lineHeight)||fs*.98; return Math.round(h.getBoundingClientRect().height/lh) };
     if(!h.getBoundingClientRect().height) return;
     while(lines()>3&&fs>26){ fs-=1; h.style.setProperty('font-size',fs+'px','important') } }) };

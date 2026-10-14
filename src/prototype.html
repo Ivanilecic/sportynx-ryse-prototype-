@@ -850,6 +850,11 @@ h1 .ry-on{opacity:1;color:#8C94A7;-webkit-text-fill-color:#8C94A7}
 .review-scroll{min-height:0;overflow-y:auto;scrollbar-width:none}
 @media (max-height:760px){.screen.home{gap:10px}.h-focus{padding:15px 18px}.h-focus-main b{font-size:24px}.h-ftime{font-size:22px}.h-level-l b{font-size:22px}.h-day{padding:6px 0}.h-ai-t{font-size:13.5px}}
 
+/* hold-to-skip feedback on the language Continue button (prototype shortcut) */
+#lang-go{overflow:hidden}
+#lang-go::before{content:"";position:absolute;inset:0;background:rgba(157,184,255,.16);transform:scaleX(0);transform-origin:left;pointer-events:none}
+#lang-go.holding::before{transform:scaleX(1);transition:transform 2s linear}
+
 /* placeholder for next onboarding screen */
 .placeholder{justify-content:center;align-items:flex-start;gap:14px}
 .placeholder .tag{font:600 11px/1 var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--ryse-grey)}
@@ -1588,6 +1593,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(toId==='sLang')stack=['sLang'];
     if(window.ryseOnEnter)window.ryseOnEnter(to);
     if(window.ryseScene)window.ryseScene(+(to.dataset.scene||0));
+    try{ var PP=window.ryseProfile; if(PP&&PP.first) localStorage.setItem('ryse-last-profile',JSON.stringify(PP)) }catch(e){}
     if(window.ryseFitH1) window.ryseFitH1();
     if(window.ryseOrbAnchor){ if(to.id==='s16') window.ryseOrbAnchor(to.querySelector('.mark'),2600,Infinity);   // lands on the circle's centre as the circle closes
       else if(to.id==='s06') window.ryseOrbAnchor(to.querySelector('#avatar'),1600,2600);                          // starts in the photo circle, then drifts away
@@ -2141,7 +2147,19 @@ var RYSE_MAP={"coarse":{"step":1.5,"lon0":-169,"lat1":84,"ids":["304","124","643
     cam.z=tgt.z=z; cam.x=tgt.x=w.x-(e.offsetX-W/2)/kk; cam.y=tgt.y=w.y-(e.offsetY-H/2)/kk },{passive:false});
   window.ryseMapTaps=taps;
   Object.defineProperty(window,'__cam',{get:function(){return cam}});
-  $('lang-go').addEventListener('click',function(){ window.ryseGo('screen-intro') });
+  $('lang-go').addEventListener('click',function(ev){ if(holdFired){ holdFired=false; ev.stopImmediatePropagation(); return } window.ryseGo('screen-intro') });
+  /* Prototype shortcut: hold Continue for 2 s → straight to the last onboarding screen ("Start your journey") with the last profile you created */
+  var holdT=0, holdFired=false, lg=$('lang-go');
+  function endHold(){ clearTimeout(holdT); lg.classList.remove('holding') }
+  lg.addEventListener('pointerdown',function(){ holdFired=false; lg.classList.add('holding');
+    holdT=setTimeout(function(){ holdFired=true; lg.classList.remove('holding');
+      var P=window.ryseProfile, saved=null; try{ saved=JSON.parse(localStorage.getItem('ryse-last-profile')||'null') }catch(e){}
+      if(!saved||!saved.first) saved={first:'Ivan',last:'Ilecic',dob:'2009-05-12',sex:'Male',country:'Croatia',club:{name:'HNK Gorica',source:'database'},level:'Academy',
+        positions:{primary:'AM',secondary:[]},foot:'Right',height:178,weight:70,strengths:['Vision','Technique'],improve:['Speed'],roleModels:{AM:['Luka Modrić','Jude Bellingham','Florian Wirtz']}};
+      Object.keys(saved).forEach(function(k){ if(k!=='locale') P[k]=saved[k] });
+      if(!P.access) P.access={type:'trial',days:7};
+      window.ryseGo('s16') },2000) });
+  ['pointerup','pointerleave','pointercancel'].forEach(function(n){ lg.addEventListener(n,endHold) });
 
   /* ---------- Start: the iPhone's own language, else English ---------- */
   function initial(){ var nav=(navigator.languages&&navigator.languages[0])||navigator.language||'en', i=-1;

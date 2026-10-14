@@ -874,7 +874,7 @@ h1 .ry-on{opacity:1;color:#8C94A7;-webkit-text-fill-color:#8C94A7}
 .hnav-tab svg{width:23px;height:23px}
 .hnav-tab[aria-current=page]{color:#6F98FF}
 .hnav-tab .ry{font:inherit;letter-spacing:inherit;color:inherit;font-size:inherit}.hnav-tab .ry-on{color:inherit;-webkit-text-fill-color:currentColor;opacity:.7}
-.hnav-ava{width:24px;height:24px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.22);font:700 9px/1 var(--font-display);color:rgba(214,220,232,.9)}
+.hnav-ava{width:24px;height:24px;border-radius:50%;overflow:hidden;display:grid;place-items:center;border:1px solid rgba(255,255,255,.3);font:700 9.5px/1 var(--font-display);letter-spacing:.02em;color:rgba(214,220,232,.9)}
 .hnav-tab[aria-current=page] .hnav-ava{border-color:#6F98FF}
 .hfab{width:62px;height:62px;flex:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;color:var(--ryse-white);
   border:1px solid rgba(255,255,255,.14);background:rgba(30,32,37,.78);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
@@ -1404,7 +1404,7 @@ h1 .ry-on{opacity:1;color:#8C94A7;-webkit-text-fill-color:#8C94A7}
         <div class="hnav-tabs" id="hnav-tabs" data-dyn>
           <button class="hnav-tab" type="button" aria-current="page" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.2 12 4l7.5 6.2V19a1 1 0 0 1-1 1H15v-5.2H9V20H5.5a1 1 0 0 1-1-1Z"/></svg><span>Home</span></button>
           <button class="hnav-tab" type="button" data-tab="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5V14M10 19.5V9M15 19.5v-7M20 19.5V5.5"/></svg><span>Progress</span></button>
-          <button class="hnav-tab" type="button" data-tab="ryseon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15.2" cy="4.6" r="1.9"/><path d="m6.5 10 3.6-2.7 3.4 1.7-1.6 4.2 3.4 2.6 1.2 4.6"/><path d="m11.9 13.2-2.6 3.6-4.6.9"/><path d="m13.5 9 2.2 2.6 3.6-.4"/></svg><span>RYSEON</span></button>
+          <button class="hnav-tab" type="button" data-tab="ryseon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15" cy="12" r="6"/><path d="m15 9.1 2.6 1.9-1 3h-3.2l-1-3Z"/><path d="M15 6v3.1M17.6 11l2.9-.8M16.6 14l1.8 2.7M13.4 14l-1.8 2.7M12.4 11l-2.9-.8"/><path d="M2.5 9h4.2M1.5 12h4.6M2.5 15h4.2"/></svg><span>RYSEON</span></button>
           <button class="hnav-tab" type="button" data-tab="profile"><span class="hnav-ava" id="hnav-ava"></span><span>Profile</span></button>
         </div>
         <button class="hfab" type="button" id="fab" aria-label="Quick actions" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -1900,7 +1900,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       default: return {ctx:'Training day',title:'Team training',time:HOME.training.time,meta:'',copy:'Recovery looks good. Prepare for training.',ai:'Your sleep and recovery look good today. Focus on quality in your evening session.',trainLabel:'Training',trainVal:HOME.training.time,trainSub:'Team',matchDay:4} } }
   function renderHome(){ var e=window.ryseUI&&window.ryseUI.esc||esc, loc=RYSE_I18N.code==='sr-Latn'?'sr-Latn':RYSE_I18N.code, now=new Date(), h=now.getHours();
     var name=(P.first||'Ivan').trim(), ph=P.photo?'<img src="'+P.photo+'" alt="">':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="width:56%;height:56%;opacity:.7"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg>';
-    $('h-ava').innerHTML=ph; $('hnav-ava').innerHTML=ph;
+    $('h-ava').innerHTML=ph; $('hnav-ava').textContent=((P.first||'I')[0]+((P.last||'')[0]||'')).toUpperCase();
     $('h-greet').textContent=rT(h<12?'Good morning, {name}':(h<18?'Good afternoon, {name}':'Good evening, {name}'),{name:name.split(' ')[0]});
     $('h-inbox-n').textContent=HOME.inbox; $('h-inbox').setAttribute('aria-label',rT('{n} new club videos',{n:HOME.inbox}));
     $('h-lvl').textContent=rT(LEVELS[HOME.level]); $('h-next').textContent=HOME.level<4?rT('Next · {level}',{level:rT(LEVELS[HOME.level+1])}):'';

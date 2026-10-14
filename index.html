@@ -1184,7 +1184,91 @@ html[data-theme=light][data-view=prof] .st-btn .ry{color:#fff}
 .st-btn .ry{color:inherit}
 .st-btn:not(.ghost):not(.dangerb) .ry-on{color:#5A6375;-webkit-text-fill-color:#5A6375}
 .st-row.info{cursor:default;opacity:1!important}
+/* ---------- Light theme — whole app (onboarding stays dark). White buttons become black; blue becomes black / anthracite ---------- */
+html[data-theme=light][data-view=prof] .mlabel,html[data-theme=light][data-view=prof] .h-next,html[data-theme=light][data-view=prof] .h-fmeta,html[data-theme=light][data-view=prof] .h-actline,html[data-theme=light][data-view=prof] .h-actline .lbl,html[data-theme=light][data-view=prof] .h-day small,html[data-theme=light][data-view=prof] .h-ix i,html[data-theme=light][data-view=prof] .h-ix .r em{color:#5A6375}
+html[data-theme=light][data-view=prof] .h-actline .src{color:#8A92A3}
+html[data-theme=light][data-view=prof] .h-day b{color:#0E1524}
+html[data-theme=light][data-view=prof] .h-day.past b{color:#9AA1AF}
+html[data-theme=light][data-view=prof] .h-day i.t{background:rgba(14,21,36,.35)}
+html[data-theme=light][data-view=prof] .h-day i.m{background:#0E1524}
+html[data-theme=light][data-view=prof] .h-day.today{background:#0E1524;box-shadow:none}
+html[data-theme=light][data-view=prof] .h-day.today b,html[data-theme=light][data-view=prof] .h-day.today small{color:#fff}
+html[data-theme=light][data-view=prof] .h-day.today i{background:#fff}
+html[data-theme=light][data-view=prof] .h-ava,html[data-theme=light][data-view=prof] .h-inbox,html[data-theme=light][data-view=prof] .lt-back,html[data-theme=light][data-view=prof] .lt-date,html[data-theme=light][data-view=prof] .ry-search,html[data-theme=light][data-view=prof] .cal-nav{background:#fff;border-color:rgba(14,21,36,.1);color:#0E1524;box-shadow:0 1px 2px rgba(14,21,36,.04)}
+html[data-theme=light][data-view=prof] .h-inbox .dot{background:#0E1524;box-shadow:0 0 0 2px #F3F4F8}
+html[data-theme=light][data-view=prof] .h-focus{background:#fff;border-color:#0E1524;box-shadow:0 1px 2px rgba(14,21,36,.04),0 10px 26px rgba(14,21,36,.06)}
+html[data-theme=light][data-view=prof] .h-ctx{color:#0E1524}
+html[data-theme=light][data-view=prof] .h-fcopy,html[data-theme=light][data-view=prof] .h-ai-t,html[data-theme=light][data-view=prof] .rp-ai p{color:#2A3242}
+html[data-theme=light][data-view=prof] .h-plan,html[data-theme=light][data-view=prof] .cal-add,html[data-theme=light][data-view=prof] .lt-save{background:#0E1524;color:#fff}
+html[data-theme=light][data-view=prof] .h-ix,html[data-theme=light][data-view=prof] .lt-card,html[data-theme=light][data-view=prof] .ins,html[data-theme=light][data-view=prof] .ry-chips{background:#fff;border-color:rgba(14,21,36,.08);box-shadow:0 1px 2px rgba(14,21,36,.04),0 6px 18px rgba(14,21,36,.04)}
+html[data-theme=light][data-view=prof] .h-ix .r .trk{stroke:rgba(14,21,36,.08)}
+html[data-theme=light][data-view=prof] .h-ix .ic{color:#0E1524}
+html[data-theme=light][data-view=prof] .h-ai{box-shadow:inset 2px 0 0 #0E1524}
+html[data-theme=light][data-view=prof] .home-dim{background:rgba(236,239,244,.72)}
+html[data-theme=light][data-view=prof] .qa-tile,html[data-theme=light][data-view=prof] .qa-tile.primary{background:#fff;border-color:rgba(14,21,36,.1);color:#0E1524;box-shadow:0 8px 24px rgba(14,21,36,.08)}
+html[data-theme=light][data-view=prof] .qa-tile svg,html[data-theme=light][data-view=prof] .qa-tile.primary svg{color:#0E1524}
+html[data-theme=light][data-view=prof] .qa-tile:active{background:#F2F4F8}
+/* RYSE tab */
+html[data-theme=light][data-view=prof] .ry-title,html[data-theme=light][data-view=prof] .ry-w{color:#0E1524}
+html[data-theme=light][data-view=prof] .ry-sub,html[data-theme=light][data-view=prof] .ry-empty{color:#5A6375}
+html[data-theme=light][data-view=prof] .ry-chips button{color:#3A4252}
+html[data-theme=light][data-view=prof] .ry-chips button.on{background:#0E1524;color:#fff}
+html[data-theme=light][data-view=prof] .ry-card{background:#fff;border-color:rgba(14,21,36,.08);box-shadow:0 1px 2px rgba(14,21,36,.04),0 8px 22px rgba(14,21,36,.05)}
+html[data-theme=light][data-view=prof] .ry-card .art::before{background:linear-gradient(90deg,#fff,rgba(255,255,255,0))}
+html[data-theme=light][data-view=prof] .ry-card.c2 .art::after{background:linear-gradient(180deg,rgba(255,255,255,0),#fff 70%)}
+html[data-theme=light][data-view=prof] .ry-card .cat,html[data-theme=light][data-view=prof] .ry-card p,html[data-theme=light][data-view=prof] .ry-card .meta{color:#4A5263}
+/* logging screens */
+html[data-theme=light][data-view=prof] .lt-row small,html[data-theme=light][data-view=prof] .lt-q small,html[data-theme=light][data-view=prof] .lt-score i,html[data-theme=light][data-view=prof] .lt-ends,html[data-theme=light][data-view=prof] .lt-h em,html[data-theme=light][data-view=prof] .rp-sum .k,html[data-theme=light][data-view=prof] .rp-sum .m,html[data-theme=light][data-view=prof] .rp-ai small,html[data-theme=light][data-view=prof] .rp-tips li,html[data-theme=light][data-view=prof] .rp-menu small,html[data-theme=light][data-view=prof] .rp-sess i,html[data-theme=light][data-view=prof] .rp-note{color:#5A6375}
+html[data-theme=light][data-view=prof] .lt-row small.set{color:#0E1524}
+html[data-theme=light][data-view=prof] .lt-scale,html[data-theme=light][data-view=prof] .lt-chev,html[data-theme=light][data-view=prof] .lt-date{color:#2A3242}
+html[data-theme=light][data-view=prof] .lt-row+.lt-row::before,html[data-theme=light][data-view=prof] .lt-kinds+.lt-row::before,html[data-theme=light][data-view=prof] .rp-ai,html[data-theme=light][data-view=prof] .rp-menu div,html[data-theme=light][data-view=prof] .rp-sess div,html[data-theme=light][data-view=prof] .cal-ins{border-color:rgba(14,21,36,.08)}
+html[data-theme=light][data-view=prof] .lt-row+.lt-row::before,html[data-theme=light][data-view=prof] .lt-kinds+.lt-row::before{background:rgba(14,21,36,.08)}
+html[data-theme=light][data-view=prof] .lt-kinds button,html[data-theme=light][data-view=prof] .lt-feel button,html[data-theme=light][data-view=prof] .nm-seg button,html[data-theme=light][data-view=prof] .rp-fruit span,html[data-theme=light][data-view=prof] .lt-notes{background:#F2F4F8;border-color:rgba(14,21,36,.08);color:#0E1524}
+html[data-theme=light][data-view=prof] .lt-kinds button[aria-pressed=true],html[data-theme=light][data-view=prof] .lt-feel button[aria-pressed=true],html[data-theme=light][data-view=prof] .nm-seg button[aria-pressed=true]{background:#0E1524;color:#fff;border-color:#0E1524}
+html[data-theme=light][data-view=prof] .lt-notes::placeholder{color:#8A92A3}
+html[data-theme=light][data-view=prof] .lt-range::-webkit-slider-runnable-track{background:linear-gradient(90deg,#0E1524 var(--p),rgba(14,21,36,.12) var(--p))}
+html[data-theme=light][data-view=prof] .lt-range::-moz-range-track{background:linear-gradient(90deg,#0E1524 var(--p),rgba(14,21,36,.12) var(--p))}
+html[data-theme=light][data-view=prof] .lt-range::-webkit-slider-thumb{box-shadow:0 2px 8px rgba(14,21,36,.25),0 0 0 1px rgba(14,21,36,.08)}
+html[data-theme=light][data-view=prof] .lt-add{border-color:rgba(14,21,36,.25);color:#0E1524}
+html[data-theme=light][data-view=prof] .lt-foot{background:linear-gradient(180deg,rgba(243,244,248,0),rgba(243,244,248,.95) 30%)}
+html[data-theme=light][data-view=prof] .rp-ai svg{color:#0E1524}
+html[data-theme=light][data-view=prof] .rp-tips li::before{background:#0E1524}
+/* calendar + insights + match popup */
+html[data-theme=light][data-view=prof] .cal-wd span,html[data-theme=light][data-view=prof] .cal-legend,html[data-theme=light][data-view=prof] .cal-ins>p,html[data-theme=light][data-view=prof] .ins span,html[data-theme=light][data-view=prof] .cal-pop .k,html[data-theme=light][data-view=prof] .cal-pop .d{color:#5A6375}
+html[data-theme=light][data-view=prof] .ins small{color:#2A3242}
+html[data-theme=light][data-view=prof] .ins em{color:#8A92A3}
+html[data-theme=light][data-view=prof] .ins a,html[data-theme=light][data-view=prof] .cal-pop .s{color:#0E1524}
+html[data-theme=light][data-view=prof] .ins .tr{background:rgba(14,21,36,.07);color:#0E1524}
+html[data-theme=light][data-view=prof] .ins .tr.dn{background:rgba(214,58,58,.12);color:#D23C3C}
+html[data-theme=light][data-view=prof] .cal-d{background:#fff;border-color:rgba(14,21,36,.07)}
+html[data-theme=light][data-view=prof] .cal-d.n{background:rgba(14,21,36,.06);border-color:rgba(14,21,36,.1)}
+html[data-theme=light][data-view=prof] .cal-d.g{background:rgba(14,21,36,.16);border-color:rgba(14,21,36,.28)}
+html[data-theme=light][data-view=prof] .cal-d.x{background:rgba(214,58,58,.10);border-color:rgba(214,58,58,.3)}
+html[data-theme=light][data-view=prof] .cal-d.x .ic{color:#D23C3C}
+html[data-theme=light][data-view=prof] .cal-d.o{background:transparent}
+html[data-theme=light][data-view=prof] .cal-d.o b{color:#B4BAC6}
+html[data-theme=light][data-view=prof] .cal-d .ic,html[data-theme=light][data-view=prof] .cal-d.f .ic{color:#0E1524}
+html[data-theme=light][data-view=prof] .cal-legend span:nth-child(1) i{background:rgba(14,21,36,.1)!important}
+html[data-theme=light][data-view=prof] .cal-legend span:nth-child(2) i{background:rgba(14,21,36,.32)!important}
+html[data-theme=light][data-view=prof] .cal-legend span:nth-child(3) i{background:rgba(214,58,58,.55)!important}
+html[data-theme=light][data-view=prof] .cal-legend span:nth-child(4) i{background:#fff!important;border-color:rgba(14,21,36,.12)}
+html[data-theme=light][data-view=prof] .cal-pop{background:rgba(236,239,244,.6)}
+html[data-theme=light][data-view=prof] .cal-pop .card{background:#fff;border-color:rgba(14,21,36,.08);box-shadow:0 18px 40px rgba(14,21,36,.14)}
+/* sheets, inputs, club lists */
+html[data-theme=light][data-view=prof] .input{background:#fff;border-color:rgba(14,21,36,.12);color:#0E1524}
+html[data-theme=light][data-view=prof] .input::placeholder{color:#8A92A3}
+html[data-theme=light][data-view=prof] .club-list .cap{color:#5A6375}
+html[data-theme=light][data-view=prof] .club-list button{border-bottom-color:rgba(14,21,36,.07)}
+html[data-theme=light][data-view=prof] .crest{border-color:rgba(14,21,36,.16);background:#F2F4F8;color:#3A4252}
+html[data-theme=light][data-view=prof] #sh-opp .club-list .other{color:#0E1524}
+html[data-theme=light][data-view=prof] .sheet p{color:#5A6375}
+html[data-theme=light][data-view=prof] .sheet .link.muted{color:#5A6375}
+
 .lt-sp{width:46px;flex:none}
+.hnav-tab{position:relative}
+.hnav-dot{position:absolute;top:6px;left:calc(50% + 9px);width:8px;height:8px;border-radius:50%;background:#4F82FF;box-shadow:0 0 0 2px #0B0C0F}
+.hnav-dot[hidden]{display:none}
+html[data-theme=light][data-view=prof] .hnav-dot{background:#0E1524;box-shadow:0 0 0 2px #fff}
 @keyframes stIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 .nm-seg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
 .nm-seg button{height:50px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.06);color:var(--ryse-white);font:600 15px/1 var(--font-body);cursor:pointer}
@@ -1828,7 +1912,7 @@ html[data-theme=light][data-view=prof] .st-btn .ry{color:#fff}
         <div class="hnav-tabs" id="hnav-tabs" data-dyn>
           <button class="hnav-tab" type="button" aria-current="page" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 10.2 12 4l7.5 6.2V19a1 1 0 0 1-1 1H15v-5.2H9V20H5.5a1 1 0 0 1-1-1Z"/></svg><span>Home</span></button>
           <button class="hnav-tab" type="button" data-tab="progress"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19.5V14M10 19.5V9M15 19.5v-7M20 19.5V5.5"/></svg><span>Progress</span></button>
-          <button class="hnav-tab" type="button" data-tab="ryseon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6.2V5.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2V13a2 2 0 0 1-2 2h-.7"/><path d="M11.5 6.6h5.5M11.5 9.6h3" opacity=".6"/><rect x="3.5" y="8.5" width="13" height="12" rx="2.2"/><path d="M8.6 12.3v4.4l3.6-2.2Z" fill="currentColor"/></svg><span class="nobrand">RYSE</span></button>
+          <button class="hnav-tab" type="button" data-tab="ryseon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6.2V5.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2V13a2 2 0 0 1-2 2h-.7"/><path d="M11.5 6.6h5.5M11.5 9.6h3" opacity=".6"/><rect x="3.5" y="8.5" width="13" height="12" rx="2.2"/><path d="M8.6 12.3v4.4l3.6-2.2Z" fill="currentColor"/></svg><span class="nobrand">RYSE</span><i class="hnav-dot" id="ry-dot" aria-hidden="true"></i></button>
           <button class="hnav-tab" type="button" data-tab="profile"><span class="hnav-ava" id="hnav-ava"></span><span>Profile</span></button>
         </div>
         <button class="hfab" type="button" id="fab" aria-label="Quick actions" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -2456,7 +2540,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       default: var LTd=lastTraining(), tr=LTd.t, tier=trTier(tr.rpe); return {ctx:LTd.when==='today'?'Completed today':'Completed yesterday',title:tr.type,time:rT('{n} min',{n:tr.dur}),meta:rT('Effort {rpe}/10',{rpe:fmtN(tr.rpe)})+((tr.kind&&tr.kind.length)?' · '+tr.kind.map(function(k){return rT(k)}).join(', '):''),copy:{high:'Hard session. Your recovery plan is ready.',mod:'Good session. Your recovery plan is ready.',low:'Light session. Your recovery plan is ready.'}[tier],plan:1,aiT:{high:'That was a hard session. Today is about refuelling, rehydrating and sleeping well.',mod:'Solid session. Keep your recovery simple and consistent today.',low:'Light session. Stay active, eat well and keep your routine.'}[tier],ai:'Your sleep and recovery look good today. Focus on quality in your evening session.',trainLabel:'Training',trainVal:HOME.training.time,trainSub:'Team',matchDay:4} } }
   function renderHome(){ var e=window.ryseUI&&window.ryseUI.esc||esc, loc=RYSE_I18N.code==='sr-Latn'?'sr-Latn':RYSE_I18N.code, now=new Date(), h=now.getHours();
     var name=(P.first||'Ivan').trim(), ph=P.photo?'<img src="'+P.photo+'" alt="">':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="width:56%;height:56%;opacity:.7"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg>';
-    $('h-ava').innerHTML=ph; if(P.photo) $('hnav-ava').innerHTML='<img src="'+P.photo+'" alt="">'; else $('hnav-ava').textContent=((P.first||'I')[0]+((P.last||'')[0]||'')).toUpperCase(); if(window.ryseRenderProfile) window.ryseRenderProfile();
+    $('h-ava').innerHTML=ph; if(P.photo) $('hnav-ava').innerHTML='<img src="'+P.photo+'" alt="">'; else $('hnav-ava').textContent=((P.first||'I')[0]+((P.last||'')[0]||'')).toUpperCase(); if(window.ryseRenderProfile) window.ryseRenderProfile(); if($('ry-dot')) $('ry-dot').hidden=(P.ryseSeen||0)>=RY.length;
     $('h-greet').textContent=rT(h<12?'Good morning, {name}':(h<18?'Good afternoon, {name}':'Good evening, {name}'),{name:name.split(' ')[0]});
     $('h-inbox-n').textContent=HOME.inbox; $('h-inbox').setAttribute('aria-label',rT('{n} new club videos',{n:HOME.inbox}));
     $('h-lvl').textContent=rT(LEVELS[HOME.level]); $('h-next').textContent=HOME.level<4?rT('Next · {level}',{level:rT(LEVELS[HOME.level+1])}):'';
@@ -2836,7 +2920,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
 
   /* theme + which view is on screen (light theme is designed for Profile & Settings) */
   function themeEff(){ var t=ST().theme; if(t==='system'){ try{ return matchMedia('(prefers-color-scheme: light)').matches?'light':'dark' }catch(_){ return 'dark' } } return t }
-  window.ryseView=function(id){ var H=document.documentElement, onProf=id==='s21'||(id==='s17'&&!$('pane-prof').hidden); H.setAttribute('data-theme',themeEff()); if(onProf) H.setAttribute('data-view','prof'); else H.removeAttribute('data-view') };
+  window.ryseView=function(id){ var H=document.documentElement, onProf=/^(s1[789]|s2[01])$/.test(id); H.setAttribute('data-theme',themeEff()); if(onProf) H.setAttribute('data-view','prof'); else H.removeAttribute('data-view') };
 
   document.addEventListener('click',function(ev){
     var t=ev.target.closest('[data-pg],[data-sa],[data-edit],[data-tg],[data-rd],[data-pf],[data-theme-set]'); if(!t) return;
@@ -2888,7 +2972,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     {cat:'performance',c:'Performance',t:'Focus & Reaction Drills',d:'Interactive exercises to improve your concentration, reaction time and decision making on the pitch.',m:8,l:'Intermediate',cov:1},
     {cat:'pro',c:'Pro Insights',t:'Advice from Top Athletes',d:'Short interviews and tips from top players on mentality, habits and daily routines.',m:6,l:'All levels',cov:2}], ryCat='all';
   function renderRyse(){ var e=window.ryseUI&&window.ryseUI.esc||esc;
-    $('ry-ed').textContent=rT('Education'); var tt=$('ry-title'); tt.style.fontSize=''; requestAnimationFrame(function(){ var f=36; while(tt.scrollWidth>tt.clientWidth+1&&f>24){ f-=1; tt.style.fontSize=f+'px' } });
+    $('ry-ed').textContent=rT('Education'); $('ry-dot').hidden=(P.ryseSeen||0)>=RY.length; var tt=$('ry-title'); tt.style.fontSize=''; requestAnimationFrame(function(){ var f=36; while(tt.scrollWidth>tt.clientWidth+1&&f>24){ f-=1; tt.style.fontSize=f+'px' } });
     document.querySelectorAll('#ry-chips button').forEach(function(b){ b.classList.toggle('on',b.dataset.cat===ryCat) });
     $('ry-list').innerHTML=RY.filter(function(v){return ryCat==='all'||v.cat===ryCat}).map(function(v){
       return '<button type="button" class="ry-card c'+v.cov+'" data-home="video"><span class="art"><img src="'+RY_COV[v.cov]+'" alt=""></span><span class="cat">'+e(rT(v.c))+'</span><h3>'+e(rT(v.t))+'</h3><p>'+e(rT(v.d))+'</p>'+
@@ -2949,7 +3033,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(t.dataset.hstate){ HOME.state=t.dataset.hstate; renderHome(); return }
     if(t.dataset.tab){ var tb=t.dataset.tab;
       if(tb==='home'||tb==='ryseon'||tb==='profile'){ document.querySelectorAll('.hnav-tab').forEach(function(b){ if(b===t) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current') });
-        $('pane-home').hidden=tb!=='home'; $('pane-ryse').hidden=tb!=='ryseon'; $('pane-prof').hidden=tb!=='profile'; if(tb==='ryseon') renderRyse(); if(tb==='profile'){ window.ryseRenderProfile(); $('pane-prof').scrollTop=0 } window.ryseView&&window.ryseView('s17'); }
+        $('pane-home').hidden=tb!=='home'; $('pane-ryse').hidden=tb!=='ryseon'; $('pane-prof').hidden=tb!=='profile'; if(tb==='ryseon'){ renderRyse(); P.ryseSeen=RY.length; $('ry-dot').hidden=true } if(tb==='profile'){ window.ryseRenderProfile(); $('pane-prof').scrollTop=0 } window.ryseView&&window.ryseView('s17'); }
       else toast('Designed in a next step'); return }
     if(t.dataset.home){ if(t.dataset.home==='profile'&&longFired){ longFired=false; return } if(t.dataset.home==='calendar'){ openCal(); return } if(t.dataset.home==='plan'){ window.ryseGo('s20'); return } if(t.dataset.home==='focus'){ if(homeCtx().plan) window.ryseGo('s20'); else toast('Designed in a next step'); return } toast('Designed in a next step') } });
   /* long press on the player photo opens the prototype review tools (jump to screens, restart, background, Home state) */

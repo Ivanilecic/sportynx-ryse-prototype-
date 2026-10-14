@@ -1263,12 +1263,59 @@ html[data-theme=light][data-view=prof] .crest{border-color:rgba(14,21,36,.16);ba
 html[data-theme=light][data-view=prof] #sh-opp .club-list .other{color:#0E1524}
 html[data-theme=light][data-view=prof] .sheet p{color:#5A6375}
 html[data-theme=light][data-view=prof] .sheet .link.muted{color:#5A6375}
+/* ---------- Light theme accents: restrained SportynX blue, calm green for positive / recovery, slate for neutral data. Buttons stay black ---------- */
+html[data-theme=light][data-view=prof]{--lb:#1F5FE0;--lb-soft:rgba(31,95,224,.10);--lg:#2A9468;--lg-soft:rgba(42,148,104,.12);--ls:#64748B;--s-acc:#1F5FE0}
+html[data-theme=light][data-view=prof] .hnav-tab[aria-current=page]{color:var(--lb)}
+html[data-theme=light][data-view=prof] .hnav-tab[aria-current=page] .hnav-ava{border-color:var(--lb)}
+html[data-theme=light][data-view=prof] .hnav-dot,html[data-theme=light][data-view=prof] .h-inbox .dot{background:var(--lb)}
+html[data-theme=light][data-view=prof] .ladder i.on{background:var(--lb)}
+html[data-theme=light][data-view=prof] .h-day.today{background:var(--lb)}
+html[data-theme=light][data-view=prof] .h-day i.m{background:var(--lb)}
+html[data-theme=light][data-view=prof] .h-focus{border-color:rgba(31,95,224,.32);background:linear-gradient(160deg,#EAF0FF 0%,#FFFFFF 62%)}
+html[data-theme=light][data-view=prof] .h-ctx{color:var(--lb)}
+html[data-theme=light][data-view=prof] .h-ai{box-shadow:inset 2px 0 0 var(--lb)}
+html[data-theme=light][data-view=prof] .h-ai .mlabel svg,html[data-theme=light][data-view=prof] .rp-ai svg{color:var(--lb)}
+html[data-theme=light][data-view=prof] .h-ix[data-home=sleep] .r .val{stroke:var(--lb)}
+html[data-theme=light][data-view=prof] .h-ix[data-home=training] .r .val{stroke:var(--ls)}
+html[data-theme=light][data-view=prof] .h-ix[data-home=recovery] .r .val{stroke:var(--lg)}
+html[data-theme=light][data-view=prof] .h-ix[data-home=discipline] .r .val{stroke:#0E1524}
+html[data-theme=light][data-view=prof] .h-ix[data-home=sleep] .ic{color:var(--lb)}
+html[data-theme=light][data-view=prof] .h-ix[data-home=training] .ic{color:var(--ls)}
+html[data-theme=light][data-view=prof] .h-ix[data-home=recovery] .ic{color:var(--lg)}
+/* calendar + insights */
+html[data-theme=light][data-view=prof] .cal-d.n{background:rgba(31,95,224,.07);border-color:rgba(31,95,224,.14)}
+html[data-theme=light][data-view=prof] .cal-d.g{background:rgba(31,95,224,.18);border-color:rgba(31,95,224,.34)}
+html[data-theme=light][data-view=prof] .cal-d.n .ic,html[data-theme=light][data-view=prof] .cal-d.g .ic{color:#16408F}
+html[data-theme=light][data-view=prof] .cal-d.today{box-shadow:0 0 0 2px var(--lb)}
+html[data-theme=light][data-view=prof] .cal-legend span:nth-child(1) i{background:rgba(31,95,224,.14)!important}
+html[data-theme=light][data-view=prof] .cal-legend span:nth-child(2) i{background:rgba(31,95,224,.4)!important}
+html[data-theme=light][data-view=prof] .ins .tr{background:var(--lg-soft);color:var(--lg)}
+html[data-theme=light][data-view=prof] .ins a,html[data-theme=light][data-view=prof] .cal-pop .s{color:var(--lb)}
+/* logging, recovery plan */
+html[data-theme=light][data-view=prof] .lt-range::-webkit-slider-runnable-track{background:linear-gradient(90deg,var(--lb) var(--p),rgba(14,21,36,.12) var(--p))}
+html[data-theme=light][data-view=prof] .lt-range::-moz-range-track{background:linear-gradient(90deg,var(--lb) var(--p),rgba(14,21,36,.12) var(--p))}
+html[data-theme=light][data-view=prof] .rp-tips li::before{background:var(--lb)}
+html[data-theme=light][data-view=prof] #rp-body .lt-card:nth-child(2) .lt-h svg{color:var(--lb)}
+html[data-theme=light][data-view=prof] #rp-body .lt-card:nth-child(3) .lt-h svg,html[data-theme=light][data-view=prof] #rp-body .lt-card:nth-child(4) .lt-h svg{color:var(--lg)}
+html[data-theme=light][data-view=prof] #rp-body .lt-card:nth-child(5) .lt-h svg{color:#4B5BD6}
+html[data-theme=light][data-view=prof] #rp-body .lt-card:nth-child(6) .lt-h svg{color:var(--ls)}
+/* settings */
+html[data-theme=light][data-view=prof] .st-row .v.ok{color:var(--lg)}
+html[data-theme=light][data-view=prof] [aria-checked=true]>.st-sw{background:var(--lb)}
+html[data-theme=light][data-view=prof] [aria-checked=true]>.st-radio{border-color:var(--lb);background:var(--lb)}
+html[data-theme=light][data-view=prof] .st-theme[aria-checked=true]{border-color:var(--lb);box-shadow:0 0 0 1px var(--lb)}
+html[data-theme=light][data-view=prof] .st-plan{border-color:rgba(31,95,224,.3);background:linear-gradient(160deg,#EAF0FF 0%,#FFFFFF 62%)}
+html[data-theme=light][data-view=prof] .st-plan small{color:var(--lb)}
+html[data-theme=light][data-view=prof] .st-prog i.on{background:var(--lb)}
+html[data-theme=light][data-view=prof] .st-done .ok{background:var(--lg-soft);color:var(--lg)}
+html[data-theme=light][data-view=prof] .st-photo button.lnk,html[data-theme=light][data-view=prof] .st-link{color:var(--lb);text-decoration:none}
+
 
 .lt-sp{width:46px;flex:none}
 .hnav-tab{position:relative}
 .hnav-dot{position:absolute;top:6px;left:calc(50% + 9px);width:8px;height:8px;border-radius:50%;background:#4F82FF;box-shadow:0 0 0 2px #0B0C0F}
 .hnav-dot[hidden]{display:none}
-html[data-theme=light][data-view=prof] .hnav-dot{background:#0E1524;box-shadow:0 0 0 2px #fff}
+html[data-theme=light][data-view=prof] .hnav-dot{background:#1F5FE0;box-shadow:0 0 0 2px #fff}
 @keyframes stIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 .nm-seg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
 .nm-seg button{height:50px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.06);color:var(--ryse-white);font:600 15px/1 var(--font-body);cursor:pointer}

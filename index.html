@@ -732,8 +732,14 @@ html[data-bg=anthracite] .rm-flag{box-shadow:0 0 0 2px #0B0C0F}
 .rs-list::-webkit-scrollbar{display:none}
 .rs-cap{display:flex;justify-content:space-between;align-items:baseline;font:600 12px/1 var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:#E8ECF4;margin-bottom:10px}
 .rs-cap span{color:#9DB8FF;letter-spacing:.08em}
-.rs-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-  margin:0 calc(-1 * var(--gutter));padding:2px var(--gutter) 4px;scroll-padding:0 var(--gutter)}
+.rs-track{overflow:hidden;margin:0 calc(-1 * var(--gutter));padding:2px 0 4px;
+  -webkit-mask:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%);mask:linear-gradient(90deg,transparent 0,#000 9%,#000 91%,transparent 100%)}
+.rs-strip{display:flex;gap:10px;width:max-content;animation:rsGlide var(--dur,26s) linear infinite;will-change:transform}
+.rs-strip.rev{animation-direction:reverse}
+.rs-strip.hold{animation-play-state:paused}
+.rs-dup{display:contents}
+@keyframes rsGlide{from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-50% - 5px),0,0)}}
+@media (prefers-reduced-motion:reduce){.rs-strip{animation-duration:calc(var(--dur,26s) * 3)}}
 .rs-track::-webkit-scrollbar{display:none}
 .rs-card{flex:0 0 176px;scroll-snap-align:start;display:flex;align-items:center;gap:12px;box-sizing:border-box;padding:10px 12px;border-radius:16px;
   border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.045);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
@@ -1639,10 +1645,15 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   renderers.s11r=function(){ renderRM(); $('rm-list').scrollTop=0 };
   renderers.s11s=function(){ var e=window.ryseUI&&window.ryseUI.esc||esc, DB=window.RYSE_PLAYERS||{}, FL=window.RYSE_FLAGS||{};
     $('rs-list').innerHTML=rmPositions().map(function(k){ var picks=(P.roleModels[k]||[]);
-      return '<div class="rs-row"><div class="rs-cap">'+e(rT(byId(k).name))+'<span>'+k+'</span></div><div class="rs-track">'+
-        picks.map(function(n){ var pl=(DB[k]||[]).filter(function(x){return x.name===n})[0]||{name:n,club:'',nat:''}, fl=FL[pl.nat];
-          return '<div class="rs-card"><span class="rm-av">'+e(rmInit(pl.name))+(fl?'<span class="rm-flag"><img src="'+fl+'" alt=""></span>':'')+'</span><span class="rm-who"><b>'+e(pl.name)+'</b><span>'+e(pl.club)+'</span></span></div>' }).join('')+
-        '</div></div>' }).join('') };
+      var cards=picks.map(function(n){ var pl=(DB[k]||[]).filter(function(x){return x.name===n})[0]||{name:n,club:'',nat:''}, fl=FL[pl.nat];
+          return '<div class="rs-card"><span class="rm-av">'+e(rmInit(pl.name))+(fl?'<span class="rm-flag"><img src="'+fl+'" alt=""></span>':'')+'</span><span class="rm-who"><b>'+e(pl.name)+'</b><span>'+e(pl.club)+'</span></span></div>' }).join('');
+      // each row glides on its own: the cards are doubled so the loop is seamless; rows alternate direction at different speeds
+      var row=rmPositions().indexOf(k), dur=[24,32,28][row%3];
+      return '<div class="rs-row"><div class="rs-cap">'+e(rT(byId(k).name))+'<span>'+k+'</span></div><div class="rs-track"><div class="rs-strip'+(row%2?' rev':'')+'" style="--dur:'+dur+'s">'+
+        cards+'<span class="rs-dup" aria-hidden="true">'+cards+'</span></div></div></div>' }).join('');
+    $('rs-list').querySelectorAll('.rs-track').forEach(function(t){ var st=t.firstChild;
+      function hold(){st.classList.add('hold')} function go(){st.classList.remove('hold')}
+      t.addEventListener('pointerdown',hold); t.addEventListener('pointerup',go); t.addEventListener('pointercancel',go); t.addEventListener('pointerleave',go) }) };
   $('rm-tabs').addEventListener('click',function(ev){ var t=ev.target.closest('[data-rmpos]'); if(!t)return; rmPos=t.dataset.rmpos; renderRM(); $('rm-list').scrollTop=0;
     t=$('rm-tabs').querySelector('[aria-selected=true]'); if(t&&t.scrollIntoView) t.scrollIntoView({block:'nearest',inline:'nearest'}) });
   $('rm-list').addEventListener('click',function(ev){ var b=ev.target.closest('[data-rm]'); if(!b)return; var arr=P.roleModels[rmPos], v=b.dataset.rm, i=arr.indexOf(v);

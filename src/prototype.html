@@ -4016,6 +4016,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   function cvAt(id){ var n=CVLIB; if(id==='cv') return n; id.split('.').slice(1).forEach(function(i){ n=n&&n.k?n.k[+i]:null }); return n }
   function cvChain(F){ var r=[]; for(var n=F;n;n=n.p) r.unshift(n.id||'cv'); return r }
   function cvVids(F){ var r=[]; (function w(n){ n.k.forEach(function(c){ c.k?w(c):r.push(c) }) })(F); return r }
+  function cvClubFull(){ var n=cvClub(); return (/^arsenal$/i.test(n.trim()))?'Arsenal FC':n }   /* full club name for the inbox title */
   function cvClub(){ return (P.club&&P.club.name)||'Arsenal' }
   function cvCrest(){ var cn=cvClub(), c=(P.club&&P.club.crest)||(/arsenal/i.test(cn)?CLUB_CRESTS.arsenal:null); return '<span class="cv-crest'+(c?' img':'')+'">'+(c?'<img src="'+c+'" alt="">':SE()(initials(cn).slice(0,2)))+'</span>' }
   function cvUpd(d){ return d===0?rT('Updated today'):d===1?rT('Updated yesterday'):d<7?rTp('Updated {n} days ago',d):rT('Updated last week') }
@@ -4064,7 +4065,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var sbox=CVS.qOpen?'<label class="cv-search">'+IC.srch+'<input type="search" id="cv-q" placeholder="'+e(rT('Search titles, folders, notes'))+'" value="'+e(CVS.q)+'" autocomplete="off"></label><div id="cv-res">'+cvSearchHTML()+'</div>':'';
     var h='';
     if(root){ var all=cvVids(CVLIB), nn=all.filter(function(v){ return v.w==='new'&&!CVS.seen[v.id] }).length;
-      h+='<header class="cv-hd">'+cvCrest()+'<div><small>'+e(rT('Club video'))+'</small><h3>'+e(rT('{club} team sent you video analysis',{club:club}))+'</h3></div></header>';
+      h+='<header class="cv-hd">'+cvCrest()+'<div><small>'+e(rT('Club video'))+'</small><h3>'+e(rT('{club} team sent you video analysis',{club:cvClubFull()}))+'</h3></div></header>';
       if(CVS.state==='empty'){ return {t:'',right:'',h:h+'<div class="cv-empty"><span class="ic">'+IC.fold+'</span><b>'+e(rT('No videos yet'))+'</b><span>'+e(rT('New analysis from {club} will appear here.',{club:club}))+'</span></div>'} }
       if(CVS.state==='error') return {t:'',right:'',h:h+'<div class="cv-empty err"><b>'+e(rT('Couldn’t load your club videos'))+'</b><span>'+e(rT('Check your connection and try again.'))+'</span><button type="button" class="st-btn ghost cv-retry" data-cvretry>'+e(rT('Retry'))+'</button></div>'};
       if(CVS.state==='loading'||!CVS.loaded) return {t:'',right:'',h:h+cvSkel(),after:function(){ if(CVS.state==='ok') setTimeout(function(){ CVS.loaded=true; if(PG[PG.length-1]==='cv') renderPage() },650) }};

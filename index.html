@@ -4696,8 +4696,10 @@ var RYSE_MAP={"coarse":{"step":1.5,"lon0":-169,"lat1":84,"ids":["304","124","643
       var P=window.ryseProfile, saved=null; try{ saved=JSON.parse(localStorage.getItem('ryse-last-profile')||'null') }catch(e){}
       var MC={name:'Manchester City',location:'Manchester, England',country:'England',source:'database'};
       /* one-time update requested by Ivan: his test profile is now Austrian and plays for Manchester City */
-      try{ if(saved&&saved.first&&!localStorage.getItem('ryse-mig-mc')){ saved.country='Austria'; saved.club=MC; saved.clubCountry='England'; localStorage.setItem('ryse-last-profile',JSON.stringify(saved)) } localStorage.setItem('ryse-mig-mc','1') }catch(e){}
-      if(!saved||!saved.first) saved={first:'Ivan',last:'Ilecic',dob:'2009-05-12',sex:'Male',country:'Austria',club:MC,clubCountry:'England',level:'Academy',
+      /* shared test profile for everyone testing (Ivan, 15 Oct): Joško Gvardiol · Croatia · Manchester City — applied once to an existing saved profile too */
+      var TP={first:'Joško',last:'Gvardiol',country:'Croatia',club:MC,clubCountry:'England'}; if(window.RYSE_TEST_PHOTO) TP.photo=window.RYSE_TEST_PHOTO;
+      try{ if(saved&&saved.first&&!localStorage.getItem('ryse-mig-jg')){ Object.keys(TP).forEach(function(k){ saved[k]=TP[k] }); localStorage.setItem('ryse-last-profile',JSON.stringify(saved)) } localStorage.setItem('ryse-mig-jg','1') }catch(e){}
+      if(!saved||!saved.first) saved={first:'Joško',last:'Gvardiol',photo:window.RYSE_TEST_PHOTO||'',dob:'2009-05-12',sex:'Male',country:'Croatia',club:MC,clubCountry:'England',level:'Academy',
         positions:{primary:'AM',secondary:[]},foot:'Right',height:178,weight:70,strengths:['Vision','Technique'],improve:['Speed'],roleModels:{AM:['Luka Modrić','Jude Bellingham','Florian Wirtz']}};
       Object.keys(saved).forEach(function(k){ if(k!=='locale') P[k]=saved[k] });
       if(!P.access) P.access={type:'trial',days:7};

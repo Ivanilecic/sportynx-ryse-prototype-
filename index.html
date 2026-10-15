@@ -2350,6 +2350,16 @@ html[data-theme=light][data-view=prof] .lm-ctl button{border-color:rgba(14,21,36
 .qa .qa-tile,html[data-theme=light][data-view=prof] .qa .qa-tile{background:#23262D!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:none!important;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:20px}
 .qa .qa-tile:active,html[data-theme=light][data-view=prof] .qa .qa-tile:active{background:#2C3038!important}
 html[data-theme=light][data-view=prof] .qa{background:#15171C;border-color:rgba(255,255,255,.06);box-shadow:0 18px 44px rgba(14,21,36,.28)}
+
+/* Log training: session chips in one sideways-scrolling row (Ivan, 15 Oct) */
+#lt-kinds{flex-wrap:nowrap;overflow-x:auto;padding-right:18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#lt-kinds::-webkit-scrollbar{display:none}
+#lt-kinds button{flex:none}
+/* Minutes dial 20% smaller on every screen */
+.dial{width:min(186px,51vw)}
+.dl-c b{font-size:43px}
+.dl-c span{font-size:12.5px;margin-top:4px}
+.lm-dc{padding:16px 18px 12px}
 </style>
 
 </head>

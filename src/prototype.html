@@ -2123,7 +2123,6 @@ html[data-theme=light][data-view=prof] .pf-level.dk{background:radial-gradient(1
 html[data-theme=light][data-view=prof] .h-ai{background:linear-gradient(135deg,#E6EDFC,#F1F4FB)!important;border-radius:14px!important;padding:6px 12px 7px 12px!important;gap:5px!important;box-shadow:none!important;border-left:0!important}
 html[data-theme=light][data-view=prof] .pg-sum{background:linear-gradient(140deg,#E3EBFC 0%,#F3F6FC 70%)!important;border-color:rgba(31,95,224,.16)!important}
 html[data-theme=light][data-view=prof] .ph-nudge{background:linear-gradient(140deg,#E6EDFC 0%,#F5F7FC 75%)!important;border-color:rgba(31,95,224,.16)!important}
-html[data-theme=light][data-view=prof] .h-ix.dk{background:#1B1D22!important;border-color:rgba(255,255,255,.07)!important;box-shadow:0 8px 22px rgba(14,21,36,.14)!important;color:#F5F7FB}
 
 html[data-theme=light][data-view=prof] .ry-card.dk{background:#121419!important;border-color:rgba(255,255,255,.08)!important;box-shadow:0 10px 26px rgba(14,21,36,.16)!important;color:#F5F7FB}
 
@@ -3368,7 +3367,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       ['recovery','Recovery',85,'Good','<path d="M13 3 5.5 13.5H12L11 21l7.5-10.5H12Z"/>'],
       ['discipline','Discipline',76,'Good','<path d="M12 3.5 4.5 7v5c0 4.4 3.2 7.6 7.5 8.5 4.3-.9 7.5-4.1 7.5-8.5V7Z"/><path d="m9 12 2.2 2.2L15.5 10"/>']];
     var CC=2*Math.PI*24;
-    $('h-idx').innerHTML=IX.map(function(x){ return '<button type="button" class="h-ix dk" data-home="'+x[0]+'"><span class="r"><svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" class="trk"/><circle cx="28" cy="28" r="24" class="val" style="stroke-dasharray:'+(CC*x[2]/100).toFixed(1)+' '+CC.toFixed(1)+'"/></svg><span><b>'+x[2]+'</b><em>100</em></span></span>'+
+    $('h-idx').innerHTML=IX.map(function(x){ return '<button type="button" class="h-ix" data-home="'+x[0]+'"><span class="r"><svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="24" class="trk"/><circle cx="28" cy="28" r="24" class="val" style="stroke-dasharray:'+(CC*x[2]/100).toFixed(1)+' '+CC.toFixed(1)+'"/></svg><span><b>'+x[2]+'</b><em>100</em></span></span>'+
       '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+x[4]+'</svg><small>'+e(rT(x[1]))+'</small><i>'+e(rT(x[3]))+'</i></button>' }).join('');
     $('h-act').innerHTML='<span class="lbl">'+e(rT('Activity'))+'</span><span><b>'+nf.format(HOME.steps)+'</b> '+e(rT('Steps').toLowerCase())+'</span><span><b>'+nf.format(HOME.active)+'</b> kcal</span><span><b>'+nf.format(HOME.km)+'</b> km</span><span class="src">Apple Health</span>';
     $('h-ai-l').textContent=rT('RYSE AI'); $('h-ai-t').textContent=rT(C.aiT||C.ai);

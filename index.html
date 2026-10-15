@@ -2060,7 +2060,7 @@ html[data-theme=light][data-view=prof] .h-ava.story{box-shadow:0 0 0 3px #F3F4F8
 .h-me{gap:13px!important}
 .h-greet{display:flex;flex-direction:column;gap:5px;min-width:0;overflow:visible!important}
 .h-greet .g1{display:block;font:600 13px/1.1 var(--font-body);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:14px}
-.h-greet .g2{display:block;font:600 13px/1.1 var(--font-body);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:14px}
+.h-greet .g2{display:block;font:600 15.6px/1.1 var(--font-body);letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:14px}
 .h-greet.rank .g1{color:var(--cvb)}
 .h-greet.rank .g2{font:500 13px/1.3 var(--font-body);letter-spacing:0;text-transform:none;white-space:normal;color:var(--s-mut);max-width:200px}
 .h-greet .cur::after{content:"";display:inline-block;width:2px;height:.9em;margin-left:2px;vertical-align:-.08em;background:currentColor;animation:hgCur .8s steps(1) infinite}
@@ -3254,7 +3254,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
      Prototype: the ranking figure is illustrative — the ranking model is not defined yet. */
   var HG={done:false,busy:false,launch:0,ring:false};
   try{ HG.launch=(+localStorage.getItem('ryse-launch')||0)+1; localStorage.setItem('ryse-launch',HG.launch) }catch(_){ HG.launch=1 }
-  HG.ring=HG.launch%5===0;   /* prototype: a ranking update is waiting every 5th launch — the blue story ring around the photo shows it */
+  HG.ring=true;   /* prototype: a ranking update is waiting on every launch — the blue story ring around the photo shows it */
   function hgRing(){ var a=$('h-ava'); if(a) a.classList.toggle('story',HG.ring) }
   window.ryseGreetStory=function(){ if(!HG.ring||HG.busy) return false; HG.ring=false; hgRing(); hgRank(); return true };
   window.ryseGreetRing=function(){ HG.ring=true; hgRing() };

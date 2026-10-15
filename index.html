@@ -2344,6 +2344,12 @@ html[data-theme=light][data-view=prof] .lm-ctl button{border-color:rgba(14,21,36
 .wt-pad button[data-k=del]{background:none}
 .wt-pad svg{width:26px;height:26px}
 @media (max-height:740px){.wt-amt{margin:18px 0 16px}.wt-pad button{height:44px}}
+
+/* Quick actions sit on one anthracite pop-up panel; tiles inside are a slightly lighter shade with a hairline border (Ivan, 15 Oct) */
+.qa{left:14px;right:14px;padding:12px;border-radius:30px;background:rgba(21,23,28,.97);border:1px solid rgba(255,255,255,.08);box-shadow:0 18px 44px rgba(0,0,0,.45);-webkit-backdrop-filter:blur(24px) saturate(140%);backdrop-filter:blur(24px) saturate(140%)}
+.qa .qa-tile,html[data-theme=light][data-view=prof] .qa .qa-tile{background:#23262D!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:none!important;-webkit-backdrop-filter:none;backdrop-filter:none;border-radius:20px}
+.qa .qa-tile:active,html[data-theme=light][data-view=prof] .qa .qa-tile:active{background:#2C3038!important}
+html[data-theme=light][data-view=prof] .qa{background:#15171C;border-color:rgba(255,255,255,.06);box-shadow:0 18px 44px rgba(14,21,36,.28)}
 </style>
 
 </head>
@@ -4929,7 +4935,7 @@ var RY_CLIP='data:image/webp;base64,UklGRhTLAABXRUJQVlA4IAjLAABwWwOdASrQAt4CPm0y
     q.classList.toggle('on',open); q.setAttribute('aria-hidden',!open); d.classList.toggle('on',open); nav.classList.toggle('open',open);
     q.querySelectorAll('.qa-tile').forEach(function(b){ b.tabIndex=open?0:-1 });
     if(open){ q.querySelectorAll('.qa-tile b').forEach(function(b){ b.style.fontSize=''; var f=16; while(b.scrollWidth>b.clientWidth+1&&f>12){ f-=.5; b.style.fontSize=f+'px' } });
-      qaLast=document.activeElement; var first=q.querySelector('[data-qa=scan]'); setTimeout(function(){ try{first.focus({preventScroll:true})}catch(e){} },60) }
+      qaLast=document.activeElement }
     else if(qaLast&&qaLast.focus){ try{ f.focus({preventScroll:true}) }catch(e){} } };
   $('home-dim').addEventListener('click',function(){ window.ryseQA(false) });
   document.addEventListener('keydown',function(ev){ if(ev.key==='Escape'&&$('qa').classList.contains('on')) window.ryseQA(false) });

@@ -2154,7 +2154,7 @@ html[data-theme=light][data-view=prof] .ry-card.dk{background:#121419!important;
 .cv-fl{gap:8px;border:0!important;background:none!important;box-shadow:none!important;overflow:visible!important;border-radius:0!important}
 .cv-f{border:1px solid var(--s-line)!important;border-radius:16px;background:var(--s-card)}
 .cv-f:first-child{border-top:1px solid var(--s-line)!important}
-html[data-theme=light][data-view=prof] .cv-f.dk{background:#1B1D22!important;border-color:rgba(255,255,255,.07)!important;box-shadow:0 6px 18px rgba(14,21,36,.10);color:#F5F7FB}
+html[data-theme=light][data-view=prof] .cv-f{background:#fff!important;border-color:rgba(14,21,36,.08)!important;box-shadow:0 1px 2px rgba(14,21,36,.04),0 6px 16px rgba(14,21,36,.05)}
 
 html[data-theme=light][data-view=prof] #h-ai{margin-top:-5px}
 html[data-theme=light][data-view=prof] #pane-home .h-act{margin-top:-2px}
@@ -4177,7 +4177,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     return '<div class="cv-v'+(nw?' new':'')+'" data-vid="'+v.id+'"><button type="button" class="cv-vb" data-cvv="'+v.id+'">'+cvThumb(v)+'<span class="cv-tx">'+(path?'<small class="cv-path">'+e(path)+'</small>':'')+'<b>'+(nw?'<i class="nd" aria-label="'+e(rT('New'))+'"></i>':'')+e(v.v)+'</b>'+(v.d?'<span class="cv-d">'+e(v.d)+'</span>':'')+'<span class="cv-m">'+cvTag(v)+cvDlMeta(v)+'</span></span></button>'+cvDlBtn(v)+'</div>' }
   function cvFolder(F){ var e=SE(), vs=cvVids(F), nn=CVS.vf[F.id]?0:vs.filter(function(v){ return v.w==='new'&&!CVS.seen[v.id] }).length;
     var sub=vs.length?rTp('{n} videos',vs.length)+' · '+cvUpd(F.u):rT('Empty');
-    return '<button type="button" class="cv-f dk" data-cv="'+F.id+'"><span class="ic">'+IC.fold+'</span><span class="t"><b>'+e(cvN(F.f))+'</b><small>'+e(sub)+'</small></span>'+(nn?'<span class="nw"><i></i>'+e(rT('{n} new',{n:nn}))+'</span>':'')+'<span class="ch">'+IC.chev+'</span></button>' }
+    return '<button type="button" class="cv-f" data-cv="'+F.id+'"><span class="ic">'+IC.fold+'</span><span class="t"><b>'+e(cvN(F.f))+'</b><small>'+e(sub)+'</small></span>'+(nn?'<span class="nw"><i></i>'+e(rT('{n} new',{n:nn}))+'</span>':'')+'<span class="ch">'+IC.chev+'</span></button>' }
   function cvCrumbs(F){ var e=SE(), ch=[]; for(var n=F;n;n=n.p) ch.unshift(n); var items=ch.map(function(n,i){ return {n:i?cvN(n.f):cvClub(),lv:i} });
     if(items.length>3) items=[items[0],{n:'…',lv:-1}].concat(items.slice(-2));
     return '<nav class="cv-bc" aria-label="'+e(rT('Folder path'))+'">'+items.map(function(it,i){ var last=i===items.length-1; return (i?'<i>/</i>':'')+(last?'<b>'+e(it.n)+'</b>':it.lv<0?'<span>…</span>':'<button type="button" data-cvc="'+it.lv+'">'+e(it.n)+'</button>') }).join('')+'</nav>' }

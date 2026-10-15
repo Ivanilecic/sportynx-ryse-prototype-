@@ -2341,7 +2341,6 @@ html[data-theme=light][data-view=prof] .ry-chips button.on{background:#0E1524;bo
         <span class="h-fcopy" id="h-fcopy"></span>
         <button class="h-plan" type="button" data-home="plan"><span id="h-plan-t">View today’s plan</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <button type="button" class="hf-vid" id="hf-vid" data-home="clip" aria-label="Watch clips"><span class="img" id="hf-img"></span><span class="t"><small id="hf-k"></small><b id="hf-t"></b><span id="hf-n"></span></span><span class="ry-play hf-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5Z" fill="currentColor"/></svg></span></button>
-        <span class="hf-dots" aria-hidden="true"><i class="on"></i><i></i></span>
       </div>
 
       <div class="h-idx rise d2" id="h-idx" data-dyn></div>
@@ -3062,7 +3061,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var rmN=[]; Object.keys(P.roleModels||{}).forEach(function(k){ (P.roleModels[k]||[]).forEach(function(n){ if(rmN.indexOf(n)<0) rmN.push(n) }) });
     $('hf-img').style.backgroundImage='url('+RY_CLIP+')'; $('hf-k').textContent=rT('Role models')+(rmN.length?' · '+rmN.slice(0,2).join(', '):'');
     $('hf-t').textContent=rT('Watch your chosen players’ skills'); $('hf-n').textContent=rTp('{n} new videos to watch',3);
-    if(!window.ryseHfT){ window.ryseHfT=setInterval(function(){ var f=$('h-focus'); if(!f||document.hidden||$('s17').classList.contains('is-hidden')) return; var v=!f.classList.contains('vid'); f.classList.toggle('vid',v); var d=f.querySelectorAll('.hf-dots i'); d[0].classList.toggle('on',!v); d[1].classList.toggle('on',v) },6000) }
+    if(!window.ryseHfT){ window.ryseHfT=setInterval(function(){ var f=$('h-focus'); if(!f||document.hidden||$('s17').classList.contains('is-hidden')) return; var v=!f.classList.contains('vid'); f.classList.toggle('vid',v); },6000) }
     requestAnimationFrame(function(){ var a=$('h-act'), sr=a.querySelector('.src'); if(sr){ sr.hidden=false; if(a.offsetHeight>24) sr.hidden=true } }); $('h-flabel').textContent=rT('Today’s focus'); $('h-plan-t').textContent=rT('View recovery plan'); document.querySelector('.h-plan').hidden=!C.plan;
     document.querySelectorAll('.hnav-tab').forEach(function(b){ var L={home:'Home',progress:'Progress',profile:'Profile'}[b.dataset.tab]; if(L) b.querySelector('span:last-child').textContent=rT(L) });
     document.querySelectorAll('[data-hstate]').forEach(function(b){ b.setAttribute('aria-pressed',b.dataset.hstate===HOME.state) }) }

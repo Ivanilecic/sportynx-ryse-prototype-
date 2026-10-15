@@ -4618,7 +4618,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var wire=new T.LineSegments(new T.WireframeGeometry(gm),new T.LineBasicMaterial({color:0x6FD3FF,transparent:true,opacity:0.16,blending:T.AdditiveBlending,depthWrite:false})); wire.renderOrder=1;
     var grp=new T.Group(); grp.add(mM); grp.add(mL); grp.add(wire); grp.add(mS); sc.add(grp); B3.grp=grp;
     var bs=gs.boundingSphere; B3.center=bs.center.clone(); B3.h=(mx[1]-mn[1]);
-    B3.st={yaw:0,pitch:0.02,dist:B3.h*3.35,tx:0,ty:-0.09,tdist:B3.h*3.35}; B3.ray=new T.Raycaster(); B3.ready=true; B3.run=true; b3Resize(); b3Controls(cv); b3Tex();
+    B3.st={yaw:0,pitch:0.02,dist:B3.h*4.2,tx:0,ty:-0.01,tdist:B3.h*4.2}; B3.ray=new T.Raycaster(); B3.ready=true; B3.run=true; b3Resize(); b3Controls(cv); b3Tex();
     window.addEventListener('resize',b3Resize) }
   function b3Resize(){ if(!B3.R) return; var cv=$('b3d-cv'), w=cv.clientWidth, h=cv.clientHeight; if(!w||!h) return; B3.R.setSize(w,h,false); B3.cam.aspect=w/h; B3.cam.updateProjectionMatrix(); b3Frame() }
   function b3Cam(){ var s=B3.st, c=B3.center, T=B3.T, cam=B3.cam; var x=c.x+s.tx+Math.sin(s.yaw)*Math.cos(s.pitch)*s.dist, y=c.y+s.ty+Math.sin(s.pitch)*s.dist, z=c.z+Math.cos(s.yaw)*Math.cos(s.pitch)*s.dist; cam.position.set(x,y,z); cam.lookAt(c.x+s.tx,c.y+s.ty,c.z) }
@@ -4628,11 +4628,11 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     cv.addEventListener('pointerdown',function(e){ B3.auto=false; clearTimeout(B3.idleT); cv.setPointerCapture(e.pointerId); pts[e.pointerId]={x:e.clientX,y:e.clientY}; moved=0; if(n()===2){ var a=Object.values(pts); pinch0=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); dist0=B3.st.tdist; mid0={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2,tx:B3.st.tx,ty:B3.st.ty} } last={x:e.clientX,y:e.clientY} });
     cv.addEventListener('pointermove',function(e){ if(!pts[e.pointerId]) return; var p=pts[e.pointerId], dx=e.clientX-p.x, dy=e.clientY-p.y; pts[e.pointerId]={x:e.clientX,y:e.clientY}; moved+=Math.abs(dx)+Math.abs(dy); var s=B3.st;
       if(n()===1){ s.yaw-=dx*0.0105; s.pitch=Math.max(-1.1,Math.min(1.1,s.pitch+dy*0.006)) }
-      else if(n()===2){ var a=Object.values(pts), d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); s.tdist=s.dist=Math.max(B3.h*0.35,Math.min(B3.h*4,dist0*pinch0/Math.max(20,d))); var k=s.dist/cv.clientHeight*0.9, mx=(a[0].x+a[1].x)/2, my=(a[0].y+a[1].y)/2; s.tx=mid0.tx-(mx-mid0.x)*k*Math.cos(s.yaw); s.ty=mid0.ty+(my-mid0.y)*k }
+      else if(n()===2){ var a=Object.values(pts), d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); s.tdist=s.dist=Math.max(B3.h*0.35,Math.min(B3.h*5,dist0*pinch0/Math.max(20,d))); var k=s.dist/cv.clientHeight*0.9, mx=(a[0].x+a[1].x)/2, my=(a[0].y+a[1].y)/2; s.tx=mid0.tx-(mx-mid0.x)*k*Math.cos(s.yaw); s.ty=mid0.ty+(my-mid0.y)*k }
       b3Frame() });
     function up(e){ var was=n(); delete pts[e.pointerId]; clearTimeout(B3.idleT); B3.idleT=setTimeout(function(){ if(!$('b3d').hidden&&!B3.sel.length&&!n()){ B3.auto=true; b3Frame() } },8000); if(was===1&&moved<8&&e.type==='pointerup') b3Tap(e.clientX,e.clientY) }
     cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
-    cv.addEventListener('wheel',function(e){ e.preventDefault(); B3.st.tdist=Math.max(B3.h*0.35,Math.min(B3.h*4,B3.st.tdist*(e.deltaY>0?1.12:0.89))); b3Frame() },{passive:false});
+    cv.addEventListener('wheel',function(e){ e.preventDefault(); B3.st.tdist=Math.max(B3.h*0.35,Math.min(B3.h*5,B3.st.tdist*(e.deltaY>0?1.12:0.89))); b3Frame() },{passive:false});
     cv.addEventListener('dblclick',function(e){ b3Zoom(e.clientX,e.clientY) }) }
   function b3Hit(x,y){ var cv=$('b3d-cv'), r=cv.getBoundingClientRect(), T=B3.T, v=new T.Vector2((x-r.left)/r.width*2-1,-(y-r.top)/r.height*2+1); B3.ray.setFromCamera(v,B3.cam); var h=B3.ray.intersectObjects(B3.pick,false); if(!h.length) return null; var lg=h.filter(function(x){ return x.object===B3.pick[1] })[0]; return (lg&&lg.distance<h[0].distance+0.07)?lg:h[0] }
   function b3Tap(x,y){ var h=b3Hit(x,y); if(!h) return; var pid=Math.round(h.object.geometry.attributes.pid.getX(h.face.a)), k=b3Key(b3Parse().head.parts[pid]), i=B3.sel.indexOf(k); if(i>-1) B3.sel.splice(i,1); else { B3.sel.push(k); if(!B3.lvl[k]) B3.lvl[k]=2 } B3.hintDone=true; B3.hintI=0; B3.hintK=null; if(navigator.vibrate) try{ navigator.vibrate(8) }catch(_){} b3UI() }
@@ -4642,7 +4642,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(ev.target.closest('#b3d-x')){ b3Close(); return }
     if((t=ev.target.closest('[data-b3x]'))){ B3.sel.splice(B3.sel.indexOf(t.dataset.b3x),1); b3UI(); return }
     if((t=ev.target.closest('[data-b3k]'))&&B3.opts.mode==='load'){ var kk=t.dataset.b3k; B3.lvl[kk]=(B3.lvl[kk]||2)%3+1; b3UI(); return }
-    if((t=ev.target.closest('[data-b3v]'))){ var v=t.dataset.b3v, s=B3.st; B3.auto=false; clearTimeout(B3.idleT); if(v==='reset'){ s.tx=0; s.ty=-0.09; s.tdist=B3.h*3.35; s.pitch=0.02; b3Spin(0) } else b3Spin(v==='back'?Math.PI:v==='left'?-Math.PI/2:v==='right'?Math.PI/2:0); return }
+    if((t=ev.target.closest('[data-b3v]'))){ var v=t.dataset.b3v, s=B3.st; B3.auto=false; clearTimeout(B3.idleT); if(v==='reset'){ s.tx=0; s.ty=-0.01; s.tdist=B3.h*4.2; s.pitch=0.02; b3Spin(0) } else b3Spin(v==='back'?Math.PI:v==='left'?-Math.PI/2:v==='right'?Math.PI/2:0); return }
     if(ev.target.closest('#b3d-ok')){ var out=B3.sel.map(function(k){ var a=k.split('|'); return {key:k,i:k,id:a[0],side:a[1],label:b3KeyLabel(k),level:B3.lvl[k]||2} }); b3Close(); if(B3.opts.onConfirm) B3.opts.onConfirm(out) } });
   /* ---------- Log injury (quick action): where it happened · body area (full-body pop-up on a 3D anatomical athlete) · type + comment · dates · medical documents → calendar ----------
      Body renders: Z-Anatomy (BodyParts3D) muscular system, CC BY-SA 4.0 — rendered for RYSE. RYSE doesn't diagnose; the player records what happened and what the doctor said. */

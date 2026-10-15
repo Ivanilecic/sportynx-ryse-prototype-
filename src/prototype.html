@@ -2027,6 +2027,9 @@ html[data-theme=light][data-view=prof] .sx-edit input{color-scheme:light}
 .vp2 .vp-segs i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.28);overflow:hidden}
 .vp2 .vp-segs i b{display:block;height:100%;width:0;background:#fff;border-radius:2px}
 .vp2 .vp-segs i.done b{width:100%}
+
+/* s16 Access activated: let the check-mark area shrink so "Start your journey" stays above the home indicator */
+#s16 .visual{flex:1 1 0!important;min-height:0;padding-top:24px!important;padding-bottom:8px}
 </style>
 
 <div class="stage">
@@ -2456,7 +2459,7 @@ html[data-theme=light][data-view=prof] .sx-edit input{color-scheme:light}
 
     <!-- 16 — Access activated (Daytona entitlement) -->
     <section class="screen is-hidden" id="s16" data-scene="0" aria-label="Access activated" aria-hidden="true">
-      <div class="visual" style="padding-top:60px"><svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" pathLength="1" class="draw anim" style="--d:.2s"/><path d="m43 61 11 11 23-25" pathLength="1" class="draw anim" style="--d:1s"/></svg></div>
+      <div class="visual"><svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="44" pathLength="1" class="draw anim" style="--d:.2s"/><path d="m43 61 11 11 23-25" pathLength="1" class="draw anim" style="--d:1s"/></svg></div>
       <div class="intro-copy">
         <h1><span class="line"><span class="line-in l1">RYSE access</span></span><span class="line"><span class="line-in l2">activated.</span></span></h1>
         <p class="support rise d2" id="act-copy">Included with your SportynX Daytona membership.</p>

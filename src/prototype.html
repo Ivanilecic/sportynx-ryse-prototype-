@@ -1831,6 +1831,9 @@ html[data-theme=light][data-view=prof] .h-focus.vid .hf-dots i.on{background:#ff
 .vp-bar{margin-top:18px;height:3px;border-radius:2px;background:rgba(255,255,255,.25);overflow:hidden}
 .vp-bar i{display:block;height:100%;width:0;background:#fff}
 
+.h-focus{border-color:rgba(255,255,255,.08)!important}
+html[data-theme=light][data-view=prof] .h-focus{border-color:rgba(14,21,36,.08)!important}
+.hf-vid{transition:opacity .8s ease}
 /* ---------- Button system: exactly two shapes ---------- */
 /* Large (primary / secondary actions): 56px, fully rounded — like "Save training" */
 .btn,.lt-save,.h-plan,.cal-add,.st-btn,.pf-edit,.dv-more,.sheet .btn,.sheet .btn-quiet{height:56px;min-height:56px;border-radius:28px}
@@ -3025,7 +3028,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var rmN=[]; Object.keys(P.roleModels||{}).forEach(function(k){ (P.roleModels[k]||[]).forEach(function(n){ if(rmN.indexOf(n)<0) rmN.push(n) }) });
     $('hf-img').style.backgroundImage='url('+RY_CLIP+')'; $('hf-k').textContent=rT('Role models')+(rmN.length?' · '+rmN.slice(0,2).join(', '):'');
     $('hf-t').textContent=rT('Watch your chosen players’ skills'); $('hf-n').textContent=rTp('{n} new videos to watch',3);
-    if(!window.ryseHfT){ window.ryseHfT=setInterval(function(){ var f=$('h-focus'); if(!f||document.hidden||$('s17').classList.contains('is-hidden')) return; var v=!f.classList.contains('vid'); f.classList.toggle('vid',v); var d=f.querySelectorAll('.hf-dots i'); d[0].classList.toggle('on',!v); d[1].classList.toggle('on',v) },2000) }
+    if(!window.ryseHfT){ window.ryseHfT=setInterval(function(){ var f=$('h-focus'); if(!f||document.hidden||$('s17').classList.contains('is-hidden')) return; var v=!f.classList.contains('vid'); f.classList.toggle('vid',v); var d=f.querySelectorAll('.hf-dots i'); d[0].classList.toggle('on',!v); d[1].classList.toggle('on',v) },5000) }
     requestAnimationFrame(function(){ var a=$('h-act'), sr=a.querySelector('.src'); if(sr){ sr.hidden=false; if(a.offsetHeight>24) sr.hidden=true } }); $('h-flabel').textContent=rT('Today’s focus'); $('h-plan-t').textContent=rT('View recovery plan'); document.querySelector('.h-plan').hidden=!C.plan;
     document.querySelectorAll('.hnav-tab').forEach(function(b){ var L={home:'Home',progress:'Progress',profile:'Profile'}[b.dataset.tab]; if(L) b.querySelector('span:last-child').textContent=rT(L) });
     document.querySelectorAll('[data-hstate]').forEach(function(b){ b.setAttribute('aria-pressed',b.dataset.hstate===HOME.state) }) }

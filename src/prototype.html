@@ -2106,6 +2106,12 @@ html[data-theme=light][data-view=prof] .sheet{--s-text:#F5F7FB;--s-mut:rgba(200,
 /* Light mode: greeting / Keep pushing / Congrats lines heavier on white */
 html[data-theme=light][data-view=prof] .h-greet .g1,html[data-theme=light][data-view=prof] .h-greet .g2{font-weight:800!important}
 html[data-theme=light][data-view=prof] .h-greet.rank .g2{font-weight:600!important;color:#2B3345}
+
+/* Light mode: quick-action tiles are anthracite with white icon + label (Ivan, 15 Oct) */
+html[data-theme=light][data-view=prof] .qa .qa-tile{background:#1B1D22!important;border-color:rgba(255,255,255,.08)!important;color:#F5F7FB!important;box-shadow:0 10px 28px rgba(14,21,36,.22)!important}
+html[data-theme=light][data-view=prof] .qa .qa-tile svg,html[data-theme=light][data-view=prof] .qa .qa-tile b{color:#F5F7FB!important}
+html[data-theme=light][data-view=prof] .qa .qa-tile:active{background:#262931!important}
+html[data-theme=light][data-view=prof] .qa .qa-tile:focus-visible{outline:2px solid rgba(255,255,255,.35);outline-offset:2px}
 </style>
 
 <div class="stage">

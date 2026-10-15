@@ -3119,7 +3119,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var name=(P.first||'Ivan').trim(), ph=P.photo?'<img src="'+P.photo+'" alt="">':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="width:56%;height:56%;opacity:.7"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg>';
     $('h-ava').innerHTML=ph; if(P.photo) $('hnav-ava').innerHTML='<img src="'+P.photo+'" alt="">'; else $('hnav-ava').textContent=((P.first||'I')[0]+((P.last||'')[0]||'')).toUpperCase(); if(window.ryseRenderProfile) window.ryseRenderProfile(); if($('ry-dot')) $('ry-dot').hidden=(P.ryseSeen||0)>=RY.length;
     $('h-greet').textContent=rT(h<12?'Good morning, {name}':(h<18?'Good afternoon, {name}':'Good evening, {name}'),{name:name.split(' ')[0]});
-    $('h-inbox-n').textContent=HOME.inbox; var cn=P.club&&P.club.name?P.club.name:'Club'; $('h-crest').textContent=initials(cn).slice(0,2)||'FC'; var crest=(P.club&&P.club.crest)||(/arsenal/i.test(cn)?CLUB_CRESTS.arsenal:null); $('h-crest').classList.toggle('img',!!crest); if(crest) $('h-crest').innerHTML='<img src="'+crest+'" alt="">'; $('h-inbox-c').textContent=cn; $('h-inbox').setAttribute('aria-label',rT('{n} new club videos',{n:HOME.inbox}));
+    $('h-inbox-n').textContent=HOME.inbox; $('h-inbox').querySelector('.dot').hidden=!HOME.inbox; var cn=P.club&&P.club.name?P.club.name:'Club'; $('h-crest').textContent=initials(cn).slice(0,2)||'FC'; var crest=(P.club&&P.club.crest)||(/arsenal/i.test(cn)?CLUB_CRESTS.arsenal:null); $('h-crest').classList.toggle('img',!!crest); if(crest) $('h-crest').innerHTML='<img src="'+crest+'" alt="">'; $('h-inbox-c').textContent=cn; $('h-inbox').setAttribute('aria-label',rT('{n} new club videos',{n:HOME.inbox}));
     $('h-lvl').textContent=rT(LEVELS[HOME.level]); $('h-howup').textContent=rT('How to level up')+' ›'; $('h-next').textContent=HOME.level<4?rT('Next · {level}',{level:rT(LEVELS[HOME.level+1])}):'';
     [].forEach.call($('h-ladder').children,function(i,k){ i.classList.toggle('on',k<=HOME.level) });
     var C=homeCtx(), dow=(now.getDay()+6)%7, mon=new Date(now); mon.setDate(now.getDate()-dow);
@@ -3861,7 +3861,11 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       CF('Pressing',10,[ CVd('Pressing triggers','01:12',10,'def','new'), CVd('Pressing traps','01:40',10,'board2','done'), CVd('Compact distances','00:58',14,'def','done'), CVd('When not to press','01:06',16,'board1','done') ]),
       CF('Transitions',12,[ CVd('Counter-attack in 3 passes','01:24',12,'third','done'), CVd('Rest defence','01:30',12,'board1','done') ]) ]) ]};
   (function idx(F,p){ F.k.forEach(function(c,i){ c.id=p+'.'+i; c.p=F; if(c.k) idx(c,c.id) }) })(CVLIB,'cv');
-  var CVS={state:'ok',sort:'new',q:'',loaded:false,seen:{}};
+  var CVS={state:'ok',sort:'new',q:'',loaded:false,seen:{},vf:{}};
+  /* opening a folder clears its badge; its videos keep the blue dot for this visit and count as seen once the player leaves the folder */
+  function cvLeave(){ var F=CVS.pend; if(!F) return; F.k.forEach(function(c){ if(!c.k&&c.w==='new') CVS.seen[c.id]=1 }); CVS.pend=null }
+  function cvUnseen(){ return cvVids(CVLIB).filter(function(v){ return v.w==='new'&&!CVS.seen[v.id] }).length }
+  function cvSyncHome(){ var n=cvUnseen(); window.ryseHome.inbox=n; var b=$('h-inbox-n'); if(b) b.textContent=n; var d=document.querySelector('#h-inbox .dot'); if(d) d.hidden=!n }
   window.ryseClubVidState=function(s){ CVS.state=s; CVS.loaded=false; if(!$('s21').classList.contains('is-hidden')&&PG[0]==='cv'){ PG=['cv']; renderPage() } };
   function cvAt(id){ var n=CVLIB; if(id==='cv') return n; id.split('.').slice(1).forEach(function(i){ n=n&&n.k?n.k[+i]:null }); return n }
   function cvChain(F){ var r=[]; for(var n=F;n;n=n.p) r.unshift(n.id||'cv'); return r }
@@ -3894,7 +3898,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   function cvTag(v){ var e=SE(); if(v.a==='assigned'){ var d=new Date(); d.setDate(d.getDate()+(v.due||3)); var wd=d.toLocaleDateString(RYSE_I18N.code==='sr-Latn'?'sr-Latn':RYSE_I18N.code,{weekday:'short'}); return '<span class="cv-tag">'+e(rT('Assigned · due {day}',{day:wd}))+'</span>' } if(v.a==='important') return '<span class="cv-tag imp">'+e(rT('Important'))+'</span>'; return '' }
   function cvRow(v,path){ var e=SE(), nw=v.w==='new'&&!CVS.seen[v.id];
     return '<div class="cv-v'+(nw?' new':'')+'" data-vid="'+v.id+'"><button type="button" class="cv-vb" data-cvv="'+v.id+'">'+cvThumb(v)+'<span class="cv-tx">'+(path?'<small class="cv-path">'+e(path)+'</small>':'')+'<b>'+(nw?'<i class="nd" aria-label="'+e(rT('New'))+'"></i>':'')+e(v.v)+'</b>'+(v.d?'<span class="cv-d">'+e(v.d)+'</span>':'')+'<span class="cv-m">'+cvTag(v)+cvDlMeta(v)+'</span></span></button>'+cvDlBtn(v)+'</div>' }
-  function cvFolder(F){ var e=SE(), vs=cvVids(F), nn=vs.filter(function(v){ return v.w==='new'&&!CVS.seen[v.id] }).length;
+  function cvFolder(F){ var e=SE(), vs=cvVids(F), nn=CVS.vf[F.id]?0:vs.filter(function(v){ return v.w==='new'&&!CVS.seen[v.id] }).length;
     var sub=vs.length?rTp('{n} videos',vs.length)+' · '+cvUpd(F.u):rT('Empty');
     return '<button type="button" class="cv-f" data-cv="'+F.id+'"><span class="ic">'+IC.fold+'</span><span class="t"><b>'+e(F.f)+'</b><small>'+e(sub)+'</small></span>'+(nn?'<span class="nw"><i></i>'+e(rT('{n} new',{n:nn}))+'</span>':'')+'<span class="ch">'+IC.chev+'</span></button>' }
   function cvCrumbs(F){ var e=SE(), ch=[]; for(var n=F;n;n=n.p) ch.unshift(n); var items=ch.map(function(n,i){ return {n:i?n.f:cvClub(),lv:i} });
@@ -3907,7 +3911,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     (function w(F,trail){ F.k.forEach(function(c){ var t=trail.concat(c.f||[]); if(c.k){ if(c.f.toLowerCase().indexOf(q)>-1) fo.push(c); w(c,t) } else if((c.v+' '+(c.d||'')).toLowerCase().indexOf(q)>-1) out.push([c,trail.join(' / ')]) }) })(CVLIB,[]);
     if(!fo.length&&!out.length) return '<div class="cv-empty sm"><b>'+e(rT('No results'))+'</b><span>'+e(rT('Try a video title or folder name.'))+'</span></div>';
     return (fo.length?'<div class="cv-cap">'+e(rT('Folders'))+'</div><div class="cv-fl">'+fo.map(cvFolder).join('')+'</div>':'')+(out.length?'<div class="cv-cap">'+e(rT('Videos'))+'</div><div class="cv-vl">'+out.map(function(x){ return cvRow(x[0],x[1]) }).join('')+'</div>':'') }
-  function cvPage(id){ var e=SE();
+  function cvPage(id){ var e=SE(); var cur=id.indexOf('cvv')===0?null:(cvAt(id)||CVLIB); if(CVS.pend&&CVS.pend!==cur&&!(id.indexOf('cvv')===0&&cvAt(id.slice(1)).p===CVS.pend)) cvLeave(); if(cur&&cur!==CVLIB){ CVS.vf[cur.id]=1; CVS.pend=cur } setTimeout(cvSyncHome,0);
     if(id.indexOf('cvv')===0) return cvViewer(cvAt(id.slice(1)));
     var root=id==='cv', F=cvAt(id)||CVLIB, club=cvClub();
     var right='<button type="button" class="cv-sbtn" data-cvq aria-label="'+e(rT('Search'))+'"'+(CVS.qOpen?' aria-pressed="true"':'')+'>'+IC.srch+'</button>';
@@ -3950,7 +3954,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   var stSp=document.querySelector('#s21 .lt-top .lt-sp'); if(stSp) stSp.addEventListener('click',function(ev){ if(!ev.target.closest('[data-cvq]')) return; CVS.qOpen=!CVS.qOpen; CVS.qFocus=CVS.qOpen; if(!CVS.qOpen) CVS.q=''; renderPage(); CVS.qFocus=false });
   /* keep the download ring running when the inbox opens on a folder with an active download */
   var _cvr=renderers.s21; renderers.s21=function(){ _cvr(); cvRun() };
-  window.ryseClubInbox=function(){ CVS.qOpen=false; CVS.q=''; if(CVS.state==='ok') CVS.loaded=false; window.ryseSettings('cv') };
+  $('s21').querySelector('[data-back]').addEventListener('click',function(){ if(PG.length<=1&&String(PG[0]).indexOf('cv')===0){ cvLeave(); cvSyncHome() } },true);
+  window.ryseClubInbox=function(){ cvLeave(); CVS.qOpen=false; CVS.q=''; if(CVS.state==='ok') CVS.loaded=false; window.ryseSettings('cv') };
   /* ---------- About Development Drive (Learn more) ---------- */
   PAGES.drive=function(){ var e=SE(), LV=['Bronze','Silver','Gold','Elite','World Class'], lv=(window.ryseHome&&window.ryseHome.level)||0, S=ST(), D=DRIVE.month;
     var ic={consistency:'<path d="M4 12h3l2-5 4 10 2-5h5"/>',initiative:'<path d="M12 19V5M6 11l6-6 6 6"/>',learning:'<rect x="3" y="5.5" width="13" height="13" rx="2.5"/><path d="m16 10 5-3v10l-5-3"/>',preparation:'<path d="M5 12.5 9.5 17 19 7.5"/>',habits:'<path d="M12 3.5 4.5 7v5c0 4.4 3.2 7.6 7.5 8.5 4.3-.9 7.5-4.1 7.5-8.5V7Z"/>',recovery:'<path d="M19.5 14.6A7.5 7.5 0 0 1 9.4 4.5a7.5 7.5 0 1 0 10.1 10.1Z"/>',engagement:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>','return':'<path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v4h-4"/>',longterm:'<path d="M4 18.5 9.5 13l3.5 3.5 7-7"/><path d="M15 9.5h5v5"/>'};

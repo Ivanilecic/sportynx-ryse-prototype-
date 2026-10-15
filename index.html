@@ -2104,6 +2104,17 @@ html[data-theme=light][data-view=prof] .art-f button{background:#0E1524;color:#f
 #h-focus .hf-edu{z-index:4;transform:translate3d(calc((2 - max(var(--p),1)) * 100%),0,0);pointer-events:none!important}
 #h-focus.edu .hf-edu{pointer-events:auto!important}
 .hf-edu .img{background-position:60% 25%!important}
+
+/* Profile header: larger photo, name stacked first/last, every line on one left edge */
+.pf-id{align-items:center!important;gap:18px!important}
+.pf-ava{width:104px!important;height:104px!important}
+.pf-ava .fl{width:28px!important;height:28px!important;right:0!important;bottom:4px!important}
+.pf-who{gap:0!important;flex:1;min-width:0}
+.pf-who b{display:flex;flex-direction:column;font:700 25px/1.04 var(--font-display)!important;letter-spacing:-.005em!important;margin:0 0 8px}
+.pf-who b span{white-space:nowrap;overflow:hidden;text-overflow:clip}
+.pf-who .c{font:600 15px/1.25 var(--font-body)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-who .m{font:500 13.5px/1.3 var(--font-body)!important;margin-top:3px}
+.pf-who .vb{display:flex;margin:4px 0 4px}.pf-who .vb .vbadge{margin-left:0;height:22px}
 </style>
 
 </head>
@@ -3305,7 +3316,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   function hgRank(){ var g=$('h-greet'), L=window.ryseGreetLines(), c=P.country||'Croatia';
     var pos=String((P.positions&&P.positions.primary)||''), grp=/^GK$/.test(pos)?'goalkeepers':/^(CB|LB|RB|LWB|RWB|WB|SW)$/.test(pos)?'defenders':/^(LW|RW|ST|CF|SS|W|F)$/.test(pos)?'forwards':'midfielders';
     /* prototype: rank figure is illustrative (top 10) — the ranking model is not defined yet */
-    hgErase(function(){ g.classList.add('rank'); hgType(rT('Congrats, {name}',{name:L[1]}),rT('You’re now in the top {n} '+grp+' in {country}.',{n:10,country:rT(c)}),function(){ setTimeout(function(){ hgErase(function(){ g.classList.remove('rank'); HG.kp=true; hgType(rT('Keep pushing'),L[1]) }) },10000) }) }) }
+    hgErase(function(){ g.classList.add('rank'); hgType(rT('Congrats, {name}',{name:L[1]}),rT('You’re now in the top {n} '+grp+' in {country}.',{n:10,country:rT(c)}),function(){ setTimeout(function(){ hgErase(function(){ g.classList.remove('rank'); HG.kp=true; hgType(rT('Keep pushing'),L[1]) }) },4000) }) }) }
   document.addEventListener('click',function(ev){ if(ev.target.closest('[data-act-greet]')){ closeSheet(); window.ryseGreetRing() } });
   window.ryseGreetRank=function(){ if(!HG.busy) hgRank() };
   function hGreet(){ var L=window.ryseGreetLines(); hgRing(); if(HG.busy) return; if(!HG.done){ if($('s17').classList.contains('is-hidden')) { $('h-g1').textContent=L[0]; $('h-g2').textContent=L[1]; return }
@@ -3582,7 +3593,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var ps=P.positions||{}, sub=[ps.primary?posName(ps.primary):'', P.level?rT(P.level):''].filter(Boolean).join(' · '), age=ageFrom(P.dob), cty=P.country?countryName(P.country):'';
     var LV=['Bronze','Silver','Gold','Elite','World Class'], lv=(window.ryseHome&&window.ryseHome.level)||0, pl=planInfo(), inv=P.invites===undefined?1:P.invites;
     var h='<div class="pf-id"><button class="pf-ava" type="button" data-pf="photo" aria-label="'+e(rT('Change photo'))+'">'+avatarHTML()+'</button>'+
-      '<div class="pf-who"><b>'+e(fullName())+'</b><span class="c">'+e(P.club?P.club.name:rT('No current club'))+clubBadge()+'</span>'+(sub?'<span class="m">'+e(sub)+'</span>':'')+((age!==null||cty)?'<span class="m">'+e([age!==null?String(age):'',cty].filter(Boolean).join(' · '))+'</span>':'')+'</div></div>'+
+      '<div class="pf-who"><b>'+(P.first||P.last?'<span>'+e((P.first||'').trim())+'</span><span>'+e((P.last||'').trim())+'</span>':e(fullName()))+'</b><span class="c">'+e(P.club?P.club.name:rT('No current club'))+'</span>'+(clubBadge()?'<span class="vb">'+clubBadge()+'</span>':'')+(sub?'<span class="m">'+e(sub)+'</span>':'')+((age!==null||cty)?'<span class="m">'+e([age!==null?String(age):'',cty].filter(Boolean).join(' · '))+'</span>':'')+'</div></div>'+
       '<button class="pf-edit" type="button" data-pg="player">'+e(rT('Edit profile'))+'</button>'+phoneNudge()+
       '<button class="pf-level" type="button" data-home="level"><span><small>'+e(rT('Athlete level'))+'</small><b>'+e(rT(LV[lv]))+'</b></span><span class="r"><span class="ladder" aria-hidden="true">'+LV.map(function(_,k){return '<i'+(k<=lv?' class="on"':'')+'></i>'}).join('')+'</span>'+(lv<4?'<span>'+e(rT('Next · {level}',{level:rT(LV[lv+1])}))+'</span>':'')+'</span></button>';
     h+=sGroup('Player',[sRow({pg:'player',ic:'user',l:'Player profile'}),sRow({pg:'dev',ic:'dev',l:'Development profile'}),sRow({pg:'club',ic:'club',l:'Club & position',v:P.club?P.club.name:''})]);

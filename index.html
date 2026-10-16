@@ -2519,6 +2519,14 @@ html[data-theme=light] .pf-who .m .pf-cfl{box-shadow:0 0 0 1px rgba(0,0,0,.12)}
 .paper .gx-skey .ok{background:#5B83E8!important}.paper .gx-skey .short{background:#D99A5B!important}.paper .gx-skey .out{background:#C96B6B!important}
 .paper .gx-skey i{border-radius:2px!important}
 
+
+/* Nationality: small waving flag after "Age · Country"; shirt number +15% (Ivan, 16 Oct) */
+.pf-who .m .pf-cfl.wv{width:26px!important;height:18px!important;border-radius:0!important;box-shadow:none!important;overflow:visible!important;margin:-4px 0 -3px 7px!important;position:relative}
+html[data-theme=light] .pf-who .m .pf-cfl.wv{box-shadow:none!important}
+.pf-who .m .pf-cfl.wv .pf-wf{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35))}
+.pf-who .m .pf-cfl.wv .pf-wf svg{width:100%;height:100%;display:block}
+.pf-who .m .pf-cfl.wv .pf-wf b{display:none}
+.pf-ava .pf-no{font-size:39px!important}
 </style>
 
 </head>
@@ -4072,8 +4080,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var ps=P.positions||{}, sub=[ps.primary?posName(ps.primary):'', P.level?rT(P.level):''].filter(Boolean).join(' · '), age=ageFrom(P.dob), cty=P.country?countryName(P.country):'';
     var LV=['Bronze','Silver','Gold','Elite','World Class'], lv=(window.ryseHome&&window.ryseHome.level)||0, pl=planInfo(), inv=P.invites===undefined?1:P.invites;
     var shirt=P.shirt!=null&&P.shirt!==''?P.shirt:(/gvardiol/i.test(P.last||'')?23:null);
-    var h='<div class="pf-id"><button class="pf-ava" type="button" data-pf="photo" aria-label="'+e(rT('Change photo'))+'">'+avatarHTML(1)+(shirt!=null?waveFlag(ctyFlag(),shirt):'')+'</button>'+
-      '<div class="pf-who"><b>'+(P.first||P.last?'<span>'+e((P.first||'').trim())+'</span><span>'+e((P.last||'').trim())+'</span>':e(fullName()))+'</b><span class="c"><span class="cn">'+e(P.club?P.club.name:rT('No current club'))+'</span>'+clubBadge(1)+'</span>'+(sub?'<span class="m">'+e(sub)+'</span>':'')+((age!==null||cty)?'<span class="m">'+e([age!==null?rT('Age {n}',{n:age}):'',cty].filter(Boolean).join(' · '))+(cty&&ctyFlag()&&shirt==null?'<span class="pf-cfl" title="'+e(cty)+'"><img src="'+ctyFlag()+'" alt=""></span>':'')+'</span>':'')+'</div></div>'+
+    var h='<div class="pf-id"><button class="pf-ava" type="button" data-pf="photo" aria-label="'+e(rT('Change photo'))+'">'+avatarHTML(1)+(shirt!=null?'<span class="pf-no" aria-label="'+e(rT('Shirt number'))+' '+shirt+'">'+e(String(shirt))+'</span>':'')+'</button>'+
+      '<div class="pf-who"><b>'+(P.first||P.last?'<span>'+e((P.first||'').trim())+'</span><span>'+e((P.last||'').trim())+'</span>':e(fullName()))+'</b><span class="c"><span class="cn">'+e(P.club?P.club.name:rT('No current club'))+'</span>'+clubBadge(1)+'</span>'+(sub?'<span class="m">'+e(sub)+'</span>':'')+((age!==null||cty)?'<span class="m">'+e([age!==null?rT('Age {n}',{n:age}):'',cty].filter(Boolean).join(' · '))+(cty&&ctyFlag()?'<span class="pf-cfl wv" title="'+e(cty)+'">'+waveFlag(ctyFlag(),'')+'</span>':'')+'</span>':'')+'</div></div>'+
       '<button class="pf-edit" type="button" data-pg="player">'+e(rT('Edit profile'))+'</button>'+phoneNudge()+
       '<button class="pf-level" type="button" data-home="level"><span><small>'+e(rT('Athlete level'))+'</small><b>'+e(rT(LV[lv]))+'</b></span><span class="r"><span class="ladder" aria-hidden="true">'+LV.map(function(_,k){return '<i'+(k<=lv?' class="on"':'')+'></i>'}).join('')+'</span>'+(lv<4?'<span>'+e(rT('Next · {level}',{level:rT(LV[lv+1])}))+'</span>':'')+'</span></button>';
     h+=sGroup('Player',[sRow({pg:'player',ic:'user',l:'Player profile'}),sRow({pg:'dev',ic:'dev',l:'Development profile'}),sRow({pg:'club',ic:'club',l:'Club & position',v:P.club?P.club.name:''})]);

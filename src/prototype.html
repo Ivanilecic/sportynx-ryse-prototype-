@@ -2452,6 +2452,10 @@ html[data-theme=light][data-view=prof] .h-day.today.inj small,html[data-theme=li
 .paper .gx-lab{justify-content:center;gap:4px}.paper .gx-lab span{max-width:26px}
 .paper .gx-bars .b1{background:rgba(111,152,255,.55)}.paper .gx-bars .b2{background:rgba(111,152,255,.2)}
 .paper .gx-key .k1{background:rgba(111,152,255,.55)}.paper .gx-key .k2{background:rgba(111,152,255,.2)}
+
+.pf-ava .pf-wf{position:absolute;left:-12px;bottom:-8px;width:66px;height:46px;pointer-events:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+.pf-ava .pf-wf svg{position:absolute;inset:0;width:100%;height:100%}
+.pf-ava .pf-wf b{position:absolute;inset:0;display:grid;place-items:center;font:800 25px/1 var(--font-display);letter-spacing:-.02em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.65),0 0 1px rgba(0,0,0,.8);transform:rotate(-4deg);padding-bottom:1px}
 </style>
 
 <div class="stage">
@@ -3978,8 +3982,13 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   function posName(id){ for(var i=0;i<POSITIONS.length;i++) if(POSITIONS[i].id===id) return rT(POSITIONS[i].name); return id||'' }
   function fullName(){ return ((P.first||'')+' '+(P.last||'')).trim()||'RYSE player' }
   function langName(c){ try{ var n=new Intl.DisplayNames([c==='sr-Latn'?'sr-Latn':c],{type:'language'}).of(c==='sr-Latn'?'sr-Latn':c); return n.charAt(0).toUpperCase()+n.slice(1) }catch(_){ return c } }
-  function avatarHTML(){ var e=SE(), UKN={'England':'gb-eng','Scotland':'gb-sct','Wales':'gb-wls','Northern Ireland':'gb-nir'}, fl=P.country?(window.RYSE_FLAGS||{})[UKN[P.country]||(RYSE_ISO2[P.country]||'').toLowerCase()]:null, ini=((P.first||'R')[0]+((P.last||'')[0]||'')).toUpperCase();
-    return (P.photo?'<img class="ph" src="'+P.photo+'" alt="">':e(ini))+(fl?'<span class="fl"><img src="'+fl+'" alt=""></span>':'') }
+  function avatarHTML(noFlag){ var e=SE(), UKN={'England':'gb-eng','Scotland':'gb-sct','Wales':'gb-wls','Northern Ireland':'gb-nir'}, fl=P.country?(window.RYSE_FLAGS||{})[UKN[P.country]||(RYSE_ISO2[P.country]||'').toLowerCase()]:null, ini=((P.first||'R')[0]+((P.last||'')[0]||'')).toUpperCase();
+    return (P.photo?'<img class="ph" src="'+P.photo+'" alt="">':e(ini))+(fl&&!noFlag?'<span class="fl"><img src="'+fl+'" alt=""></span>':'') }
+  window.ryseFlagSrc=function(){ var UKN={'England':'gb-eng','Scotland':'gb-sct','Wales':'gb-wls','Northern Ireland':'gb-nir'}; return P.country?(window.RYSE_FLAGS||{})[UKN[P.country]||(RYSE_ISO2[P.country]||'').toLowerCase()]:null };
+  /* shirt number on a waving national flag (Ivan, 16 Oct) */
+  function waveFlag(fl,num){ var e=SE();
+    return '<span class="pf-wf"><svg viewBox="0 0 64 44" aria-hidden="true"><defs><clipPath id="pfwfc"><path d="M3 8C15 1 27 12 39 6.5 49 2 56 4 61 6.5V37.5C56 35 49 33 39 37.5 27 43 15 32 3 38.5Z"/></clipPath><linearGradient id="pfwfg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".2" stop-color="#000" stop-opacity=".22"/><stop offset=".45" stop-color="#fff" stop-opacity=".2"/><stop offset=".68" stop-color="#000" stop-opacity=".24"/><stop offset=".9" stop-color="#fff" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity=".1"/></linearGradient></defs>'+
+      '<g clip-path="url(#pfwfc)">'+(fl?'<image href="'+fl+'" x="0" y="1" width="64" height="42" preserveAspectRatio="none"/>':'<rect width="64" height="44" fill="#1F5FE0"/>')+'<rect width="64" height="44" fill="url(#pfwfg)"/></g><path d="M3 8C15 1 27 12 39 6.5 49 2 56 4 61 6.5V37.5C56 35 49 33 39 37.5 27 43 15 32 3 38.5Z" fill="none" stroke="rgba(0,0,0,.35)" stroke-width=".8"/></svg><b>'+e(String(num))+'</b></span>' }
   function emailOf(){ return P.email||((P.first||'player').toLowerCase().replace(/[^a-z]/g,'')+'@email.com') }
   function authName(){ return {apple:'Apple',google:'Google',email:'Email'}[P.auth||'apple'] }
   function bioName(){ return /Android/i.test(navigator.userAgent)?'Biometric unlock':'Face ID' }
@@ -3997,7 +4006,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     var ps=P.positions||{}, sub=[ps.primary?posName(ps.primary):'', P.level?rT(P.level):''].filter(Boolean).join(' · '), age=ageFrom(P.dob), cty=P.country?countryName(P.country):'';
     var LV=['Bronze','Silver','Gold','Elite','World Class'], lv=(window.ryseHome&&window.ryseHome.level)||0, pl=planInfo(), inv=P.invites===undefined?1:P.invites;
     var shirt=P.shirt!=null&&P.shirt!==''?P.shirt:(/gvardiol/i.test(P.last||'')?23:null);
-    var h='<div class="pf-id"><button class="pf-ava" type="button" data-pf="photo" aria-label="'+e(rT('Change photo'))+'">'+avatarHTML()+(shirt!=null?'<span class="pf-no" aria-label="'+e(rT('Shirt number'))+' '+shirt+'">'+e(String(shirt))+'</span>':'')+'</button>'+
+    var h='<div class="pf-id"><button class="pf-ava" type="button" data-pf="photo" aria-label="'+e(rT('Change photo'))+'">'+avatarHTML(shirt!=null)+(shirt!=null?waveFlag(window.ryseFlagSrc(),shirt):'')+'</button>'+
       '<div class="pf-who"><b>'+(P.first||P.last?'<span>'+e((P.first||'').trim())+'</span><span>'+e((P.last||'').trim())+'</span>':e(fullName()))+'</b><span class="c"><span class="cn">'+e(P.club?P.club.name:rT('No current club'))+'</span>'+clubBadge(1)+'</span>'+(sub?'<span class="m">'+e(sub)+'</span>':'')+((age!==null||cty)?'<span class="m">'+e([age!==null?rT('Age {n}',{n:age}):'',cty].filter(Boolean).join(' · '))+'</span>':'')+'</div></div>'+
       '<button class="pf-edit" type="button" data-pg="player">'+e(rT('Edit profile'))+'</button>'+phoneNudge()+
       '<button class="pf-level" type="button" data-home="level"><span><small>'+e(rT('Athlete level'))+'</small><b>'+e(rT(LV[lv]))+'</b></span><span class="r"><span class="ladder" aria-hidden="true">'+LV.map(function(_,k){return '<i'+(k<=lv?' class="on"':'')+'></i>'}).join('')+'</span>'+(lv<4?'<span>'+e(rT('Next · {level}',{level:rT(LV[lv+1])}))+'</span>':'')+'</span></button>';

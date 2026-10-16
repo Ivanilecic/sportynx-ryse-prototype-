@@ -5051,6 +5051,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     function paper(){ return document.getElementById('paper') }
     function setZ(ns,cx,cy){ var p=paper(); if(!p) return; var wrap=p.parentNode, sc=$('st-body'); ns=Math.max(1,Math.min(3.5,ns)); var r=ns/Z.s; if(Math.abs(r-1)<.001) return;
       var wb=wrap.getBoundingClientRect(), sb=sc.getBoundingClientRect(), fx=cx-wb.left+wrap.scrollLeft, fy=cy-sb.top+sc.scrollTop;
+      if(!p.dataset.w0){ p.dataset.w0=p.getBoundingClientRect().width/(Z.s||1); } p.style.width=p.dataset.w0+'px'; p.style.maxWidth='none'; p.style.flex='none';
       Z.s=ns; p.style.zoom=ns; wrap.classList.toggle('zoomed',ns>1.01);
       wrap.scrollLeft=fx*r-(cx-wb.left); sc.scrollTop=fy*r-(cy-sb.top) }
     document.addEventListener('touchstart',function(ev){ var p=paper(); if(!p||!p.contains(ev.target)) return;
@@ -5062,7 +5063,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     document.addEventListener('gesturestart',function(ev){ var p=paper(); if(p&&p.contains(ev.target)) ev.preventDefault() });
     /* ctrl/trackpad pinch on desktop */
     document.addEventListener('wheel',function(ev){ var p=paper(); if(!ev.ctrlKey||!p||!p.contains(ev.target)) return; ev.preventDefault(); setZ(Z.s*(ev.deltaY<0?1.08:0.93),ev.clientX,ev.clientY) },{passive:false});
-    window.ryseZoomReset=function(){ Z.s=1; var p=paper(); if(p){ p.style.zoom=1; p.parentNode.classList.remove('zoomed') } };
+    window.ryseZoomReset=function(){ Z.s=1; var p=paper(); if(p){ p.style.zoom=1; p.style.width=''; delete p.dataset.w0; p.parentNode.classList.remove('zoomed') } };
   })();
   /* PDF: rendered from the in-app preview so every language and character prints correctly */
   var LIBS=null;

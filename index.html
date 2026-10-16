@@ -3655,6 +3655,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     blob(R*2.6,[[0,'rgba(30,70,190,'+(.16+.04*br)+')'],[.5,'rgba(22,52,150,.06)'],[1,'rgba(20,40,120,0)']]);   // wide halo
     blob(R,[[0,'rgba(120,160,255,'+(.62+.1*br)+')'],[.35,'rgba(56,108,255,.42)'],[.7,'rgba(36,80,220,.14)'],[1,'rgba(30,70,200,0)']]); // the ball
   }
+  /* first screen: the orb arrives behind the RYSEON logo as its letters finish, holds, then drifts on */
+  (function(){ var w=document.getElementById('lang-wm'), sl=document.getElementById('sLang'); if(w&&sl&&!sl.classList.contains('is-hidden')) window.ryseOrbAnchor(w,2500,1700) })();
   requestAnimationFrame(frame);
 })();
 (function(){
@@ -3680,6 +3682,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(window.ryseFitH1) window.ryseFitH1();
     if(window.ryseOrbAnchor){ if(to.id==='s16') window.ryseOrbAnchor(to.querySelector('.mark'),2600,Infinity);   // lands on the circle's centre as the circle closes
       else if(to.id==='s06') window.ryseOrbAnchor(to.querySelector('#avatar'),1600,2600);                          // starts in the photo circle, then drifts away
+      else if(to.id==='sLang') window.ryseOrbAnchor(document.getElementById('lang-wm'),2500,1700);                 // settles behind the logo as the letters finish, then drifts on
       else window.ryseOrbAnchor(null) }
     from.classList.add('is-leaving'); from.setAttribute('aria-hidden','true');
     setTimeout(function(){

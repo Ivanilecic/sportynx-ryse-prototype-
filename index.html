@@ -2607,6 +2607,10 @@ html[data-theme=light][data-view=prof] .st-per{background:rgba(31,95,224,.1);col
 html[data-theme=light][data-view=prof] .rc-ready{border-color:rgba(14,21,36,.1);background:#fff}
 html[data-theme=light][data-view=prof] .rc-ready .ck{border-color:rgba(14,21,36,.25)}
 .qa-tile.rec svg{color:#F0A050!important}
+
+.sheet.vo .vo-b{position:relative}
+.vo-x{position:absolute;top:-4px;right:0;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--s-text,#F5F7FB);display:grid;place-items:center;cursor:pointer;padding:0}
+.vo-x svg{width:16px;height:16px}
 </style>
 
 </head>
@@ -3328,7 +3332,7 @@ html[data-theme=light][data-view=prof] .rc-ready .ck{border-color:rgba(14,21,36,
     </div>
     <div class="sheet wt" id="sh-wt" role="dialog" aria-label="Log water" aria-hidden="true"><div class="grab"></div><div class="wt-t">Log water</div><div class="wt-amt"><b id="wt-n">0</b><button type="button" class="wt-unit" id="wt-unit" aria-label="Change unit"><span id="wt-u">mL</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 9.5 4-4 4 4M8 14.5l4 4 4-4"/></svg></button></div><div class="wt-q" id="wt-q"><button type="button" data-wt="250"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12l-1.6 15.2a1 1 0 0 1-1 .8H8.6a1 1 0 0 1-1-.8Z"/><path d="M6.8 10.5h10.4"/></svg><b>+1 glass</b><small></small></button><button type="button" data-wt="500"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.8h4v2.4h-4zM10 5.2c0 1.6-2.5 2.4-2.5 4.6V20a1.2 1.2 0 0 0 1.2 1.2h6.6a1.2 1.2 0 0 0 1.2-1.2V9.8c0-2.2-2.5-3-2.5-4.6"/><path d="M7.5 12.5h9M7.5 16h9"/></svg><b>+1 bottle</b><small></small></button><button type="button" data-wt="750"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 2.8h5V6h-5zM8 6h8a1.5 1.5 0 0 1 1.5 1.5V20a1.2 1.2 0 0 1-1.2 1.2H7.7A1.2 1.2 0 0 1 6.5 20V7.5A1.5 1.5 0 0 1 8 6Z"/><path d="M14.5 4.4h2.2a1.3 1.3 0 0 1 1.3 1.3V8"/><path d="M6.5 11h11"/></svg><b>+1 large bottle</b><small></small></button></div><button class="lt-save" type="button" id="wt-log" disabled>Log</button><div class="wt-pad" id="wt-pad"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.5H20a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8.5L3 12Z"/><path d="m11.5 9.5 5 5M16.5 9.5l-5 5"/></svg></button></div></div>
     <div class="sheet vo" id="sh-voice" role="dialog" aria-label="Voice input" aria-hidden="true"><div class="grab"></div><div class="vo-b">
-      <h3>Voice input</h3><p id="vo-hint"></p>
+      <button class="vo-x" type="button" id="vo-x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><h3>Voice input</h3><p id="vo-hint"></p>
       <button class="vo-mic" type="button" id="vo-mic" aria-label="Start or stop listening"><i></i><i></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v2.5"/></svg></button>
       <small class="vo-state" id="vo-state"></small>
       <textarea class="lt-notes vo-text" id="vo-text" rows="3" placeholder="Or type it here…"></textarea>
@@ -3682,8 +3686,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
 
   /* ---------- Shared UI: sheets, toast, progress ---------- */
   var openSheetEl=null;
-  function openSheet(id){closeSheet(true);openSheetEl=$(id);$('scrim').classList.add('on');openSheetEl.classList.add('on');openSheetEl.removeAttribute('aria-hidden')}
-  function closeSheet(instant){if(!openSheetEl)return;openSheetEl.classList.remove('on');openSheetEl.setAttribute('aria-hidden','true');$('scrim').classList.remove('on');openSheetEl=null}
+  function openSheet(id){closeSheet(true);openSheetEl=$(id);openSheetEl._at=Date.now();$('scrim').classList.add('on');openSheetEl.classList.add('on');openSheetEl.removeAttribute('aria-hidden')}
+  function closeSheet(instant){if(!openSheetEl)return;if(openSheetEl.id==='sh-voice'&&window.ryseVoiceStop)try{window.ryseVoiceStop()}catch(_){};openSheetEl.classList.remove('on');openSheetEl.setAttribute('aria-hidden','true');$('scrim').classList.remove('on');openSheetEl=null}
   $('scrim').addEventListener('click',function(){ if(openSheetEl&&openSheetEl.id==='sh-bio'){bioDone(false)} else closeSheet() });
   var tt;function toast(msg){var t=$('toast');t.textContent=rT(msg);t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},2400)}
   var TOTAL=13;
@@ -4696,6 +4700,15 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     t.querySelector('svg').outerHTML=on?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 4v5h-5"/><path d="M9 12.5l2 2 4-4.5"/></svg>':QA_INJ_ICO;
     t.querySelector('b').textContent=rT(on?'Log recovery':'Log injury'); t.classList.toggle('rec',on) }
   window.ryseQaInjTile=qaInjTile;
+
+  /* Sheets: tap anywhere outside closes; drag the top handle down to dismiss (Ivan, 16 Oct) */
+  (function(){ var y0=null, sh=null;
+    document.addEventListener('pointerdown',function(ev){ var o=openSheetEl; if(!o||!o.classList.contains('on')||o.contains(ev.target)||Date.now()-(o._at||0)<350) return;
+      if(o.id==='sh-bio'){ return } ev.preventDefault(); ev.stopPropagation(); closeSheet() },true);
+    document.addEventListener('touchstart',function(ev){ var g=ev.target.closest('.sheet.on'); if(!g) return; var r=g.getBoundingClientRect(); if(ev.touches[0].clientY-r.top>56) return; y0=ev.touches[0].clientY; sh=g },{passive:true});
+    document.addEventListener('touchmove',function(ev){ if(y0==null||!sh) return; var d=Math.max(0,ev.touches[0].clientY-y0); sh.style.transition='none'; sh.style.transform='translateY('+d+'px)' },{passive:true});
+    document.addEventListener('touchend',function(ev){ if(y0==null||!sh) return; var d=(ev.changedTouches[0].clientY-y0); sh.style.transition=''; sh.style.transform=''; if(d>70&&openSheetEl===sh){ if(sh.id==='sh-bio') $('scrim').click(); else closeSheet() } y0=null; sh=null });
+  })();
   /* ---------- Day report: everything RYSE knows about one day (prototype data) ---------- */
   PAGES.day=function(){ var e=SE(), D=window.ryseDayInfo(window.RYSE_DAY), d=D.date, h=D.h, past=D.diff<=0, df;
     try{ df=new Intl.DateTimeFormat(locN(),{weekday:'long',day:'numeric',month:'long'}) }catch(_){ df=new Intl.DateTimeFormat('en',{weekday:'long',day:'numeric',month:'long'}) }
@@ -5465,6 +5478,7 @@ var RY_CLIP='data:image/webp;base64,UklGRhTLAABXRUJQVlA4IAjLAABwWwOdASrQAt4CPm0y
     return L.length?L.map(function(l){ return '<span>'+e(l)+'</span>' }).join(''):'<em>'+e(rT('Nothing recognised yet.'))+'</em>' }
   function vUpdate(){ var t=$('vo-text').value.trim(); VO.res=t?vParse(t,VO.ctx):null; $('vo-chips').innerHTML=t?vChips(VO.res,VO.ctx):''; $('vo-apply').disabled=!t||!Object.keys(VO.res).some(function(k){ var v=VO.res[k]; return Array.isArray(v)?v.length:v!=null }) }
   function vLang(){ var c=RYSE_I18N.code, M={en:'en-GB',hr:'hr-HR','sr-Latn':'sr-RS',sl:'sl-SI',de:'de-DE',fr:'fr-FR',it:'it-IT','es-ES':'es-ES','es-MX':'es-MX','es-AR':'es-AR','pt-PT':'pt-PT','pt-BR':'pt-BR',nl:'nl-NL',da:'da-DK',sv:'sv-SE','nb-NO':'nb-NO',pl:'pl-PL',cs:'cs-CZ',ro:'ro-RO',tr:'tr-TR',el:'el-GR',ar:'ar-SA',ja:'ja-JP','zh-Hans':'zh-CN'}; return M[c]||'en-GB' }
+  window.ryseVoiceStop=function(){ vStop() };
   function vStop(){ VO.on=false; $('sh-voice').classList.remove('listening'); try{ VO.rec&&VO.rec.stop() }catch(_){} }
   function vStart(){ var SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){ $('vo-state').textContent=rT('Voice isn’t available here — type it instead.'); try{ $('vo-text').focus() }catch(_){} return }
     var r=new SR(), base=$('vo-text').value.trim(); VO.rec=r; r.lang=vLang(); r.interimResults=true; r.continuous=true;
@@ -5475,6 +5489,7 @@ var RY_CLIP='data:image/webp;base64,UklGRhTLAABXRUJQVlA4IAjLAABwWwOdASrQAt4CPm0y
   document.addEventListener('click',function(ev){ var b=ev.target.closest('[data-voice]'); if(!b) return; VO.ctx=b.dataset.voice; $('vo-hint').textContent=rT(VHINT[VO.ctx]); $('vo-text').value=''; vUpdate(); $('vo-state').textContent=''; openSheet('sh-voice'); vStart() });
   $('vo-mic').addEventListener('click',function(){ if(VO.on){ vStop(); $('vo-state').textContent=rT('Tap the microphone to talk again.') } else vStart() });
   $('vo-text').addEventListener('input',vUpdate);
+  $('vo-x').addEventListener('click',function(){ closeSheet() });
   $('vo-apply').addEventListener('click',function(){ var o=VO.res; if(!o) return; vStop();
     if(VO.ctx==='training'){ if(o.type&&o.type!==LT.type){ LT.type=o.type; LT.kind=o.type==='Team training'?['Outdoor']:[] }
       if(o.kind&&o.kind.length){ var allowed=LT_KINDS[LT.type]; var ks=o.kind.filter(function(k){ return allowed.indexOf(k)>-1 }); if(ks.length) LT.kind=LT.type==='Team training'?[ks[0]]:ks }

@@ -2394,6 +2394,8 @@ html[data-theme=light][data-view=prof] .h-inbox .dot{background:#1F5FE0!importan
 .paper.dkp .itl li::before{background:rgba(255,255,255,.12)}
 .paper.dkp .itl small{color:#8A92A3}
 .paper.dkp .itl li i{background:#E25A5A}.paper.dkp .itl li.rec i{background:#F0A050}.paper.dkp .itl li.ok i{background:#4F8BFF}
+.paper .ij-yr{margin:26px 0 -4px;padding-top:14px;border-top:2px solid #0E1524}.paper .ij-yr b{font:700 22px/1 var(--font-display);letter-spacing:-.01em;color:#0E1524}
+.paper.dkp .ij-yr{border-top-color:rgba(255,255,255,.18)}.paper.dkp .ij-yr b{color:#F5F7FB}
 .paper .itl li.yr{display:block;padding:10px 0 2px 16px}
 .paper .itl li.yr b{font:700 11px/1 var(--font-body);letter-spacing:.14em;color:#8A92A3}
 .paper.dkp .itl li.yr b{color:#F5F7FB}
@@ -2515,7 +2517,8 @@ html[data-theme=light] .pf-who .m .pf-cfl.wv{box-shadow:none!important}
 
 /* RYSEON wordmark (Ivan, 16 Oct): report headers + foot of Profile */
 .paper .brand .lg{display:block;height:22px;width:auto}
-.paper .brand .tg{display:block;margin-top:6px;font:600 7.5px/1 var(--font-body)!important;letter-spacing:.32em!important;text-transform:uppercase;color:#7D8698!important}
+.paper header{align-items:stretch}.paper .ttl{justify-content:space-between;gap:6px}.paper .ttl b{line-height:19px;white-space:nowrap;font-size:12px}.paper .brand{min-width:0}.paper .brand .lg{height:19px!important}.paper .brand .tg{letter-spacing:.24em!important}.paper .ttl span{line-height:1}
+.paper .brand .tg{display:block;margin-top:6px;white-space:nowrap;font:600 7.5px/1 var(--font-body)!important;letter-spacing:.32em!important;text-transform:uppercase;color:#7D8698!important}
 .pf-brand{display:flex;flex-direction:column;align-items:center;gap:7px;margin:18px 0 6px;opacity:.9}
 .pf-brand img{height:20px;width:auto;opacity:.92}
 .pf-brand span{font:600 8.5px/1 var(--font-body);letter-spacing:.34em;text-transform:uppercase;color:var(--s-mut)}
@@ -5320,18 +5323,21 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(!I.length) return h+sec(rT('Summary'),'<p>'+e(rT('No injuries logged.'))+'</p>')+'<footer>'+e(rT('Private health information. Shared only by the player.'))+'</footer>';
     var tot=0, act=null; I.forEach(function(o){ var f=info(o.x); tot+=f.days; if(!f.rd&&!act) act=f.st });
     h+=sec(rT('Summary'),kv([['Injuries logged',String(I.length)],['Total days injured',rTp('{n} days',tot)],['Current status',rT(act||'No active injury')]]));
-    /* full timeline across all injuries, oldest first */
-    var EV=[]; I.forEach(function(o){ var x=o.x, n=injLabel(x); EV.push({d:x.start,t:rT('Injury')+': '+n,c:'inj'}); (x.steps||[]).forEach(function(s){ EV.push({d:s.date,t:rT(RLOG[s.type]||s.type)+' · '+n,c:s.type==='ready'?'ok':'rec',a:s.at||0}) }) });
-    EV.sort(function(a,b){ return a.d<b.d?-1:a.d>b.d?1:(a.a||0)-(b.a||0) });
-    var yr=''; h+=sec(rT('Timeline'),'<ol class="itl">'+EV.map(function(v){ var y=v.d.slice(0,4), hd=y!==yr?'<li class="yr"><b>'+y+'</b></li>':''; yr=y; return hd+'<li class="'+v.c+'"><i></i><small>'+e(F(v.d))+'</small><span>'+e(v.t)+'</span></li>' }).join('')+'</ol>');
-    I.forEach(function(o,n){ var x=o.x, f=info(x), T=(x.types&&x.types.length?x.types:(x.type?[x.type]:[])).map(function(t){ return rT(IJT[t]||t) }).join(', ');
+    /* grouped by year, newest year first: that year's timeline, then its injuries with body figures; older years follow below */
+    function injSec(o){ var n=I.indexOf(o), x=o.x, f=info(x), T=(x.types&&x.types.length?x.types:(x.type?[x.type]:[])).map(function(t){ return rT(IJT[t]||t) }).join(', ');
       var fig=INJFIG[o.i], body='<div class="ij-fig'+(fig?' on':'')+'"><div><img alt="" data-fig="'+o.i+':front"'+(fig?' src="'+fig.front+'"':'')+'><small>'+e(rT('Front'))+'</small></div><div><img alt="" data-fig="'+o.i+':back"'+(fig?' src="'+fig.back+'"':'')+'><small>'+e(RYSE_I18N.code==='en'?'Back':rT('Body back'))+'</small></div></div>';
       var steps=(x.steps||[]).slice().sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:a.at-b.at });
       h+=sec(rT('Injury')+' '+(I.length-n)+' · '+injLabel(x),
         '<div class="ij-rep">'+body+'<div class="ij-kv">'+kv([['Body area',injLabel(x)],['Where it happened',rT(INJW[x.where]||'—')],['Injury type',T||'—'],['Injury date',F(x.start)],[f.rd?'Ready to train':'Expected return',F(f.rd||x.end)],['Duration',rTp('{n} days',f.days)+(f.rd?'':' · '+rT('ongoing'))],['Status',rT(f.st)]])+'</div></div>'+
         (x.comment?'<h5>'+e(rT('Comment'))+'</h5><p class="ij-com">'+e(x.comment)+'</p>':'')+
         '<h5>'+e(rT('Recovery log'))+'</h5>'+(steps.length?kv(steps.map(function(s){ return [RLOG[s.type]||s.type,F(s.date)] })):'<p class="fine">'+e(rT('No recovery entries yet.'))+'</p>')+
-        '<h5>'+e(rT('Medical documents'))+'</h5>'+((x.docs&&x.docs.length)?kv(x.docs.map(function(d){ return [d.kind==='report'?'Doctor’s report':'Scan image',d.name] })):'<p class="fine">'+e(rT('No documents attached.'))+'</p>'),'ij-sec') });
+        '<h5>'+e(rT('Medical documents'))+'</h5>'+((x.docs&&x.docs.length)?kv(x.docs.map(function(d){ return [d.kind==='report'?'Doctor’s report':'Scan image',d.name] })):'<p class="fine">'+e(rT('No documents attached.'))+'</p>'),'ij-sec') }
+    var YRS={}; I.forEach(function(o){ var y=o.x.start.slice(0,4); (YRS[y]=YRS[y]||[]).push(o) });
+    Object.keys(YRS).sort().reverse().forEach(function(y){ var G=YRS[y], EV=[];
+      G.forEach(function(o){ var x=o.x, n=injLabel(x); EV.push({d:x.start,t:rT('Injury')+': '+n,c:'inj'}); (x.steps||[]).forEach(function(s){ EV.push({d:s.date,t:rT(RLOG[s.type]||s.type)+' · '+n,c:s.type==='ready'?'ok':'rec',a:s.at||0}) }) });
+      EV.sort(function(a,b){ return a.d<b.d?-1:a.d>b.d?1:(a.a||0)-(b.a||0) });
+      h+='<div class="ij-yr"><b>'+y+'</b></div>'+sec(rT('Timeline'),'<ol class="itl">'+EV.map(function(v){ return '<li class="'+v.c+'"><i></i><small>'+e(F(v.d))+'</small><span>'+e(v.t)+'</span></li>' }).join('')+'</ol>');
+      G.forEach(function(o){ injSec(o) }) });
     h+='<footer class="nobrand">'+e(rT('Private health information. Shared only by the player.'))+' · '+e(rT('RYSE records what the player logs and does not diagnose.'))+'</footer>';
     return h }
 

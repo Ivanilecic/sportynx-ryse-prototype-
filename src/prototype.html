@@ -3588,11 +3588,11 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   /* Anchor: pull the orb onto the centre of an element (e.g. the activation circle or the photo circle).
      arrive = ms until it sits exactly on the centre; hold = ms it stays (Infinity = stays); then it drifts free again. */
   var anc=null;
-  window.ryseOrbAnchor=function(el,arrive,hold){ anc=el?{el:el,t0:performance.now(),arrive:arrive||2400,hold:hold===undefined?Infinity:hold}:null };
+  window.ryseOrbAnchor=function(el,arrive,hold,out){ anc=el?{el:el,t0:performance.now(),arrive:arrive||2400,hold:hold===undefined?Infinity:hold,out:out||6000}:null };
   function anchorW(now){ if(!anc||!anc.el.isConnected) return 0; var e=now-anc.t0;
     var inW=Math.min(1,e/anc.arrive); inW=inW<.5?2*inW*inW:1-Math.pow(-2*inW+2,2)/2;
     if(e<anc.arrive+anc.hold) return inW;
-    var out=Math.min(1,(e-anc.arrive-anc.hold)/6000); if(out>=1){anc=null;return 0} return 1-out*out*(3-2*out) }
+    var out=Math.min(1,(e-anc.arrive-anc.hold)/anc.out); if(out>=1){anc=null;return 0} return 1-out*out*(3-2*out) }
   function anchorXY(){ var r=anc.el.getBoundingClientRect(), c=cv.getBoundingClientRect(); if(!c.width||!r.width) return null;
     return [((r.left+r.width/2)-c.left)/c.width,((r.top+r.height/2)-c.top)/c.height] }
   function frame(now){
@@ -3623,7 +3623,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     ctx.globalCompositeOperation='lighter';
     // the orb: slow Lissajous drift across the upper ~55% of the screen, nudged by the scene
     var fx=.5+sx+.30*Math.sin(TAU*t/23)+.08*Math.sin(TAU*t/7.3);
-    var fy=.28+sy+.13*Math.sin(TAU*t/17+1.1)+.04*Math.sin(TAU*t/5.9); if(sy>.3) fy-=.46*Math.pow(.5+.5*Math.sin(TAU*t/27-1.4),1.6)*Math.min(1,(sy-.3)/.06);
+    var fy=.28+sy+.13*Math.sin(TAU*t/17+1.1)+.04*Math.sin(TAU*t/5.9);
     var aw=anchorW(performance.now()), axy=aw>0?anchorXY():null;
     if(axy){ fx=fx+(axy[0]-fx)*aw; fy=fy+(axy[1]-fy)*aw }
     var x=fx*W, y=fy*H;
@@ -3632,8 +3632,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     blob(R*2.6,[[0,'rgba(30,70,190,'+(.16+.04*br)+')'],[.5,'rgba(22,52,150,.06)'],[1,'rgba(20,40,120,0)']]);   // wide halo
     blob(R,[[0,'rgba(120,160,255,'+(.62+.1*br)+')'],[.35,'rgba(56,108,255,.42)'],[.7,'rgba(36,80,220,.14)'],[1,'rgba(30,70,200,0)']]); // the ball
   }
-  /* first screen: the orb arrives behind the RYSEON logo as its letters finish, holds, then drifts on */
-  (function(){ var w=document.getElementById('lang-wm'), sl=document.getElementById('sLang'); if(w&&sl&&!sl.classList.contains('is-hidden')) window.ryseOrbAnchor(w,2500,1700) })();
+  /* first screen: the orb starts behind the RYSEON logo, then slowly joins its usual drift */
+  (function(){ var w=document.getElementById('lang-wm'), sl=document.getElementById('sLang'); if(w&&sl&&!sl.classList.contains('is-hidden')) window.ryseOrbAnchor(w,1,2400,16000) })();
   requestAnimationFrame(frame);
 })();
 (function(){
@@ -3659,7 +3659,6 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     if(window.ryseFitH1) window.ryseFitH1();
     if(window.ryseOrbAnchor){ if(to.id==='s16') window.ryseOrbAnchor(to.querySelector('.mark'),2600,Infinity);   // lands on the circle's centre as the circle closes
       else if(to.id==='s06') window.ryseOrbAnchor(to.querySelector('#avatar'),1600,2600);                          // starts in the photo circle, then drifts away
-      else if(to.id==='sLang') window.ryseOrbAnchor(document.getElementById('lang-wm'),2500,1700);                 // settles behind the logo as the letters finish, then drifts on
       else window.ryseOrbAnchor(null) }
     from.classList.add('is-leaving'); from.setAttribute('aria-hidden','true');
     setTimeout(function(){

@@ -2387,6 +2387,14 @@ html[data-theme=light][data-view=prof] .cal-legend i.lg-r{border-color:#D9822B!i
 .paper h5{margin:10px 0 2px;font:700 9.5px/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:#5A6375}
 .paper .ij-com{font-size:12px}.paper .ij-com b{color:#0E1524;font-weight:700}
 .paper section.ij-sec{padding-bottom:10px}
+
+/* Club video pill: count sits in a small blue badge on the pill's edge; club name on two lines (Ivan, 16 Oct) */
+.h-inbox .dot{top:-7px!important;right:-6px!important;width:auto!important;min-width:19px;height:19px!important;padding:0 5px;box-sizing:border-box;border-radius:10px!important;background:#3D7BFF!important;display:flex;align-items:center;justify-content:center}
+.h-inbox .dot[hidden]{display:none!important}
+.h-inbox .dot b{font:700 10.5px/1 var(--font-body);color:#fff;font-variant-numeric:tabular-nums;letter-spacing:0}
+html[data-theme=light][data-view=prof] .h-inbox .dot{background:#1F5FE0!important}
+.h-inbox{padding-right:22px!important}.h-inbox .ib-t small{display:flex!important;flex-direction:column;align-items:flex-start;gap:2px;max-width:84px!important;overflow:visible!important;white-space:nowrap;font:600 11.5px/1.1 var(--font-body)!important;color:var(--ryse-white)!important}
+.h-inbox .ib-t small span:nth-child(2){font-weight:500;color:var(--s-mut)}
 </style>
 
 </head>
@@ -2831,7 +2839,7 @@ html[data-theme=light][data-view=prof] .cal-legend i.lg-r{border-color:#D9822B!i
       <div class="pane pane-home" id="pane-home">
       <header class="h-top rise d1">
         <button class="h-me" type="button" data-home="profile" id="h-me"><span class="h-ava" id="h-ava"></span><span class="h-greet" id="h-greet" data-dyn><span class="g1" id="h-g1"></span><span class="g2" id="h-g2"></span></span></button>
-        <button class="h-inbox" type="button" data-home="inbox" id="h-inbox" data-dyn><span class="crest-c" id="h-crest"></span><span class="ib-t"><b id="h-inbox-n">16</b><small id="h-inbox-c"></small></span><i class="dot"></i></button>
+        <button class="h-inbox" type="button" data-home="inbox" id="h-inbox" data-dyn><span class="crest-c" id="h-crest"></span><span class="ib-t"><small id="h-inbox-c"></small></span><i class="dot"><b id="h-inbox-n">16</b></i></button>
       </header>
 
       <button class="h-level rise d1" type="button" data-home="level">
@@ -3655,11 +3663,14 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   /* Short club name for tight spots: drop trailing words until it fits ("FC Red Bull Salzburg" → "FC Red Bull", "FC Dinamo Zagreb" → "FC Dinamo") — never an ellipsis */
   var fwC; function fitWords(name,el,max){ var w=String(name||'').trim().split(/\s+/); if(!fwC) fwC=document.createElement('canvas').getContext('2d'); var cs=getComputedStyle(el); fwC.font=cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
     while(w.length>1&&fwC.measureText(w.join(' ')).width>max) w.pop(); return w.join(' ') }
+  /* club name on up to two lines, whole words only (e.g. Manchester / City) */
+  function fitTwo(name,el,max){ var w=String(name||'').trim().split(/\s+/), L=[], cur=''; if(!fwC) fwC=document.createElement('canvas').getContext('2d'); var cs=getComputedStyle(el); fwC.font=cs.fontWeight+' '+cs.fontSize+' '+cs.fontFamily;
+    for(var i=0;i<w.length&&L.length<2;i++){ var t=cur?cur+' '+w[i]:w[i]; if(!cur||fwC.measureText(t).width<=max) cur=t; else { L.push(cur); cur=L.length<2?w[i]:'' } } if(cur&&L.length<2) L.push(cur); return L }
   function renderHome(){ var e=window.ryseUI&&window.ryseUI.esc||esc, loc=RYSE_I18N.code==='sr-Latn'?'sr-Latn':RYSE_I18N.code, now=new Date(), h=now.getHours();
     var name=(P.first||'Ivan').trim(), ph=P.photo?'<img src="'+P.photo+'" alt="">':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" style="width:56%;height:56%;opacity:.7"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4s6.3 1.8 7.5 5.4"/></svg>';
     $('h-ava').innerHTML=ph; if(P.photo) $('hnav-ava').innerHTML='<img src="'+P.photo+'" alt="">'; else $('hnav-ava').textContent=((P.first||'I')[0]+((P.last||'')[0]||'')).toUpperCase(); if(window.ryseRenderProfile) window.ryseRenderProfile(); if($('ry-dot')) $('ry-dot').hidden=(P.ryseSeen||0)>=RY.length;
     window.ryseGreetLines=function(){ var nm=name.split(' ')[0].replace(/^josko$/i,'Joško'), full=rT(h<12?'Good morning, {name}':(h<18?'Good afternoon, {name}':'Good evening, {name}'),{name:'\u0001'}), pr=full.split('\u0001'); return [(pr[0]+(pr[1]||'')).replace(/^[\s,،、]+|[\s,،、]+$/g,''),nm] }; hGreet();
-    $('h-inbox-n').textContent=HOME.inbox; $('h-inbox').querySelector('.dot').hidden=!HOME.inbox; var cn=P.club&&P.club.name?P.club.name:'Club'; $('h-crest').textContent=initials(cn).slice(0,2)||'FC'; var crest=(P.club&&P.club.crest)||crestFor(cn); $('h-crest').classList.toggle('img',!!crest); $('h-crest').classList.toggle('mc',crest===CLUB_CRESTS.mancity); if(crest) $('h-crest').innerHTML='<img src="'+crest+'" alt="">'; $('h-inbox-c').textContent=fitWords(cn,$('h-inbox-c'),64); $('h-inbox').setAttribute('aria-label',rT('{n} new club videos',{n:HOME.inbox}));
+    $('h-inbox-n').textContent=HOME.inbox>99?'99+':HOME.inbox; $('h-inbox').querySelector('.dot').hidden=!HOME.inbox; var cn=P.club&&P.club.name?P.club.name:'Club'; $('h-crest').textContent=initials(cn).slice(0,2)||'FC'; var crest=(P.club&&P.club.crest)||crestFor(cn); $('h-crest').classList.toggle('img',!!crest); $('h-crest').classList.toggle('mc',crest===CLUB_CRESTS.mancity); if(crest) $('h-crest').innerHTML='<img src="'+crest+'" alt="">'; $('h-inbox-c').innerHTML=fitTwo(cn,$('h-inbox-c'),76).map(function(l){ return '<span>'+e(l)+'</span>' }).join(''); $('h-inbox').setAttribute('aria-label',rT('{n} new club videos',{n:HOME.inbox}));
     $('h-lvl').textContent=rT(LEVELS[HOME.level]); $('h-howup').textContent=rT('How to level up')+' ›'; $('h-next').textContent=HOME.level<4?rT('Next · {level}',{level:rT(LEVELS[HOME.level+1])}):'';
     [].forEach.call($('h-ladder').children,function(i,k){ i.classList.toggle('on',k<=HOME.level) });
     var C=homeCtx(), dow=(now.getDay()+6)%7, mon=new Date(now); mon.setDate(now.getDate()-dow);

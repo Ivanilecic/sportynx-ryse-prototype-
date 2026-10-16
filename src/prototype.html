@@ -2400,6 +2400,17 @@ html[data-theme=light][data-view=prof] .h-inbox .dot{background:#1F5FE0!importan
 .paper.inj .ij-fig{background:transparent;padding:0;border-radius:0}
 .paper.inj .ij-fig small{color:#7D8698}
 .paper.inj .ij-com b{color:#F5F7FB}
+
+/* Today marker follows health: red while injured, orange while recovering, blue only when all is fine (Ivan, 16 Oct) */
+.h-day.today.inj{background:rgba(226,90,90,.16)!important;box-shadow:inset 0 0 0 1.5px #E25A5A!important}
+.h-day.today.inj small{color:#FF9C9C!important}
+.h-day.today.rec{background:rgba(240,160,80,.16)!important;box-shadow:inset 0 0 0 1.5px #F0A050!important}
+.h-day.today.rec small{color:#F7C48E!important}
+html[data-theme=light][data-view=prof] .h-day.today.inj{background:#D04848!important;box-shadow:none!important}
+html[data-theme=light][data-view=prof] .h-day.today.rec{background:#D9822B!important;box-shadow:none!important}
+html[data-theme=light][data-view=prof] .h-day.today.inj small,html[data-theme=light][data-view=prof] .h-day.today.rec small{color:#fff!important}
+.cal-d.today.x b{background:#D04848!important;border-color:#D04848!important;color:#fff!important}
+.cal-d.today.r b{background:#E08A2E!important;border-color:#E08A2E!important;color:#fff!important}
 </style>
 
 <div class="stage">
@@ -3682,7 +3693,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     for(var k=0;k<7;k++){ var d=new Date(mon); d.setDate(mon.getDate()+k); var off=k-dow;
       var mark=(C.matchDay!==-1&&off===C.matchDay)?'m':((k===0||k===1||k===3)&&off!==C.matchDay&&!(C.matchDay===0)?'t':'');
       if(HOME.state==='training'&&off===0) mark='t';
-      html+='<span class="h-day'+(off===0?' today':'')+(off<0?' past':'')+'"><small>'+e(wd.format(d).replace('.',''))+'</small><b>'+d.getDate()+'</b><i class="'+mark+'"></i></span>' }
+      var hs=''; if(off===0){ var ui=userInjury(d); if(ui){ var sg=injStage(ui,ymd(d)); hs=sg==='ready'?'':(sg?' rec':' inj') } }
+      html+='<span class="h-day'+(off===0?' today':'')+hs+(off<0?' past':'')+'"><small>'+e(wd.format(d).replace('.',''))+'</small><b>'+d.getDate()+'</b><i class="'+mark+'"></i></span>' }
     $('h-week').innerHTML=html;
     $('h-ctx').textContent=rT(C.ctx); $('h-ftitle').textContent=rT(C.title); $('h-ftime').textContent=C.time; $('h-fmeta').textContent=C.meta; $('h-fcopy').textContent=C.copy?rT(C.copy):'';
     var nf; try{ nf=new Intl.NumberFormat(loc) }catch(_){ nf=new Intl.NumberFormat('en') }

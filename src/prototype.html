@@ -2374,6 +2374,32 @@ html[data-theme=light][data-view=prof] .cal-legend i.lg-r{border-color:#D9822B!i
 html[data-theme=light][data-view=prof] .h-inbox .dot{background:#1F5FE0!important}
 .h-inbox{padding-right:22px!important}.h-inbox .ib-t small{display:flex!important;flex-direction:column;align-items:flex-start;gap:2px;max-width:84px!important;overflow:visible!important;white-space:nowrap;font:600 11.5px/1.1 var(--font-body)!important;color:var(--ryse-white)!important}
 .h-inbox .ib-t small span:nth-child(2){font-weight:500;color:var(--s-mut)}
+
+/* Injury report: full anthracite page; body figures sit on the same colour (Ivan, 16 Oct) */
+.paper.inj{background:#17191E;color:#F5F7FB;border:1px solid rgba(255,255,255,.07);box-shadow:none}
+.paper.inj.print{border:0}
+.paper.inj header{border-bottom:1px solid rgba(255,255,255,.18)}
+.paper.inj .brand .w{color:#F5F7FB;font:700 26px/1 var(--font-display)!important;letter-spacing:-.02em!important;text-transform:none!important}
+.paper.inj .ttl b{color:#F5F7FB}.paper.inj .ttl span{color:#8A92A3}
+.paper.inj .meta{border-bottom-color:rgba(255,255,255,.08)}
+.paper.inj .meta small{color:#7D8698}.paper.inj .meta b{color:#F5F7FB}
+.paper.inj section{border-bottom-color:rgba(255,255,255,.07)}
+.paper.inj h4{color:#6F98FF}
+.paper.inj h5{color:#7D8698}
+.paper.inj p{color:#C9CFDA}.paper.inj p.fine{color:#7D8698}
+.paper.inj td{color:#C9CFDA;border-bottom-color:rgba(255,255,255,.06)}
+.paper.inj td:last-child{color:#F5F7FB}
+.paper.inj footer{color:#7D8698}
+.paper.inj .itl li{color:#C9CFDA}
+.paper.inj .itl li::before{background:rgba(255,255,255,.12)}
+.paper.inj .itl small{color:#8A92A3}
+.paper.inj .itl li i{background:#E25A5A}.paper.inj .itl li.rec i{background:#F0A050}.paper.inj .itl li.ok i{background:#4F8BFF}
+.paper .itl li.yr{display:block;padding:10px 0 2px 16px}
+.paper .itl li.yr b{font:700 11px/1 var(--font-body);letter-spacing:.14em;color:#8A92A3}
+.paper.inj .itl li.yr b{color:#F5F7FB}
+.paper.inj .ij-fig{background:transparent;padding:0;border-radius:0}
+.paper.inj .ij-fig small{color:#7D8698}
+.paper.inj .ij-com b{color:#F5F7FB}
 </style>
 
 <div class="stage">
@@ -4641,6 +4667,7 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   function b3Key(p){ return p.id+'|'+(p.side||'') }
   function b3Lv(i){ var E=['','Light','Medium','Hard']; return RYSE_I18N.code==='en'?E[i]:rT(['','Load light','Load medium','Load hard'][i]) }
   window.b3Lv=b3Lv;
+  window.ryseAreaLabel=function(k){ return b3KeyLabel(k) };
   function b3KeyLabel(k){ var a=k.split('|'); return b3Label({name:B3G[a[0]]||a[0],side:a[1]}) }
   function b3Label(p){ p={name:rT(p.name),side:p.side}; var n=p.name.replace(/\s*\((left|right)\)\s*$/i,''), cap=function(x){ return x.charAt(0).toUpperCase()+x.slice(1) }; if(!p.side) return cap(n); var lead=/^\{part\}/.test(rT('Left {part}')); var r=rT(p.side==='left'?'Left {part}':'Right {part}',{part:lead?cap(n):n.charAt(0).toLowerCase()+n.slice(1)}); return cap(r) }
   function b3Load(){ if(B3.three) return Promise.resolve(B3.three); return import('https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js').then(function(T){ return B3.three=T }) }
@@ -4669,14 +4696,14 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       var g=new T.BufferGeometry(); g.setAttribute('position',new T.BufferAttribute(P,3)); g.setAttribute('pid',new T.BufferAttribute(PID,1)); g.setIndex(new T.BufferAttribute(I,1)); g.computeVertexNormals(); g.computeBoundingSphere(); return g }
     B3.texData=new Uint8Array(2048*4); B3.tex=new T.DataTexture(B3.texData,2048,1,T.RGBAFormat); B3.tex.needsUpdate=true;
     var vsh='attribute float pid; varying vec3 vN; varying vec3 vV; varying float vS; varying vec3 vW; uniform sampler2D sel; void main(){ vec4 w=modelMatrix*vec4(position,1.0); vW=w.xyz; vN=normalize(normalMatrix*normal); vec4 mv=viewMatrix*w; vV=normalize(-mv.xyz); vS=texture2D(sel,vec2((pid+0.5)/2048.0,0.5)).r; gl_Position=projectionMatrix*mv; }';
-    var msh='varying vec3 vN; varying vec3 vV; varying float vS; varying vec3 vW; uniform vec3 base; uniform vec3 glow; uniform vec3 dark; uniform float t; void main(){ vec3 n=normalize(vN); if(!gl_FrontFacing) n=-n; float l=max(dot(n,normalize(vec3(-0.3,0.55,0.8))),0.0)*0.8+0.2; float f=pow(1.0-max(dot(n,vV),0.0),2.0); vec3 c=base*l+glow*f*1.25; float k=smoothstep(0.02,0.3,vS); if(k>0.0){ vec3 sc=vec3(0.20,0.56,1.0); vec3 cs=sc*(0.35+0.65*l)*(0.55+0.6*vS)+vec3(0.75,0.92,1.0)*f*(0.9+0.2*sin(t*3.0)); c=mix(c,cs,k); } gl_FragColor=vec4(c,1.0); }';
-    var mus=new T.ShaderMaterial({vertexShader:vsh,fragmentShader:msh,uniforms:{sel:{value:B3.tex},base:{value:new T.Color(0.05,0.16,0.34)},glow:{value:new T.Color(0.32,0.78,1.0)},dark:{value:new T.Color(0.015,0.02,0.04)},t:{value:0}},side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
+    var msh='varying vec3 vN; varying vec3 vV; varying float vS; varying vec3 vW; uniform vec3 base; uniform vec3 glow; uniform vec3 dark; uniform float t; uniform float dim; void main(){ vec3 n=normalize(vN); if(!gl_FrontFacing) n=-n; float l=max(dot(n,normalize(vec3(-0.3,0.55,0.8))),0.0)*0.8+0.2; float f=pow(1.0-max(dot(n,vV),0.0),2.0); vec3 c=(base*l+glow*f*1.25)*(1.0-0.62*dim); float k=smoothstep(0.02,0.3,vS); if(k>0.0){ vec3 sc=vec3(0.20,0.56,1.0); vec3 cs=sc*(0.35+0.65*l)*(0.55+0.6*vS)+vec3(0.75,0.92,1.0)*f*(0.9+0.2*sin(t*3.0)); c=mix(c,cs*(1.0+0.45*dim),k); } gl_FragColor=vec4(c,1.0); }';
+    var mus=new T.ShaderMaterial({vertexShader:vsh,fragmentShader:msh,uniforms:{sel:{value:B3.tex},base:{value:new T.Color(0.05,0.16,0.34)},glow:{value:new T.Color(0.32,0.78,1.0)},dark:{value:new T.Color(0.015,0.02,0.04)},t:{value:0},dim:{value:0}},side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:1,polygonOffsetUnits:1});
     var lig=mus.clone(); lig.uniforms=T.UniformsUtils.clone(mus.uniforms); lig.uniforms.sel.value=B3.tex; lig.uniforms.base.value=new T.Color(0.08,0.24,0.46); lig.uniforms.glow.value=new T.Color(0.5,0.88,1.0); B3.mats=[mus,lig];
     var skinM=new T.ShaderMaterial({vertexShader:'varying vec3 vN; varying vec3 vV; void main(){ vN=normalize(normalMatrix*normal); vec4 mv=modelViewMatrix*vec4(position,1.0); vV=normalize(-mv.xyz); gl_Position=projectionMatrix*mv; }',fragmentShader:'varying vec3 vN; varying vec3 vV; void main(){ float f=pow(1.0-abs(dot(normalize(vN),vV)),3.0); gl_FragColor=vec4(vec3(0.35,0.8,1.0)*f*0.8,f*0.4); }',transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide});
     var gm=build(function(p){ return p.sys==='muscular'||p.sys==='skinsel' }), gl=build(function(p){ return p.sys==='joints' }), gs=build(function(p){ return p.sys==='skin' });
     var mM=new T.Mesh(gm,mus), mL=new T.Mesh(gl,lig), mS=new T.Mesh(gs,skinM); mS.renderOrder=2; B3.pick=[mM,mL];
     var wire=new T.LineSegments(new T.WireframeGeometry(gm),new T.LineBasicMaterial({color:0x6FD3FF,transparent:true,opacity:0.16,blending:T.AdditiveBlending,depthWrite:false})); wire.renderOrder=1;
-    var grp=new T.Group(); grp.add(mM); grp.add(mL); grp.add(wire); grp.add(mS); sc.add(grp); B3.grp=grp;
+    B3.wire=wire; var grp=new T.Group(); grp.add(mM); grp.add(mL); grp.add(wire); grp.add(mS); sc.add(grp); B3.grp=grp;
     var bs=gs.boundingSphere; B3.center=bs.center.clone(); B3.h=(mx[1]-mn[1]);
     B3.st={yaw:0,pitch:0.02,dist:B3.h*4.2,tx:0,ty:-0.01,tdist:B3.h*4.2}; B3.ray=new T.Raycaster(); B3.ready=true; B3.run=true; b3Resize(); b3Controls(cv); b3Tex();
     window.addEventListener('resize',b3Resize) }
@@ -4699,10 +4726,10 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   function b3Zoom(x,y){ var h=b3Hit(x,y), s=B3.st; if(!h) return; s.tx=h.point.x-B3.center.x; s.ty=h.point.y-B3.center.y; s.tdist=B3.h*0.8; b3Frame() }
   /* still images of the athlete with injured areas marked (front + back), for the injury report / PDF */
   window.ryseBodySnap=function(keys){ return b3Load().then(function(T){ if(!B3.sel) B3.sel=[]; if(!B3.opts) B3.opts={}; if(!B3.lvl) B3.lvl={}; B3.hintDone=true; if(!B3.ready) b3Init(T); var R=B3.R, cam=B3.cam, s=B3.st, keep={sel:B3.sel,opts:B3.opts,hd:B3.hintDone,st:Object.assign({},s)}, out={};
-      B3.sel=keys.slice(); B3.opts={}; B3.hintDone=true; B3.hintI=0; B3.hintK=null; b3Tex(); R.setClearColor(0x06101F,1); R.setSize(300,600,false); cam.aspect=0.5; cam.updateProjectionMatrix();
-      B3.mats.forEach(function(m){ m.uniforms.t.value=0.5 });
+      B3.sel=keys.slice(); B3.opts={}; B3.hintDone=true; B3.hintI=0; B3.hintK=null; b3Tex(); R.setClearColor(0x17191E,1); R.setSize(300,600,false); cam.aspect=0.5; cam.updateProjectionMatrix();
+      B3.mats.forEach(function(m){ m.uniforms.t.value=0.5; m.uniforms.dim.value=1 }); var wo=B3.wire.material.opacity; B3.wire.material.opacity=0.07;
       [['front',0],['back',Math.PI]].forEach(function(v){ s.yaw=v[1]; s.pitch=0.02; s.tx=0; s.ty=-0.01; s.dist=s.tdist=B3.h*3.0; b3Cam(); R.render(B3.sc,cam); out[v[0]]=R.domElement.toDataURL('image/png') });
-      B3.sel=keep.sel||[]; B3.opts=keep.opts||{}; B3.hintDone=keep.hd; Object.assign(s,keep.st); R.setClearColor(0x000000,0); b3Tex(); b3Resize(); return out }) };
+      B3.mats.forEach(function(m){ m.uniforms.dim.value=0 }); B3.wire.material.opacity=wo; B3.sel=keep.sel||[]; B3.opts=keep.opts||{}; B3.hintDone=keep.hd; Object.assign(s,keep.st); R.setClearColor(0x000000,0); b3Tex(); b3Resize(); return out }) };
   function b3Spin(to){ var s=B3.st; B3.spin=true; B3.spinFrom=s.yaw; B3.spinTo=to; B3.spinT0=performance.now(); b3Frame() }
   $('b3d').addEventListener('click',function(ev){ var t;
     if(ev.target.closest('#b3d-x')){ b3Close(); return }
@@ -4812,11 +4839,11 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
       return '<div class="rp-item"><span class="t"><b>'+e(r.lab())+'</b><small>'+e(rT('In progress · available when the year ends'))+'</small></span><button type="button" class="rp-a" data-rep="'+id+'">'+e(rT('Preview'))+'</button></div>' }).join('') }
     return {t:'Reports',h:'<p class="st-note" style="margin:0 4px 4px">'+e(rT('Reports are generated from your RYSE data. Only you decide who sees them.'))+'</p>'+
       '<div class="st-cap">'+e(rT('Weekly'))+'</div><div class="st-group rp-g">'+rows(R.week)+'</div><div class="st-cap">'+e(rT('Monthly'))+'</div><div class="st-group rp-g">'+rows(R.month)+'</div><div class="st-cap">'+e(rT('Yearly'))+'</div><div class="st-group rp-g">'+rows(R.year)+'</div>'+
-      '<div class="st-cap">'+e(rT('Injuries'))+'</div><div class="st-group rp-g"><div class="rp-item"><span class="t"><b>'+e(rT('Injury report'))+'</b><small class="ok">'+e(rTp('{n} injuries',(P.injuries||[]).length))+' · '+e(rT('Full history'))+'</small></span><button type="button" class="rp-a" data-rep="injury:0">'+e(rT('View'))+'</button><button type="button" class="rp-a" data-rep-pdf="injury:0">PDF</button></div></div>'} };
+      '<div class="st-cap">'+e(rT('Injuries'))+'</div><div class="st-group rp-g"><div class="rp-item"><span class="t"><b>'+e(rT('Injury report'))+'</b><small class="ok">'+e((injSeed(),rTp('{n} injuries',(P.injuries||[]).length)))+' · '+e(rT('Full history'))+'</small></span><button type="button" class="rp-a" data-rep="injury:0">'+e(rT('View'))+'</button><button type="button" class="rp-a" data-rep-pdf="injury:0">PDF</button></div></div>'} };
   function repGet(id){ var p=id.split(':'); return repList()[p[0]][+p[1]] }
   var CUR=null;
   PAGES.report=function(){ var e=SE(), r=CUR; if(r.kind==='injury') setTimeout(function(){ injFigs().then(injFill) },30); return {t:r.kind==='injury'?'Injury report':(r.kind==='week'?'Weekly report':(r.kind==='month'?'Monthly report':'Yearly report')),
-    h:'<div class="paper-wrap"><div class="paper" id="paper">'+paperHTML(r)+'</div></div><div class="rp-acts"><button class="st-btn" type="button" data-rep-pdf="cur">'+e(rT('Download PDF'))+'</button>'+(navigator.share?'<button class="st-btn ghost" type="button" data-rep-share="cur">'+e(rT('Share'))+'</button>':'')+'</div><p class="st-note">'+e(rT('Reports are never shared with your club automatically.'))+'</p>'} };
+    h:'<div class="paper-wrap"><div class="paper'+(r.kind==='injury'?' inj':'')+'" id="paper">'+paperHTML(r)+'</div></div><div class="rp-acts"><button class="st-btn" type="button" data-rep-pdf="cur">'+e(rT('Download PDF'))+'</button>'+(navigator.share?'<button class="st-btn ghost" type="button" data-rep-share="cur">'+e(rT('Share'))+'</button>':'')+'</div><p class="st-note">'+e(rT('Reports are never shared with your club automatically.'))+'</p>'} };
   function paperHTML(r){ if(r.kind==='injury') return injPaper(r); var e=SE(), D=PD[r.kind], ps=P.positions||{}, now=new Date(), age=ageFrom(P.dob);
     function sec(t,inner){ return '<section><h4>'+e(rT(t))+'</h4>'+inner+'</section>' }
     function kv(a){ return '<table>'+a.filter(Boolean).map(function(x){ return '<tr><td>'+e(rT(x[0]))+'</td><td>'+e(rT(String(x[1])))+'</td></tr>' }).join('')+'</table>' }
@@ -4843,31 +4870,37 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
 
   /* ---------- Injury report: summary, full timeline, every injury with body figure, details, documents and recovery log ---------- */
   var INJFIG={}, INJW={team:'Team training',match:'Match',outside:'Outside club'};
+  function injLabel(x){ var L=(x.areas||[]).map(function(a){ return window.ryseAreaLabel?window.ryseAreaLabel(a.id+'|'+(a.side||'')):a.label }); return L.length?L.join(', '):(x.label||rT('Injury')) }
   function injKeys(I){ return (I.areas||[]).map(function(a){ return a.id+'|'+(a.side||'') }) }
+  function injSeed(){ if(P.ijHist) return; P.ijHist=1; var H=[
+      {where:'match',areas:[{id:'ankle',side:'right'}],type:'sprain',types:['sprain','ligament'],comment:'Rolled the ankle in a tackle late in the second half.',start:'2023-03-11',end:'2023-04-10',docs:[{kind:'report',name:'Ultrasound-ankle.pdf'}],steps:[{type:'treatment',date:'2023-03-13',at:1},{type:'physio',date:'2023-03-27',at:2},{type:'ready',date:'2023-04-08',at:3}],at:1,ex:1},
+      {where:'team',areas:[{id:'adductors',side:'left'}],type:'strain',types:['strain'],comment:'Felt a pull in the groin during a passing drill.',start:'2024-09-21',end:'2024-10-15',docs:[{kind:'scan',name:'MRI-groin.jpg'},{kind:'report',name:'Physio-assessment.pdf'}],steps:[{type:'treatment',date:'2024-09-22',at:4},{type:'physio',date:'2024-10-01',at:5},{type:'ready',date:'2024-10-12',at:6}],at:2,ex:1},
+      {where:'match',areas:[{id:'metatarsal',side:'left'}],type:'fracture',types:['fracture'],comment:'Opponent stepped on the foot. X-ray confirmed a fracture.',start:'2025-11-08',end:'2026-01-25',docs:[{kind:'scan',name:'X-ray-foot.jpg'},{kind:'report',name:'Surgery-report.pdf'}],steps:[{type:'surgery',date:'2025-11-10',at:7},{type:'treatment',date:'2025-11-24',at:8},{type:'physio',date:'2025-12-15',at:9},{type:'ready',date:'2026-01-19',at:10}],at:3,ex:1}];
+    P.injuries=H.concat(P.injuries||[]); INJFIG={}; try{ localStorage.setItem('ryse-last-profile',JSON.stringify(P)) }catch(_){} }
   function injFigs(){ var I=P.injuries||[], ch=Promise.resolve(); I.forEach(function(x,i){ var k=injKeys(x).join(','); if(INJFIG[i]&&INJFIG[i].k===k) return; ch=ch.then(function(){ return window.ryseBodySnap(injKeys(x)).then(function(o){ o.k=k; INJFIG[i]=o }) }) }); return ch }
   function injFill(){ document.querySelectorAll('#paper [data-fig]').forEach(function(im){ var a=im.dataset.fig.split(':'), f=INJFIG[+a[0]]; if(f&&f[a[1]]){ im.src=f[a[1]]; im.closest('.ij-fig').classList.add('on') } }) }
   function injD(k){ var p=String(k).split('-'); return new Date(+p[0],+p[1]-1,+p[2]) }
   function injDays(a,b){ return Math.max(1,Math.round((injD(b)-injD(a))/864e5)+1) }
-  function injPaper(r){ var e=SE(), I=(P.injuries||[]).map(function(x,i){ return {x:x,i:i} }).sort(function(a,b){ return a.x.start<b.x.start?1:-1 }), now=new Date(), today=ymd(now), age=ageFrom(P.dob), ps=P.positions||{}, df;
+  function injPaper(r){ injSeed(); var e=SE(), I=(P.injuries||[]).map(function(x,i){ return {x:x,i:i} }).sort(function(a,b){ return a.x.start<b.x.start?1:-1 }), now=new Date(), today=ymd(now), age=ageFrom(P.dob), ps=P.positions||{}, df;
     try{ df=new Intl.DateTimeFormat(locN(),{day:'numeric',month:'short',year:'numeric'}) }catch(_){ df=new Intl.DateTimeFormat('en',{day:'numeric',month:'short',year:'numeric'}) }
     var F=function(k){ return df.format(injD(k)) };
     function sec(t,inner,cls){ return '<section'+(cls?' class="'+cls+'"':'')+'><h4>'+e(t)+'</h4>'+inner+'</section>' }
     function kv(a){ return '<table>'+a.filter(Boolean).map(function(x){ return '<tr><td>'+e(rT(x[0]))+'</td><td>'+e(String(x[1]))+'</td></tr>' }).join('')+'</table>' }
     function info(x){ var rd=null; (x.steps||[]).forEach(function(s){ if(s.type==='ready'&&(!rd||s.date<rd)) rd=s.date }); var to=rd||(today<x.end?today:x.end), st=rd?'Recovered':(x.steps&&x.steps.length?'Recovering':'Active injury'); if(!rd&&today>x.end) st='Return not confirmed'; return {rd:rd,days:injDays(x.start,rd||(today<x.end?today:x.end)),st:st} }
-    var h='<header><div class="brand"><span class="w nobrand">RYSE</span><span>SportynX</span></div><div class="ttl"><b>'+e(rT('Injury report'))+'</b><span>'+e(rT('All injuries'))+'</span></div></header>'+
+    var h='<header><div class="brand"><span class="w nobrand">RYSE</span></div><div class="ttl"><b>'+e(rT('Injury report'))+'</b><span>'+e(rT('All injuries'))+'</span></div></header>'+
       '<div class="meta">'+[['Player',fullName()],['Club',P.club?P.club.name:rT('No current club')],['Position',ps.primary?posName(ps.primary):'—'],['Age',age!==null?String(age):'—'],['Generated',fmtDate(now.toISOString())]].map(function(m){ return '<div><small>'+e(rT(m[0]))+'</small><b>'+e(m[1])+'</b></div>' }).join('')+'</div>';
     if(!I.length) return h+sec(rT('Summary'),'<p>'+e(rT('No injuries logged.'))+'</p>')+'<footer>'+e(rT('Private health information. Shared only by the player.'))+'</footer>';
     var tot=0, act=null; I.forEach(function(o){ var f=info(o.x); tot+=f.days; if(!f.rd&&!act) act=f.st });
     h+=sec(rT('Summary'),kv([['Injuries logged',String(I.length)],['Total days injured',rTp('{n} days',tot)],['Current status',rT(act||'No active injury')]]));
     /* full timeline across all injuries, oldest first */
-    var EV=[]; I.forEach(function(o){ var x=o.x, n=x.label||rT('Injury'); EV.push({d:x.start,t:rT('Injury')+': '+n,c:'inj'}); (x.steps||[]).forEach(function(s){ EV.push({d:s.date,t:rT(RLOG[s.type]||s.type)+' · '+n,c:s.type==='ready'?'ok':'rec',a:s.at||0}) }) });
+    var EV=[]; I.forEach(function(o){ var x=o.x, n=injLabel(x); EV.push({d:x.start,t:rT('Injury')+': '+n,c:'inj'}); (x.steps||[]).forEach(function(s){ EV.push({d:s.date,t:rT(RLOG[s.type]||s.type)+' · '+n,c:s.type==='ready'?'ok':'rec',a:s.at||0}) }) });
     EV.sort(function(a,b){ return a.d<b.d?-1:a.d>b.d?1:(a.a||0)-(b.a||0) });
-    h+=sec(rT('Timeline'),'<ol class="itl">'+EV.map(function(v){ return '<li class="'+v.c+'"><i></i><small>'+e(F(v.d))+'</small><span>'+e(v.t)+'</span></li>' }).join('')+'</ol>');
+    var yr=''; h+=sec(rT('Timeline'),'<ol class="itl">'+EV.map(function(v){ var y=v.d.slice(0,4), hd=y!==yr?'<li class="yr"><b>'+y+'</b></li>':''; yr=y; return hd+'<li class="'+v.c+'"><i></i><small>'+e(F(v.d))+'</small><span>'+e(v.t)+'</span></li>' }).join('')+'</ol>');
     I.forEach(function(o,n){ var x=o.x, f=info(x), T=(x.types&&x.types.length?x.types:(x.type?[x.type]:[])).map(function(t){ return rT(IJT[t]||t) }).join(', ');
       var fig=INJFIG[o.i], body='<div class="ij-fig'+(fig?' on':'')+'"><div><img alt="" data-fig="'+o.i+':front"'+(fig?' src="'+fig.front+'"':'')+'><small>'+e(rT('Front'))+'</small></div><div><img alt="" data-fig="'+o.i+':back"'+(fig?' src="'+fig.back+'"':'')+'><small>'+e(RYSE_I18N.code==='en'?'Back':rT('Body back'))+'</small></div></div>';
       var steps=(x.steps||[]).slice().sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:a.at-b.at });
-      h+=sec(rT('Injury')+' '+(I.length-n)+' · '+(x.label||''),
-        '<div class="ij-rep">'+body+'<div class="ij-kv">'+kv([['Body area',x.label||'—'],['Where it happened',rT(INJW[x.where]||'—')],['Injury type',T||'—'],['Injury date',F(x.start)],[f.rd?'Ready to train':'Expected return',F(f.rd||x.end)],['Duration',rTp('{n} days',f.days)+(f.rd?'':' · '+rT('ongoing'))],['Status',rT(f.st)]])+'</div></div>'+
+      h+=sec(rT('Injury')+' '+(I.length-n)+' · '+injLabel(x),
+        '<div class="ij-rep">'+body+'<div class="ij-kv">'+kv([['Body area',injLabel(x)],['Where it happened',rT(INJW[x.where]||'—')],['Injury type',T||'—'],['Injury date',F(x.start)],[f.rd?'Ready to train':'Expected return',F(f.rd||x.end)],['Duration',rTp('{n} days',f.days)+(f.rd?'':' · '+rT('ongoing'))],['Status',rT(f.st)]])+'</div></div>'+
         (x.comment?'<h5>'+e(rT('Comment'))+'</h5><p class="ij-com">'+e(x.comment)+'</p>':'')+
         '<h5>'+e(rT('Recovery log'))+'</h5>'+(steps.length?kv(steps.map(function(s){ return [RLOG[s.type]||s.type,F(s.date)] })):'<p class="fine">'+e(rT('No recovery entries yet.'))+'</p>')+
         '<h5>'+e(rT('Medical documents'))+'</h5>'+((x.docs&&x.docs.length)?kv(x.docs.map(function(d){ return [d.kind==='report'?'Doctor’s report':'Scan image',d.name] })):'<p class="fine">'+e(rT('No documents attached.'))+'</p>'),'ij-sec') });
@@ -4877,12 +4910,12 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
   var LIBS=null;
   function loadJS(u){ return new Promise(function(ok,no){ var s=document.createElement('script'); s.src=u; s.onload=ok; s.onerror=no; document.head.appendChild(s) }) }
   function libs(){ if(window.jspdf&&window.html2canvas) return Promise.resolve(); if(!LIBS) LIBS=Promise.all([loadJS('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'),loadJS('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js')]).catch(function(err){ LIBS=null; throw err }); return LIBS }
-  function makePDF(r){ if(r.kind==='injury'&&!makePDF.ok){ return injFigs().catch(function(){}).then(function(){ makePDF.ok=1; try{ return makePDF(r) } finally{ makePDF.ok=0 } }) } var host=document.createElement('div'); host.className='paper-host'; host.innerHTML='<div class="paper print">'+paperHTML(r)+'</div>'; document.body.appendChild(host);
-    return libs().then(function(){ return window.html2canvas(host.firstChild,{scale:2,backgroundColor:'#ffffff',useCORS:true}) }).then(function(cv){ var J=new window.jspdf.jsPDF({unit:'pt',format:'a4'}), pw=J.internal.pageSize.getWidth(), ph=J.internal.pageSize.getHeight(), m=28;
+  function makePDF(r){ if(r.kind==='injury'&&!makePDF.ok){ return injFigs().catch(function(){}).then(function(){ makePDF.ok=1; try{ return makePDF(r) } finally{ makePDF.ok=0 } }) } var host=document.createElement('div'); host.className='paper-host'; host.innerHTML='<div class="paper print'+(r.kind==='injury'?' inj':'')+'">'+paperHTML(r)+'</div>'; document.body.appendChild(host);
+    return libs().then(function(){ return window.html2canvas(host.firstChild,{scale:2,backgroundColor:r.kind==='injury'?'#17191E':'#ffffff',useCORS:true}) }).then(function(cv){ var J=new window.jspdf.jsPDF({unit:'pt',format:'a4'}), pw=J.internal.pageSize.getWidth(), ph=J.internal.pageSize.getHeight(), m=28;
       var iw=pw-2*m, scale=iw/cv.width, pageH=(ph-2*m)/scale, y=0, first=true, k2=cv.width/host.firstChild.offsetWidth, tops=[].map.call(host.firstChild.querySelectorAll('section,footer'),function(el){ return el.offsetTop*k2 });
       while(y<cv.height){ var lim=y+pageH, cut=lim; if(lim<cv.height){ var best=0; tops.forEach(function(t){ if(t>y+pageH*0.5&&t<=lim) best=t }); if(best) cut=best }
         var h=Math.min(cut-y,cv.height-y), c=document.createElement('canvas'); c.width=cv.width; c.height=h; c.getContext('2d').drawImage(cv,0,y,cv.width,h,0,0,cv.width,h);
-        if(!first) J.addPage(); J.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',m,m,iw,h*scale); first=false; y+=h }
+        if(!first) J.addPage(); if(r.kind==='injury'){ J.setFillColor(23,25,30); J.rect(0,0,pw,ph,'F') } J.addImage(c.toDataURL('image/jpeg',0.92),'JPEG',m,m,iw,h*scale); first=false; y+=h }
       host.remove(); return {pdf:J,name:r.kind==='injury'?'RYSE-injury-report-'+ymd(new Date())+'.pdf':'RYSE-'+(r.kind==='week'?'weekly':(r.kind==='month'?'monthly':'yearly'))+'-report-'+r.lab().replace(/[^\w\d]+/g,'-').replace(/-+$/,'')+'.pdf'} }).catch(function(err){ host.remove(); throw err }) }
   function busyBtn(b,on){ if(!b) return; b.disabled=on; b.classList.toggle('loading',on) }
   document.addEventListener('click',function(ev){

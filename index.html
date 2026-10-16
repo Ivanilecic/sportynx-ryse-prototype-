@@ -3647,9 +3647,11 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     // the orb: slow Lissajous drift across the upper ~55% of the screen, nudged by the scene
     var fx=.5+sx+.30*Math.sin(TAU*t/23)+.08*Math.sin(TAU*t/7.3);
     var fy=.28+sy+.13*Math.sin(TAU*t/17+1.1)+.04*Math.sin(TAU*t/5.9);
-    if(OFF){ var nw=performance.now();
-      if(OFF.dx===null){ var r=OFF.el.getBoundingClientRect(), c=cv.getBoundingClientRect(); if(c.width&&r.width){ OFF.dx=((r.left+r.width/2)-c.left)/c.width-fx; OFF.dy=((r.top+r.height/2)-c.top)/c.height-fy; OFF.t0=nw } }
-      if(OFF.dx!==null){ var k=Math.min(1,(nw-OFF.t0)/11000), ww=.5+.5*Math.cos(Math.PI*k); fx+=OFF.dx*ww; fy+=OFF.dy*ww; if(k>=1) OFF=null } }
+    if(OFF){ var nw=performance.now(), r=OFF.el.getBoundingClientRect(), c=cv.getBoundingClientRect();
+      if(!OFF.t0) OFF.t0=nw;
+      var el=(nw-OFF.t0)/1000, ww=el<9?.85*(.5-.5*Math.cos(Math.PI*el/9)):(el<20?.85*(.5+.5*Math.cos(Math.PI*(el-9)/11)):0);
+      if(c.width&&r.width){ var lx=((r.left+r.width/2)-c.left)/c.width, ly=((r.top+r.height/2)-c.top)/c.height; fx+=(lx-fx)*ww; fy+=(ly-fy)*ww }
+      if(el>=20) OFF=null }
     var aw=anchorW(performance.now()), axy=aw>0?anchorXY():null;
     if(axy){ fx=fx+(axy[0]-fx)*aw; fy=fy+(axy[1]-fy)*aw }
     var x=fx*W, y=fy*H;
@@ -3658,8 +3660,8 @@ function countryName(n){ if(!n)return n; var c=RYSE_ISO2[n];
     blob(R*2.6,[[0,'rgba(30,70,190,'+(.16+.04*br)+')'],[.5,'rgba(22,52,150,.06)'],[1,'rgba(20,40,120,0)']]);   // wide halo
     blob(R,[[0,'rgba(120,160,255,'+(.62+.1*br)+')'],[.35,'rgba(56,108,255,.42)'],[.7,'rgba(36,80,220,.14)'],[1,'rgba(30,70,200,0)']]); // the ball
   }
-  /* first screen: the orb's usual drift starts offset onto the RYSEON logo; the offset fades smoothly, so it never stands still */
-  var OFF=null; (function(){ var w=document.getElementById('lang-wm'), sl=document.getElementById('sLang'); if(w&&sl&&!sl.classList.contains('is-hidden')) OFF={el:w,dx:null,dy:0,t0:0} })();
+  /* first screen: from its usual start the orb glides slowly to the RYSEON logo (~9 s), then eases back into its usual drift (~11 s); never still */
+  var OFF=null; (function(){ var w=document.getElementById('lang-wm'), sl=document.getElementById('sLang'); if(w&&sl&&!sl.classList.contains('is-hidden')) OFF={el:w,t0:0} })();
   requestAnimationFrame(frame);
 })();
 (function(){
